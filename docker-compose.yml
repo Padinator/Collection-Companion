@@ -1,0 +1,15 @@
+networks:
+  yml-network:
+
+services:
+  apigateway:
+    image: apigateway
+    build:
+        context: ./MicroServiceTest/
+        dockerfile: Dockerfile
+    ports:
+      - 56789:8080
+    environment:
+      - TEST_VAR=test
+    networks:
+      - yml-network
