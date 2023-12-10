@@ -1,8 +1,8 @@
-## 1. try:
+# 1. try:
 ##
 ## Build stage
 ##
-#FROM maven
+#FROM maven AS build
 #WORKDIR /service
 #COPY pom.xml .
 #COPY src ./src
@@ -15,9 +15,8 @@
 ##
 #FROM eclipse-temurin
 #WORKDIR /service
-#COPY --from=build /home/app/target/APIGateway-0.0.1-SNAPSHOT.jar /usr/local/lib/APIGateway-0.0.1-SNAPSHOT.jar
-##COPY target/APIGateway-0.0.1-SNAPSHOT.jar .
-#ENTRYPOINT ["java", "-jar", "/usr/local/lib/APIGateway-0.0.1-SNAPSHOT.jar"]
+#COPY --from=build target/APIGateway-0.0.1-SNAPSHOT.jar .
+#ENTRYPOINT ["java", "-jar", "APIGateway-0.0.1-SNAPSHOT.jar"]
 
 
 # 2. try:
@@ -29,6 +28,7 @@ ENV HOME=/usr/app
 RUN mkdir -p $HOME
 WORKDIR $HOME
 ADD . $HOME
+RUN chmod +x mvnw
 RUN --mount=type=cache,target=/root/.m2 ./mvnw -f $HOME/pom.xml clean package
 
 #
