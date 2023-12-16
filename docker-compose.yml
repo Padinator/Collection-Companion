@@ -5,82 +5,26 @@ services:
   apigatewayms:
     image: apigatewayms
     build:
-        context: ./APIGatewayMS/
-        dockerfile: Dockerfile
+      context: ./APIGatewayMS/
+      dockerfile: Dockerfile
     ports:
       - 56780:8080
     environment:
-      - TEST_VAR=test
-    networks:
-      - yml-network
-
-  composerms:
-    image: composerms
-    build:
-        context: ./ComposerMS/
-        dockerfile: Dockerfile
-    ports:
-      - 56781:8080
-    environment:
-      - TEST_VAR=test
+      - DATABASE_MS=DatabaseService
+      - RESULTS_MS=ResultsService
+      - TASKS_MS=TasksService
+      - STATISTICS_MS=StatisticsService
     networks:
       - yml-network
 
   databsems:
     image: databsems
     build:
-        context: ./DatabseMS/
-        dockerfile: Dockerfile
+      context: ./DatabseMS/
+      dockerfile: Dockerfile
     ports:
       - 56782:8080
-    environment:
-      - TEST_VAR=test
-    networks:
-      - yml-network
-
-  resultsms:
-    image: resultsms
-    build:
-        context: ./ResultsMS/
-        dockerfile: Dockerfile
-    ports:
-      - 56783:8080
-    environment:
-      - TEST_VAR=test
-    networks:
-      - yml-network
-
-  statisticsms:
-    image: statisticsms
-    build:
-        context: ./StatisticsMS/
-        dockerfile: Dockerfile
-    ports:
-      - 56784:8080
-    environment:
-      - TEST_VAR=test
-    networks:
-      - yml-network
-
-  tasksms:
-    image: tasksms
-    build:
-        context: ./TasksMS/
-        dockerfile: Dockerfile
-    ports:
-      - 56785:8080
-    environment:
-      - TEST_VAR=test
-    networks:
-      - yml-network
-
-  steamwebcrawler:
-    image: steamwebcrawler
-    build:
-        context: ./Webcrawler/SteamWebCrawler/
-        dockerfile: Dockerfile
-    ports:
-      - 56786:8080
+    hostname: DatabaseService
     environment:
       - TEST_VAR=test
     networks:
