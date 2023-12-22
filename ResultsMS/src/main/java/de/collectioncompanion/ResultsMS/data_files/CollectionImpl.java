@@ -1,6 +1,6 @@
-package de.collectioncompanion.DatabseMS.data_files;
+package de.collectioncompanion.ResultsMS.data_files;
 
-import de.collectioncompanion.DatabseMS.ports.data_files.Collection;
+import de.collectioncompanion.ResultsMS.ports.data_files.Collection;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -29,6 +29,19 @@ public class CollectionImpl implements Collection {
     @Override
     public boolean isValid() {
         return FormatDate.isValid(data.get("time_stamp"));
+    }
+
+    @Override
+    public String toParams() {
+        StringBuilder params = new StringBuilder("?");
+
+        for (Map.Entry<String, String> param : data.entrySet())
+            params.append(param.getKey()).append("=").append(param.getValue()).append("&");
+
+        if (params.toString().equals("?"))
+            params = new StringBuilder();
+
+        return params.toString();
     }
 
     private class FormatDate {

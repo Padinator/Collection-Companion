@@ -1,7 +1,7 @@
 package de.collectioncompanion.DatabseMS.adapter.outbound;
 
-import de.collectioncompanion.DatabseMS.ports.Collection;
-import de.collectioncompanion.DatabseMS.ports.Database;
+import de.collectioncompanion.DatabseMS.ports.data_files.Collection;
+import de.collectioncompanion.DatabseMS.ports.service.Database;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

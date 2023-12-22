@@ -15,6 +15,9 @@
 	<description>DatabseMS for Collection Companion</description>
 	<properties>
 		<java.version>21</java.version>
+		<protobuf.version>3.17.3</protobuf.version>
+		<protobuf-plugin.version>0.6.1</protobuf-plugin.version>
+		<grpc.version>1.53.0</grpc.version>
 	</properties>
 	<dependencies>
 		<!--Dependency for Spring Boot web-->
@@ -37,6 +40,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.8.0</version>
+			<scope>compile</scope>
+		</dependency>
     </dependencies>
 
 	<build>
@@ -55,5 +64,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

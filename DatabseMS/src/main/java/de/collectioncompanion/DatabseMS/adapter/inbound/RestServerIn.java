@@ -1,9 +1,13 @@
 package de.collectioncompanion.DatabseMS.adapter.inbound;
 
 import de.collectioncompanion.DatabseMS.adapter.outbound.DatabaseOut;
+import de.collectioncompanion.DatabseMS.ports.data_files.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/collection")
@@ -21,8 +25,14 @@ public class RestServerIn {
      */
     @GetMapping
     ResponseEntity<String> getCollection(@RequestParam String category, @RequestParam String searchTerm) {
-        System.out.println(456);
-        return ResponseEntity.status(200).body(databaseOut.requestCollectionFromDB(category, searchTerm).toString());
+        Collection result = databaseOut.requestCollectionFromDB(category, searchTerm);
+
+        if (!result.isEmpty() || result.isValid()) // Found a valid collection
+            return ResponseEntity.status(200).body(result.toString());
+        else if (!result.isEmpty() && !result.isValid()) // Found an outdated collection
+            return ResponseEntity.status(204).body(result.toString());
+        else // Found no collection
+            return ResponseEntity.status(204).body(result.toString());
     }
 
 }
