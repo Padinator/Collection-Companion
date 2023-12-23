@@ -5,8 +5,10 @@ import de.collectioncompanion.ResultsMS.ports.outbound.RestOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
+@Service
 public class RestServerOut {
 
     @Autowired
@@ -25,10 +27,9 @@ public class RestServerOut {
      */
     public static final String STARTING = "/collection";
 
-    @PostMapping
     public ResponseEntity<String> addResultingCollectionToDB(Collection collection) {
         final String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + ROUTING_PORT + STARTING;
-        return restOut.doPostRequest(DATABASE_MS, collection);
+        return restOut.doPostCollection(DATABASE_MS, collection);
     }
 
 }

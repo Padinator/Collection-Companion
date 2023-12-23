@@ -2,6 +2,24 @@ networks:
   yml-network:
 
 services:
+  rabbitmqbroker:
+    image:
+      rabbitmq:management
+    hostname:
+      rabbit_mq_broker_tasks
+    ports:
+      - 15672:15672
+      - 5672:5672
+
+rabbitmqbroker:
+    image:
+      rabbitmq:management
+    hostname:
+      rabbit_mq_broker_results
+    ports:
+      - 15673:15673
+      - 5673:5673
+
   apigatewayms:
     image: apigatewayms
     build:
@@ -17,14 +35,79 @@ services:
     networks:
       - yml-network
 
+  composerms:
+    image: composerms
+    build:
+      context: ./ComposerMS/
+      dockerfile: Dockerfile
+#    ports:
+#      - 56781:8080
+    hostname: composerms
+    environment:
+      - TEST_VAR=test
+    networks:
+      - yml-network
+
   databsems:
     image: databsems
     build:
       context: ./DatabseMS/
       dockerfile: Dockerfile
-    ports:
-      - 56782:8080
+#    ports:
+#      - 56782:8080
     hostname: DatabaseService
+    environment:
+      - TEST_VAR=test
+    networks:
+      - yml-network
+
+  resultsms:
+    image: resultsms
+    build:
+      context: ./ResultsMS/
+      dockerfile: Dockerfile
+#    ports:
+#      - 56783:8080
+    hostname: ResultsService
+    environment:
+      - TEST_VAR=test
+    networks:
+      - yml-network
+
+  statisticsms:
+    image: statisticsms
+    build:
+      context: ./StatisticsMS/
+      dockerfile: Dockerfile
+#    ports:
+#      - 56784:8080
+    hostname: StatisticsService
+    environment:
+      - TEST_VAR=test
+    networks:
+      - yml-network
+
+  tasksms:
+    image: tasksms
+    build:
+      context: ./TasksMS/
+      dockerfile: Dockerfile
+#    ports:
+#      - 56785:8080
+    hostname: TasksService
+    environment:
+      - TEST_VAR=test
+    networks:
+      - yml-network
+
+  steamwebcrawler:
+    image: steamwebcrawler
+    build:
+      context: ./Webcrawler/SteamWebCrawler/
+      dockerfile: Dockerfile
+#    ports:
+#      - 56786:8080
+    hostname: SteamWebcrawler
     environment:
       - TEST_VAR=test
     networks:

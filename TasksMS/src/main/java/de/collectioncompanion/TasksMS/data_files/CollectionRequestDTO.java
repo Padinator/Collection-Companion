@@ -4,13 +4,7 @@ import com.google.gson.Gson;
 import lombok.Getter;
 
 @Getter
-public class CollectionRequestDTO {
-
-    private CollectionRequest collectionRequest;
-
-    public CollectionRequestDTO(CollectionRequest collectionRequest) {
-        this.collectionRequest = collectionRequest;
-    }
+public record CollectionRequestDTO(CollectionRequest collectionRequest) {
 
     private static final Gson gson = new Gson();
 

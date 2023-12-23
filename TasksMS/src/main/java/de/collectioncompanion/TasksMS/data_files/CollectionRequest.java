@@ -5,8 +5,6 @@ import lombok.Getter;
 
 import java.io.Serializable;
 
-@AllArgsConstructor
-@Getter
 public record CollectionRequest(long id, String category, String searchTerm) implements Serializable {
 
 }

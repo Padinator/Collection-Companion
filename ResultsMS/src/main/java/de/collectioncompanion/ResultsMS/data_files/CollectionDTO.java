@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class CollectionDTO {
-
-    private final Collection collection;
-    private final long id;
+public record CollectionDTO(Collection collection, long id) {
 
     private static final Gson gson = new Gson();
 

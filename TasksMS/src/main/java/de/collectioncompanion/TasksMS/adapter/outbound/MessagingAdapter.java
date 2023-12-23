@@ -19,9 +19,9 @@ public class MessagingAdapter implements UpdatesNotificationPort {
 
     @Override
     public void notifyUpdate(CollectionRequest collectionRequest) {
-        CollectionRequestDTO CollectionRequestDTO = new CollectionRequestDTO(collectionRequest);
+        CollectionRequestDTO collectionRequestDTO = new CollectionRequestDTO(collectionRequest);
         template.convertAndSend(exchange.getName(), "/collection", // "/collection" = route
-                CollectionRequestDTO.toJson(CollectionRequestDTO));
+                de.collectioncompanion.TasksMS.data_files.CollectionRequestDTO.toJson(collectionRequestDTO));
     }
 
 }

@@ -11,6 +11,12 @@ public class RestServerOut {
     @Autowired
     private RestOut restOut;
 
+    /**
+     * Do a get request to another microservice
+     *
+     * @param uri Pass an URI
+     * @return Returns the response as String
+     */
     public ResponseEntity<String> doGetRequest(String uri) {
         return restOut.doGetRequest(uri);
     }
