@@ -2,11 +2,7 @@ package de.collectioncompanion.ComposerMS.data_files;
 
 import com.google.gson.Gson;
 import de.collectioncompanion.ComposerMS.ports.data_files.Collection;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
-@Getter
 public record CollectionDTO(long id, Collection collection) {
 
     private static final Gson gson = new Gson();

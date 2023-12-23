@@ -7,9 +7,10 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 @Controller
-public class MessagingAdapter implements UpdatesNotificationPort {
+public class MessagingAdapterOut implements UpdatesNotificationPort {
 
     @Autowired
     private Exchange exchange;

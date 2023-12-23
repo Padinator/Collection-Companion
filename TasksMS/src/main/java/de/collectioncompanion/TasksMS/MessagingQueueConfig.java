@@ -14,7 +14,7 @@ public class MessagingQueueConfig {
 
     @Bean
     public Exchange exchange() {
-        return new DirectExchange("nameOfMyExchange");
+        return new DirectExchange("nameOfMyTasksExchange");
     }
 
     @Bean

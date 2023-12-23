@@ -8,7 +8,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
-public class MessagingAdapter {
+public class MessagingAdapterIn {
 
     @Autowired
     private UpdatesNotificationPort updatesNotificationPort;
@@ -16,10 +16,10 @@ public class MessagingAdapter {
     @Autowired
     private RestServerOut restServerOut;
 
-    @RabbitListener(queues = "#{nameOfMyResultsQueue.name}")
+    @RabbitListener(queues = "#{nameOfMyTasksQueue.name}")
     public void receive(String receiveJson) {
         CollectionRequestDTO collectionRequestDTO = CollectionRequestDTO.fromJson(receiveJson);
-        CollectionRequest collectionRequest = collectionRequestDTO.getCollectionRequest();
+        CollectionRequest collectionRequest = collectionRequestDTO.collectionRequest();
         long id = collectionRequest.id();
 
         // Dequeue resulting collection from queue
