@@ -26,7 +26,7 @@ public class MessagingAdapterIn {
         updatesNotificationPort.notifyUpdate(collectionRequest);
 
         // Forward request to web crawler
-        ResponseEntity<String> requestedCollection = restServerOut.requestWebCrawler(collectionRequest);
+        restServerOut.requestWebCrawler(collectionRequest);
     }
 
 }
