@@ -22,7 +22,7 @@ public class MessagingQueueConfig {
         return new DirectExchange("nameOfMyTasksExchange");
     }
 
-   /*
+    /*
     // First variant
     @Bean
     public Binding bindingIn(Queue queue, DirectExchange exchange) {
@@ -35,7 +35,7 @@ public class MessagingQueueConfig {
     }
     */
 
-
+    // Second variant
     @Bean
     public Binding bindingIn(DirectExchange exchange) {
         return BindingBuilder.bind(queueIn()).to(exchange).with(""); // "" = key
