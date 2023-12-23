@@ -5,8 +5,6 @@ import de.collectioncompanion.ResultsMS.ports.data_files.Collection;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
-@Getter
 public record CollectionDTO(Collection collection, long id) {
 
     private static final Gson gson = new Gson();

@@ -34,7 +34,7 @@ public class MessagingAdapter {
         Collection collection = collectionDTO.collection();
         long id = collectionDTO.id();
 
-        updatesNotificationPort.notifyUpdate(id, collection); // Dequeue resulting collection from queue
+        updatesNotificationPort.notifyUpdate(id, collection); // Notify dequeuing a collection from queue
         CollectionList.pushCollection(id, collection); // Push result into an own java class queue
         notifyAll(); // Notify all threads that in own queue is a new entry to get
         restServerOut.addResultingCollectionToDB(collection); // Add request into DB

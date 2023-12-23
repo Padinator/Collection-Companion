@@ -1,9 +1,7 @@
 package de.collectioncompanion.TasksMS.data_files;
 
 import com.google.gson.Gson;
-import lombok.Getter;
 
-@Getter
 public record CollectionRequestDTO(CollectionRequest collectionRequest) {
 
     private static final Gson gson = new Gson();
