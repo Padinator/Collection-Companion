@@ -16,7 +16,7 @@ public class MessagingAdapterIn {
     @Autowired
     private RestServerOut restServerOut;
 
-    @RabbitListener(queues = "#{nameOfMyTasksQueue.name}")
+    @RabbitListener(queues = "nameOfMyTasksQueue")
     public void receive(String receiveJson) {
         CollectionRequestDTO collectionRequestDTO = CollectionRequestDTO.fromJson(receiveJson);
         CollectionRequest collectionRequest = collectionRequestDTO.collectionRequest();

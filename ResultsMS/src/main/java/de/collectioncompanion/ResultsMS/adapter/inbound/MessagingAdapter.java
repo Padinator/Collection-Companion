@@ -28,7 +28,7 @@ public class MessagingAdapter {
      *
      * @param receiveJson Takes elements as json
      */
-    @RabbitListener(queues = "#{nameOfMyResultsQueue.name}")
+    @RabbitListener(queues = "nameOfMyResultsQueue")
     public void receive(String receiveJson) {
         CollectionDTO collectionDTO = CollectionDTO.fromJson(receiveJson);
         Collection collection = collectionDTO.collection();

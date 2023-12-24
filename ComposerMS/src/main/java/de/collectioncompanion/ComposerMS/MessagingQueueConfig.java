@@ -36,10 +36,10 @@ public class MessagingQueueConfig {
     */
 
     // Second variant
-    @Bean
+    /*@Bean
     public Binding bindingIn(DirectExchange exchange) {
         return BindingBuilder.bind(queueIn()).to(exchange).with(""); // "" = key
-    }
+    }*/
 
     @Bean
     public Binding bindingOut(DirectExchange exchange) {
