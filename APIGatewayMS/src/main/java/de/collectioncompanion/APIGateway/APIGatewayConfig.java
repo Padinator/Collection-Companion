@@ -29,8 +29,8 @@ public class APIGatewayConfig {
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder, UserURLResolver userURLResolver) {
-        //String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + ROUTING_PORT;
-        String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + 8082;
+        String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + ROUTING_PORT;
+        //String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + 8082;
         String RESULTS_MS = "http://" + environment.getProperty("RESULTS_MS") + ":" + ROUTING_PORT;
         String TASKS_MS = "http://" + environment.getProperty("TASKS_MS") + ":" + ROUTING_PORT;
         String STATISTICS_MS = "http://" + environment.getProperty("STATISTICS_MS") + ":" + ROUTING_PORT;
@@ -68,8 +68,8 @@ class UserURLResolver implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         final String starting = exchange.getRequest().getPath().toString();
-        //final String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + ROUTING_PORT + starting;
-        final String DATABASE_MS = "http://localhost:8082/collection";
+        final String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + ROUTING_PORT + starting;
+        //final String DATABASE_MS = "http://localhost:8082/collection";
         final String RESULTS_MS = "http://" + environment.getProperty("RESULTS_MS") + ":" + ROUTING_PORT + starting;
         final String TASKS_MS = "http://" + environment.getProperty("TASKS_MS") + ":" + ROUTING_PORT + starting;
         final String STATISTICS_MS = "http://" + environment.getProperty("STATISTICS_MS") + ":" + ROUTING_PORT + starting;
@@ -93,6 +93,7 @@ class UserURLResolver implements GatewayFilter {
         // Ask DB-MS to request again
         // Do call: webcrwalerRequest = localDatabaseMS.hasValidCollection(category, searchTerm);
         request = restServerOut.doGetRequest(DATABASE_MS + params);
+        System.out.println("Statuscode of requesting DB-MS: " + request.getStatusCode());
 
         // Route request
         try {

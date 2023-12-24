@@ -2,7 +2,6 @@ package de.collectioncompanion.DatabseMS.data_files;
 
 import de.collectioncompanion.DatabseMS.ports.data_files.Collection;
 
-import java.util.Arrays;
 import java.util.Map;
 
 /*
@@ -31,19 +30,32 @@ public class CollectionImpl implements Collection {
         return FormatDate.isValid(data.get("time_stamp"));
     }
 
-    private class FormatDate {
+    @Override
+    public String toParams() {
+        StringBuilder params = new StringBuilder("?");
+
+        for (Map.Entry<String, String> param : data.entrySet())
+            params.append(param.getKey()).append("=").append(param.getValue()).append("&");
+
+        if (params.toString().equals("?"))
+            params = new StringBuilder();
+
+        return params.toString();
+    }
+
+    private static class FormatDate {
 
         private final static long diff = 30; // Each 30 days entries will be renewed
 
         public static boolean isValid(String stringDate) {
-            int[] dateParts = Arrays.stream(stringDate.split(" ")).mapToInt(s -> Integer.parseInt(s)).toArray();
+            long timeStamp = Long.parseLong(stringDate);
 
-            if (dateParts.length != 3)
-                throw new IllegalArgumentException("Cannot create a Date object with false format!\n"
-                        + "expected: year month day\n"
-                        + "given: " + stringDate);
+            System.out.println(timeStamp);
+            System.out.println((diff * 24 * 60 * 60 * 1000));
+            System.out.println(System.currentTimeMillis());
+            System.out.println(timeStamp + (diff * 24 * 60 * 60 * 1000) - System.currentTimeMillis() > 0);
 
-            return Long.parseLong(stringDate) + (diff * 24 * 60 * 60 * 1000) - System.currentTimeMillis() > 0;
+            return timeStamp + (diff * 24 * 60 * 60 * 1000) - System.currentTimeMillis() > 0;
         }
 
     }

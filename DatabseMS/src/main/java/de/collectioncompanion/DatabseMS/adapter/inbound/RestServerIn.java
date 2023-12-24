@@ -26,12 +26,11 @@ public class RestServerIn {
     @GetMapping
     ResponseEntity<String> getCollection(@RequestParam String category, @RequestParam String searchTerm) {
         Collection result = databaseOut.requestCollectionFromDB(category, searchTerm);
+        System.out.println(result);
 
-        if (!result.isEmpty() || result.isValid()) // Found a valid collection
+        if (!result.isEmpty() && result.isValid()) // Found a valid collection
             return ResponseEntity.status(200).body(result.toString());
-        else if (!result.isEmpty() && !result.isValid()) // Found an outdated collection
-            return ResponseEntity.status(204).body(result.toString());
-        else // Found no collection
+        else // Found no collection or an outdated collection
             return ResponseEntity.status(204).body(result.toString());
     }
 

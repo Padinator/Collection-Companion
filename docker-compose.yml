@@ -8,8 +8,11 @@ services:
     hostname:
       rabbit_mq_broker_tasks
     ports:
-      - 15672:15672
-      - 5672:5672
+      - 15672
+      - 5672
+
+#     - 15672:15672
+#     - 5672:5672
 
   rabbitmqbrokerOut:
     image:
@@ -17,8 +20,11 @@ services:
     hostname:
       rabbit_mq_broker_results
     ports:
-      - 15673:15673
-      - 5673:5673
+      - 15673
+      - 5673
+
+#     - 15673:15673
+#     - 5673:5673
 
   apigatewayms:
     image: apigatewayms

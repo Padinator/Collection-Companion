@@ -22,7 +22,7 @@ public class DatabaseImpl implements Database {
         Map<String, String> results = new TreeMap<>();
 
         // Query DB
-        results.put("test entry", "test123");
+        results.put("time_stamp", "1693413832070"); // Invalid entry
 
         return new CollectionImpl(results);
     }
