@@ -69,9 +69,11 @@ class UserURLResolver implements GatewayFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         final String starting = exchange.getRequest().getPath().toString();
         final String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + ROUTING_PORT + starting;
-        //final String DATABASE_MS = "http://localhost:8082/collection";
-        final String RESULTS_MS = "http://" + environment.getProperty("RESULTS_MS") + ":" + ROUTING_PORT + starting;
+        //final String DATABASE_MS = "http://localhost:8081/collection";
         final String TASKS_MS = "http://" + environment.getProperty("TASKS_MS") + ":" + ROUTING_PORT + starting;
+        //final String TASKS_MS = "http://localhost:8082/collection";
+        final String RESULTS_MS = "http://" + environment.getProperty("RESULTS_MS") + ":" + ROUTING_PORT + starting;
+        //final String RESULTS_MS = "http://localhost:8083/collection";
         final String STATISTICS_MS = "http://" + environment.getProperty("STATISTICS_MS") + ":" + ROUTING_PORT + starting;
 
         Map<String, String> queryParams = exchange.getRequest().getQueryParams().toSingleValueMap();
@@ -92,8 +94,8 @@ class UserURLResolver implements GatewayFilter {
 
         // Ask DB-MS to request again
         // Do call: webcrwalerRequest = localDatabaseMS.hasValidCollection(category, searchTerm);
-        request = restServerOut.doGetRequest(DATABASE_MS + params);
-        System.out.println("Statuscode of requesting DB-MS: " + request.getStatusCode());
+        request = restServerOut.doGetRequest(DATABASE_MS, params.toString());
+        System.out.println("Status code of requesting DB-MS: " + request.getStatusCode());
 
         // Route request
         try {
@@ -103,15 +105,17 @@ class UserURLResolver implements GatewayFilter {
             else { // Ask Result-MS for result of call to Task-MS
                 // Extend parameters with ID
                 if (params.toString().equals(""))
-                    params.append("?");
-
-                params.append("id=").append(id++);
+                    params.append("?id=").append(id);
+                else
+                    params.append("&id=").append(id);
 
                 // Call Task-MS (later with gRPC)
-                request = restServerOut.doGetRequest(TASKS_MS + params);
+                System.out.println("URI of requesting Task-MS: " + TASKS_MS + params);
+                request = restServerOut.doPostRequest(TASKS_MS, params.toString());
+                System.out.println("Status code of requesting Task-MS: " + request.getStatusCode());
 
                 // Get result of requesting collection from Result-MS
-                params = new StringBuilder("?id=").append(id);
+                params = new StringBuilder("?id=").append(id++);
                 exchange.getAttributes().put(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR,
                         new URI(RESULTS_MS + params));
             }

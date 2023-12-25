@@ -8,10 +8,12 @@ import de.collectioncompanion.ComposerMS.ports.outbound.UpdatesNotificationPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.TreeMap;
 
+@Service
 public class RestServerOut {
 
     @Autowired
@@ -42,10 +44,12 @@ public class RestServerOut {
     public void requestWebCrawler(CollectionRequest collectionRequest) {
         final String STEAM_WEBCRWALER_MS = "http://" + environment.getProperty("STEAM_WEBCRWALER_MS") + ":"
                 + ROUTING_PORT + STARTING;
+        //final String STEAM_WEBCRWALER_MS = "http://localhost:8085/collection";
         ResponseEntity<String> responseCollection = restOut.doPostCollectionRequest(STEAM_WEBCRWALER_MS,
                 collectionRequest);
+        System.out.println("response collection:" + responseCollection.getBody());
         TreeMap<String, String> data = new TreeMap<>();
-        data.put("steam_webcrawler", responseCollection.toString());
+        data.put("steam_webcrawler", responseCollection.getBody());
         Collection collection = new CollectionImpl(data); // Must create the collection out of the response
         updatesNotificationPort.notifyUpdate(collectionRequest.id(), collection);
     }

@@ -18,7 +18,8 @@ public class RestOutImpl implements RestOut {
         String uriWIthParams = uriToMicroService + collectionRequest.toPath();
 
         try {
-            return restTemplate.getForEntity(new URI(uriWIthParams), String.class);
+            System.out.println("URI to call post request: " + uriWIthParams);
+            return restTemplate.postForEntity(new URI(uriWIthParams), null, String.class);
         } catch (URISyntaxException e) { // Can not create URI
             return ResponseEntity.status(503).body("Cannot create URI out of passed URI and collection request:\n"
                     + "Passed URI to DB-MS" + uriToMicroService

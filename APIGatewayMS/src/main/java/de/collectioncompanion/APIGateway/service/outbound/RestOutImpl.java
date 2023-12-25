@@ -13,14 +13,26 @@ import java.net.URISyntaxException;
 public class RestOutImpl implements RestOut {
 
     @Override
-    public ResponseEntity<String> doGetRequest(String uri) {
+    public ResponseEntity<String> doGetRequest(String url, String params) {
         RestTemplate restTemplate = new RestTemplate();
 
         try {
-            return restTemplate.getForEntity(new URI(uri), String.class);
+            return restTemplate.getForEntity(new URI(url + params), String.class);
         } catch (URISyntaxException e) { // Can not create URI
-            return ResponseEntity.status(503).body("Cannot create URI out of passed String: " + uri);
+            return ResponseEntity.status(503).body("Cannot create URI out of passed\nURL: " + url + "\nPramameters: "
+                    + params);
         }
     }
+
+    @Override
+    public ResponseEntity<String> doPostRequest(String url, String params) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        try {
+            return restTemplate.postForEntity(new URI(url + params), null, String.class);
+        } catch (URISyntaxException e) { // Can not create URI
+            return ResponseEntity.status(503).body("Cannot create URI out of passed\nURL: " + url + "\nPramameters: "
+                    + params);
+        }    }
 
 }

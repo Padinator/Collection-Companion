@@ -20,6 +20,15 @@ public class RestServerIn {
     @GetMapping
     public ResponseEntity<String> getCollection(@RequestParam long id) {
         ResultWaiterThread resultWaiterThread = new ResultWaiterThread(id);
+
+        try {
+            resultWaiterThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("Requested collection is: " + resultWaiterThread.getCollection().toString());
+
         return ResponseEntity.status(200).body(resultWaiterThread.getCollection().toString());
     }
 

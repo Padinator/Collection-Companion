@@ -4,10 +4,7 @@ import de.collectioncompanion.DatabseMS.adapter.outbound.DatabaseOut;
 import de.collectioncompanion.DatabseMS.ports.data_files.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/collection")
@@ -24,7 +21,7 @@ public class RestServerIn {
      * @return Return a response as response-object
      */
     @GetMapping
-    ResponseEntity<String> getCollection(@RequestParam String category, @RequestParam String searchTerm) {
+    public ResponseEntity<String> getCollection(@RequestParam String category, @RequestParam String searchTerm) {
         Collection result = databaseOut.requestCollectionFromDB(category, searchTerm);
         System.out.println(result);
 
@@ -32,6 +29,18 @@ public class RestServerIn {
             return ResponseEntity.status(200).body(result.toString());
         else // Found no collection or an outdated collection
             return ResponseEntity.status(204).body(result.toString());
+    }
+
+    /**
+     * Inserts a passed collection into DB
+     *
+     * @param steam_webcrawler Test parameter
+     * @return Returns the success/response as string
+     */
+    @PostMapping
+    public ResponseEntity<String> addNewCollection(@RequestParam String steam_webcrawler) {
+        System.out.println("Requested was done successfully: " + steam_webcrawler);
+        return ResponseEntity.status(200).body("Inserted successfully params into DB!");
     }
 
 }

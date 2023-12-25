@@ -8,11 +8,8 @@ services:
     hostname:
       rabbit_mq_broker_tasks
     ports:
-      - 15672
-      - 5672
-
-#     - 15672:15672
-#     - 5672:5672
+     - 15672:15672
+     - 5672:5672
 
   rabbitmqbrokerOut:
     image:
@@ -20,11 +17,8 @@ services:
     hostname:
       rabbit_mq_broker_results
     ports:
-      - 15673
-      - 5673
-
-#     - 15673:15673
-#     - 5673:5673
+     - 15673:15672
+     - 5673:5672
 
   apigatewayms:
     image: apigatewayms
@@ -35,8 +29,8 @@ services:
       - 56780:8080
     environment:
       - DATABASE_MS=DatabaseService
-      - RESULTS_MS=ResultsService
       - TASKS_MS=TasksService
+      - RESULTS_MS=ResultsService
       - STATISTICS_MS=StatisticsService
     networks:
       - yml-network
@@ -50,7 +44,7 @@ services:
 #      - 56781:8080
     hostname: composerms
     environment:
-      - TEST_VAR=test
+      - STATISTICS_MS=StatisticsService
     networks:
       - yml-network
 
@@ -63,7 +57,7 @@ services:
 #      - 56782:8080
     hostname: DatabaseService
     environment:
-      - TEST_VAR=test
+      - STATISTICS_MS=StatisticsService
     networks:
       - yml-network
 
@@ -76,7 +70,8 @@ services:
 #      - 56783:8080
     hostname: ResultsService
     environment:
-      - TEST_VAR=test
+      - DATABASE_MS=DatabaseService
+      - STATISTICS_MS=StatisticsService
     networks:
       - yml-network
 
@@ -89,7 +84,7 @@ services:
 #      - 56784:8080
     hostname: StatisticsService
     environment:
-      - TEST_VAR=test
+      - STATISTICS_MS=StatisticsService
     networks:
       - yml-network
 
@@ -102,7 +97,8 @@ services:
 #      - 56785:8080
     hostname: TasksService
     environment:
-      - TEST_VAR=test
+      - STEAM_WEBCRWALER_MS=SteamWebcrawler
+      - STATISTICS_MS=StatisticsService
     networks:
       - yml-network
 
@@ -115,6 +111,6 @@ services:
 #      - 56786:8080
     hostname: SteamWebcrawler
     environment:
-      - TEST_VAR=test
+      - STATISTICS_MS=StatisticsService
     networks:
       - yml-network

@@ -17,12 +17,8 @@ public class ResultWaiterThread extends Thread {
 
     @Override
     public void run() {
-        while ((collection = CollectionList.popCollection(ID)) == null)
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        collection = CollectionList.popCollection(ID);
+        System.out.println(collection);
     }
 
 }

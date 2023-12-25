@@ -1,6 +1,6 @@
 package de.collectioncompanion.ResultsMS.adapter.inbound;
 
-import de.collectioncompanion.ResultsMS.adapter.outbound.RestServerOut;
+import de.collectioncompanion.ResultsMS.adapter.outbound.DatabaseServerOut;
 import de.collectioncompanion.ResultsMS.data_files.CollectionDTO;
 import de.collectioncompanion.ResultsMS.ports.data_files.Collection;
 import de.collectioncompanion.ResultsMS.ports.data_files.CollectionList;
@@ -21,7 +21,7 @@ public class MessagingAdapter {
     };
 
     @Autowired
-    private RestServerOut restServerOut;
+    private DatabaseServerOut databaseServerOut;
 
     /**
      * Receive messages from rabbitmq and send it back to the
@@ -30,14 +30,14 @@ public class MessagingAdapter {
      */
     @RabbitListener(queues = "nameOfMyResultsQueue")
     public void receive(String receiveJson) {
+        System.out.println(receiveJson);
         CollectionDTO collectionDTO = CollectionDTO.fromJson(receiveJson);
         Collection collection = collectionDTO.collection();
         long id = collectionDTO.id();
 
-        updatesNotificationPort.notifyUpdate(id, collection); // Notify dequeuing a collection from queue
+        updatesNotificationPort.notifyUpdate(id, collection); // Notify dequeuing a collection from rabbitmq
         CollectionList.pushCollection(id, collection); // Push result into an own java class queue
-        notifyAll(); // Notify all threads that in own queue is a new entry to get
-        restServerOut.addResultingCollectionToDB(collection); // Add request into DB
+        databaseServerOut.addResultingCollectionToDB(collection); // Add request into DB
     }
 
 }

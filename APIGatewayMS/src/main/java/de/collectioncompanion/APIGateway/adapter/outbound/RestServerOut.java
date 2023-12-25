@@ -14,11 +14,22 @@ public class RestServerOut {
     /**
      * Do a get request to another microservice
      *
-     * @param uri Pass an URI
+     * @param url    Pass an URL of microservice
+     * @param params Pass the parameters of the URI
      * @return Returns the response as String
      */
-    public ResponseEntity<String> doGetRequest(String uri) {
-        return restOut.doGetRequest(uri);
+    public ResponseEntity<String> doGetRequest(String url, String params) {
+        return restOut.doGetRequest(url, params);
     }
 
+    /**
+     * Do a post request to another microservice
+     *
+     * @param url Pass URL of microservice
+     * @param params Pass the parameters of the URI
+     * @return Returns the response as String
+     */
+    public ResponseEntity<String> doPostRequest(String url, String params) {
+        return restOut.doPostRequest(url, params);
+    }
 }

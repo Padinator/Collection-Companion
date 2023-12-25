@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Service
-public class RestServerOut {
+public class DatabaseServerOut {
 
     @Autowired
     private Environment environment;
@@ -29,6 +28,7 @@ public class RestServerOut {
 
     public ResponseEntity<String> addResultingCollectionToDB(Collection collection) {
         final String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + ROUTING_PORT + STARTING;
+        //final String DATABASE_MS = "http://localhost:8081/collection";
         return restOut.doPostCollection(DATABASE_MS, collection);
     }
 

@@ -1,11 +1,8 @@
 package de.collectioncompanion.ResultsMS.data_files;
 
 import com.google.gson.Gson;
-import de.collectioncompanion.ResultsMS.ports.data_files.Collection;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
-public record CollectionDTO(Collection collection, long id) {
+public record CollectionDTO(long id, /*Collection */ CollectionImpl collection) {
 
     private static final Gson gson = new Gson();
 

@@ -20,7 +20,8 @@ public class MessagingAdapter implements UpdatesNotificationPort {
     @Override
     public void notifyUpdate(CollectionRequest collectionRequest) {
         CollectionRequestDTO collectionRequestDTO = new CollectionRequestDTO(collectionRequest);
-        template.convertAndSend(exchange.getName(), "/collection", // "/collection" = route
+        System.out.println(collectionRequest);
+        template.convertAndSend(exchange.getName(), "", // "/collection" = route
                 de.collectioncompanion.TasksMS.data_files.CollectionRequestDTO.toJson(collectionRequestDTO));
     }
 
