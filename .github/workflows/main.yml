@@ -1,10 +1,8 @@
 name: Lint Code Base
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 jobs:
   run-lint:
     runs-on: ubuntu-latest
@@ -20,7 +18,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVA: true
           DEFAULT_BRANCH: "main"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: MegaLinter
         uses: oxsecurity/megalinter@v7.7.0
             
