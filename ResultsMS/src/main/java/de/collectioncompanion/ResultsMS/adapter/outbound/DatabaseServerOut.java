@@ -19,7 +19,7 @@ public class DatabaseServerOut {
     /**
      * Port, on which each microservice can be used (basic addressing)
      */
-    public static final int ROUTING_PORT = 8080;
+    //public static final int ROUTING_PORT = 8080;
 
     /**
      * Starting of path of URI
@@ -27,7 +27,7 @@ public class DatabaseServerOut {
     public static final String STARTING = "/collection";
 
     public ResponseEntity<String> addResultingCollectionToDB(Collection collection) {
-        final String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + ROUTING_PORT + STARTING;
+        final String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + STARTING;
         //final String DATABASE_MS = "http://localhost:8081/collection";
         return restOut.doPostCollection(DATABASE_MS, collection);
     }

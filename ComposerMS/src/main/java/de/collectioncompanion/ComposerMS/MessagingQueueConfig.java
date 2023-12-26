@@ -1,6 +1,5 @@
 package de.collectioncompanion.ComposerMS;
 
-import de.collectioncompanion.ComposerMS.adapter.inbound.MessagingAdapterIn;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -9,7 +8,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class MessagingQueueConfig {
@@ -21,18 +19,24 @@ public class MessagingQueueConfig {
     @Primary
     public ConnectionFactory amqpConnectionFactoryIn() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setHost("localhost"); // Manual execution
-        //connectionFactory.setHost("rabbit_mq_broker_in"); // Execution with Docker
+        //connectionFactory.setHost("amqp://guest:guest@rabbitmq-broker-tasks"); // Device host -> localhost or WSL hostname (DESKTOP-M06B2DG) for Docker
+        //connectionFactory.setVirtualHost("rabbitmq-broker-tasks"); // Virtual host of rabbitmq -> "/"
+        System.out.println(connectionFactory.getHost());
         connectionFactory.setPort(5672);
+        //connectionFactory.setUsername("admin123"); // Username for login to rabbitmq
+        //connectionFactory.setPassword("admin123"); // Pwd for login to rabbitmq
         return connectionFactory;
     }
 
     @Bean
     public ConnectionFactory amqpConnectionFactoryOut() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setHost("localhost"); // Manual execution
-        //connectionFactory.setHost("rabbit_mq_broker_out"); // Execution with Docker
-        connectionFactory.setPort(5673);
+        //connectionFactory.setHost("amqp://guest:guest@rabbitmq-broker-results"); // Device host -> localhost or WSL hostname (DESKTOP-M06B2DG) for Docker
+        System.out.println(connectionFactory.getHost());
+        //connectionFactory.setVirtualHost("rabbitmq-broker-tasks"); // Virtual host of rabbitmq -> "/"
+        connectionFactory.setPort(5672);
+        //connectionFactory.setUsername("admin123"); // Username for login to rabbitmq
+        //connectionFactory.setPassword("admin123"); // Pwd for login to rabbitmq
         return connectionFactory;
     }
 
@@ -43,14 +47,16 @@ public class MessagingQueueConfig {
     @Primary
     public RabbitAdmin rabbitAdminIn() {
         RabbitAdmin rabbitAdmin = new RabbitAdmin(amqpConnectionFactoryIn());
-        rabbitAdmin.declareQueue(queueIn());
+        //RabbitAdmin rabbitAdmin = new RabbitAdmin(rabbitTemplateIn());
+        System.out.println("QueueIn: " + rabbitAdmin.declareQueue(queueIn()));
         return rabbitAdmin;
     }
 
     @Bean
     public RabbitAdmin rabbitAdminOut() {
         RabbitAdmin rabbitAdmin = new RabbitAdmin(amqpConnectionFactoryOut());
-        rabbitAdmin.declareQueue(queueOut());
+        //RabbitAdmin rabbitAdmin = new RabbitAdmin(rabbitTemplateOut());
+        System.out.println("QueueOut: " + rabbitAdmin.declareQueue(queueOut()));
         return rabbitAdmin;
     }
 

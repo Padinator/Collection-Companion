@@ -1,3 +1,5 @@
+# Do no use "" in hostnames. That is forbidden and does not work!!!!!
+
 networks:
   yml-network:
 
@@ -6,111 +8,130 @@ services:
     image:
       rabbitmq:management
     hostname:
-      rabbit_mq_broker_tasks
+      rabbitmq-broker-tasks
     ports:
      - 15672:15672
      - 5672:5672
+    networks:
+      - yml-network
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
 
   rabbitmqbrokerOut:
     image:
       rabbitmq:management
     hostname:
-      rabbit_mq_broker_results
+      rabbitmq-broker-results
     ports:
      - 15673:15672
      - 5673:5672
-
-  apigatewayms:
-    image: apigatewayms
-    build:
-      context: ./APIGatewayMS/
-      dockerfile: Dockerfile
-    ports:
-      - 56780:8080
-    environment:
-      - DATABASE_MS=DatabaseService
-      - TASKS_MS=TasksService
-      - RESULTS_MS=ResultsService
-      - STATISTICS_MS=StatisticsService
     networks:
       - yml-network
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
 
-  composerms:
-    image: composerms
-    build:
-      context: ./ComposerMS/
-      dockerfile: Dockerfile
+#  apigatewayms:
+#    image: apigatewayms
+#    build:
+#      context: ./APIGatewayMS/
+#      dockerfile: Dockerfile
 #    ports:
-#      - 56781:8080
-    hostname: composerms
-    environment:
-      - STATISTICS_MS=StatisticsService
-    networks:
-      - yml-network
+#      - 8080:8080
+#    environment:
+#      - DATABASE_MS=database-service:8080
+#      - TASKS_MS=tasks-service:8080
+#      - RESULTS_MS=results-service:8080
+#      - STATISTICS_MS=statistics-service:8080
+#    networks:
+#      - yml-network
+
+#  composerms:
+#    image: composerms
+#    build:
+#      context: ./ComposerMS/
+#      dockerfile: Dockerfile
+#    ports:
+#      - 8081:8080
+#    container_name:
+#      composer-service
+#    hostname:
+#      composer-service
+#    environment:
+#      - STATISTICS_MS=statistics-service:8080
+#    networks:
+#      - yml-network
+    
 
   databsems:
     image: databsems
     build:
       context: ./DatabseMS/
       dockerfile: Dockerfile
-#    ports:
-#      - 56782:8080
-    hostname: DatabaseService
+    ports:
+      - 8082:8080
+    hostname: database-service
     environment:
-      - STATISTICS_MS=StatisticsService
+      - STATISTICS_MS=statistics-service:8080
     networks:
       - yml-network
 
-  resultsms:
-    image: resultsms
-    build:
-      context: ./ResultsMS/
-      dockerfile: Dockerfile
+#  resultsms:
+#    image: resultsms
+#    build:
+#      context: ./ResultsMS/
+#      dockerfile: Dockerfile
 #    ports:
-#      - 56783:8080
-    hostname: ResultsService
-    environment:
-      - DATABASE_MS=DatabaseService
-      - STATISTICS_MS=StatisticsService
-    networks:
-      - yml-network
-
-  statisticsms:
-    image: statisticsms
-    build:
-      context: ./StatisticsMS/
-      dockerfile: Dockerfile
+#      - 8083:8080
+#    hostname: results-service
+#    environment:
+#      - DATABASE_MS=database-service:8080
+#      - STATISTICS_MS=statistics-service:8080
+#    networks:
+#      - yml-network
+#
+#  statisticsms:
+#    image: statisticsms
+#    build:
+#      context: ./StatisticsMS/
+#      dockerfile: Dockerfile
 #    ports:
-#      - 56784:8080
-    hostname: StatisticsService
-    environment:
-      - STATISTICS_MS=StatisticsService
-    networks:
-      - yml-network
-
-  tasksms:
-    image: tasksms
-    build:
-      context: ./TasksMS/
-      dockerfile: Dockerfile
+#      - 8084:8080
+#    hostname: statistics-service
+#    environment:
+#      - STATISTICS_MS=statistics-service:8080
+#    networks:
+#      - yml-network
+#
+#  tasksms:
+#    image: tasksms
+#    build:
+#      context: ./TasksMS/
+#      dockerfile: Dockerfile
 #    ports:
-#      - 56785:8080
-    hostname: TasksService
-    environment:
-      - STEAM_WEBCRWALER_MS=SteamWebcrawler
-      - STATISTICS_MS=StatisticsService
-    networks:
-      - yml-network
-
-  steamwebcrawler:
-    image: steamwebcrawler
-    build:
-      context: ./Webcrawler/SteamWebCrawler/
-      dockerfile: Dockerfile
+#      - 8085:8080
+#    hostname: tasks-service
+#    environment:
+#      - STEAM_WEBCRWALER_MS=steam-webcrawler:8080
+#      - STATISTICS_MS=statistics-service:8080
+#    networks:
+#      - yml-network
+#
+#  steamwebcrawler:
+#    image: steamwebcrawler
+#    build:
+#      context: ./Webcrawler/SteamWebCrawler/
+#      dockerfile: Dockerfile
 #    ports:
-#      - 56786:8080
-    hostname: SteamWebcrawler
-    environment:
-      - STATISTICS_MS=StatisticsService
-    networks:
-      - yml-network
+#      - 8086:8080
+#    hostname: steam-webcrawler
+#    environment:
+#      - STATISTICS_MS=statistics-service:8084
+#    networks:
+#      - yml-network
+#

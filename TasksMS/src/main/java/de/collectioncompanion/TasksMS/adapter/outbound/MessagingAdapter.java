@@ -20,7 +20,7 @@ public class MessagingAdapter implements UpdatesNotificationPort {
     @Override
     public void notifyUpdate(CollectionRequest collectionRequest) {
         CollectionRequestDTO collectionRequestDTO = new CollectionRequestDTO(collectionRequest);
-        System.out.println(collectionRequest);
+        System.out.println("Push following collection request to rabbitmq: " + collectionRequest);
         template.convertAndSend(exchange.getName(), "", // "/collection" = route
                 de.collectioncompanion.TasksMS.data_files.CollectionRequestDTO.toJson(collectionRequestDTO));
     }

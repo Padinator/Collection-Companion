@@ -28,7 +28,7 @@ public class RestServerOut {
     /**
      * Port, on which each microservice can be used (basic addressing)
      */
-    public static final int ROUTING_PORT = 8080;
+    //public static final int ROUTING_PORT = 8080;
 
     /**
      * Starting of path of URI
@@ -42,8 +42,7 @@ public class RestServerOut {
      */
     @PostMapping
     public void requestWebCrawler(CollectionRequest collectionRequest) {
-        final String STEAM_WEBCRWALER_MS = "http://" + environment.getProperty("STEAM_WEBCRWALER_MS") + ":"
-                + ROUTING_PORT + STARTING;
+        final String STEAM_WEBCRWALER_MS = "http://" + environment.getProperty("STEAM_WEBCRWALER_MS") + STARTING;
         //final String STEAM_WEBCRWALER_MS = "http://localhost:8085/collection";
         ResponseEntity<String> responseCollection = restOut.doPostCollectionRequest(STEAM_WEBCRWALER_MS,
                 collectionRequest);

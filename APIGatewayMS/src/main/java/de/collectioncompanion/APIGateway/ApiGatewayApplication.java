@@ -9,7 +9,7 @@ public class ApiGatewayApplication {
 	/**
 	 * Port, on which each microservice can be used (basic addressing)
 	 */
-	public static final int ROUTING_PORT = 8080;
+	// public static final int ROUTING_PORT = 8080;
 
 	/**
 	 * Port, on which each microservice can be used for gRPC (later)

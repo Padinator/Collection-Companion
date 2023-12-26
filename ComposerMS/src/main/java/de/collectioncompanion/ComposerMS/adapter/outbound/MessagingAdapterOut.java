@@ -7,7 +7,6 @@ import de.collectioncompanion.ComposerMS.ports.outbound.UpdatesNotificationPort;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -18,7 +17,7 @@ public class MessagingAdapterOut implements UpdatesNotificationPort {
 
     /*@Autowired // Does not work
     @Qualifier("rabbitTemplateOut")*/
-    private AmqpTemplate template = new MessagingQueueConfig().rabbitTemplateOut();
+    private final AmqpTemplate template = new MessagingQueueConfig().rabbitTemplateOut();
 
     @Override
     public void notifyUpdate(long id, Collection collection) {

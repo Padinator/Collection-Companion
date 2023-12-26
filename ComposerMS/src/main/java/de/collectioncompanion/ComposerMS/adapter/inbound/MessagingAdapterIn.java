@@ -1,17 +1,12 @@
 package de.collectioncompanion.ComposerMS.adapter.inbound;
 
 import de.collectioncompanion.ComposerMS.adapter.outbound.RestServerOut;
-import de.collectioncompanion.ComposerMS.data_files.CollectionDTO;
-import de.collectioncompanion.ComposerMS.data_files.CollectionImpl;
 import de.collectioncompanion.ComposerMS.data_files.CollectionRequest;
 import de.collectioncompanion.ComposerMS.data_files.CollectionRequestDTO;
-import de.collectioncompanion.ComposerMS.ports.data_files.Collection;
 import de.collectioncompanion.ComposerMS.ports.inbound.UpdatesNotificationPort;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
-import java.util.TreeMap;
 
 @Controller
 public class MessagingAdapterIn {

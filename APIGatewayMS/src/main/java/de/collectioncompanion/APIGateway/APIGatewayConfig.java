@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -29,11 +30,11 @@ public class APIGatewayConfig {
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder, UserURLResolver userURLResolver) {
-        String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + ROUTING_PORT;
-        //String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + 8082;
-        String RESULTS_MS = "http://" + environment.getProperty("RESULTS_MS") + ":" + ROUTING_PORT;
-        String TASKS_MS = "http://" + environment.getProperty("TASKS_MS") + ":" + ROUTING_PORT;
-        String STATISTICS_MS = "http://" + environment.getProperty("STATISTICS_MS") + ":" + ROUTING_PORT;
+        String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS");
+        //String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + 8081;
+        String RESULTS_MS = "http://" + environment.getProperty("RESULTS_MS");
+        String TASKS_MS = "http://" + environment.getProperty("TASKS_MS");
+        String STATISTICS_MS = "http://" + environment.getProperty("STATISTICS_MS");
 
         System.out.println("DATABASE_MS: " + DATABASE_MS);
         System.out.println("RESULTS_MS: " + RESULTS_MS);
@@ -43,7 +44,7 @@ public class APIGatewayConfig {
         return builder.routes() // Iterate over all routes
                 .route(r -> r.path("/collection/**") // Only routes starting with "/get/" will get through
                         .filters(f -> f.filter(userURLResolver, ROUTE_TO_URL_FILTER_ORDER + 1)) // Filter URLs and sort
-                        .uri(DATABASE_MS))
+                        .uri(DATABASE_MS + "/collection"))
                 .build();
     }
 }
@@ -68,13 +69,13 @@ class UserURLResolver implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         final String starting = exchange.getRequest().getPath().toString();
-        final String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + ROUTING_PORT + starting;
+        final String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + starting;
         //final String DATABASE_MS = "http://localhost:8081/collection";
-        final String TASKS_MS = "http://" + environment.getProperty("TASKS_MS") + ":" + ROUTING_PORT + starting;
+        final String TASKS_MS = "http://" + environment.getProperty("TASKS_MS") + starting;
         //final String TASKS_MS = "http://localhost:8082/collection";
-        final String RESULTS_MS = "http://" + environment.getProperty("RESULTS_MS") + ":" + ROUTING_PORT + starting;
+        final String RESULTS_MS = "http://" + environment.getProperty("RESULTS_MS") + starting;
         //final String RESULTS_MS = "http://localhost:8083/collection";
-        final String STATISTICS_MS = "http://" + environment.getProperty("STATISTICS_MS") + ":" + ROUTING_PORT + starting;
+        final String STATISTICS_MS = "http://" + environment.getProperty("STATISTICS_MS") + starting;
 
         Map<String, String> queryParams = exchange.getRequest().getQueryParams().toSingleValueMap();
         StringBuilder params = new StringBuilder("?"); // parameters of the query
@@ -116,6 +117,7 @@ class UserURLResolver implements GatewayFilter {
 
                 // Get result of requesting collection from Result-MS
                 params = new StringBuilder("?id=").append(id++);
+                System.out.println("URI of requesting Results-MS: " + RESULTS_MS + params);
                 exchange.getAttributes().put(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR,
                         new URI(RESULTS_MS + params));
             }
