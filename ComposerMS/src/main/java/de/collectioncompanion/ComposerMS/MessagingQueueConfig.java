@@ -34,7 +34,7 @@ public class MessagingQueueConfig {
         //connectionFactory.setHost("amqp://guest:guest@rabbitmq-broker-results"); // Device host -> localhost or WSL hostname (DESKTOP-M06B2DG) for Docker
         System.out.println(connectionFactory.getHost());
         //connectionFactory.setVirtualHost("rabbitmq-broker-tasks"); // Virtual host of rabbitmq -> "/"
-        connectionFactory.setPort(5672);
+        connectionFactory.setPort(5672); // For execution on own PC: 5673
         //connectionFactory.setUsername("admin123"); // Username for login to rabbitmq
         //connectionFactory.setPassword("admin123"); // Pwd for login to rabbitmq
         return connectionFactory;
