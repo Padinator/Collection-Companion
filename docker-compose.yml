@@ -36,36 +36,36 @@ services:
       timeout: 30s
       retries: 3
 
-#  apigatewayms:
-#    image: apigatewayms
-#    build:
-#      context: ./APIGatewayMS/
-#      dockerfile: Dockerfile
-#    ports:
-#      - 8080:8080
-#    environment:
-#      - DATABASE_MS=database-service:8080
-#      - TASKS_MS=tasks-service:8080
-#      - RESULTS_MS=results-service:8080
-#      - STATISTICS_MS=statistics-service:8080
-#    networks:
-#      - yml-network
+  apigatewayms:
+    image: apigatewayms
+    build:
+      context: ./APIGatewayMS/
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_MS=database-service:8080
+      - TASKS_MS=tasks-service:8080
+      - RESULTS_MS=results-service:8080
+      - STATISTICS_MS=statistics-service:8080
+    networks:
+      - yml-network
 
-#  composerms:
-#    image: composerms
-#    build:
-#      context: ./ComposerMS/
-#      dockerfile: Dockerfile
-#    ports:
-#      - 8081:8080
-#    container_name:
-#      composer-service
-#    hostname:
-#      composer-service
-#    environment:
-#      - STATISTICS_MS=statistics-service:8080
-#    networks:
-#      - yml-network
+  composerms:
+    image: composerms
+    build:
+      context: ./ComposerMS/
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8080
+    container_name:
+      composer-service
+    hostname:
+      composer-service
+    environment:
+      - STATISTICS_MS=statistics-service:8080
+    networks:
+      - yml-network
     
 
   databsems:
@@ -81,57 +81,56 @@ services:
     networks:
       - yml-network
 
-#  resultsms:
-#    image: resultsms
-#    build:
-#      context: ./ResultsMS/
-#      dockerfile: Dockerfile
-#    ports:
-#      - 8083:8080
-#    hostname: results-service
-#    environment:
-#      - DATABASE_MS=database-service:8080
-#      - STATISTICS_MS=statistics-service:8080
-#    networks:
-#      - yml-network
-#
-#  statisticsms:
-#    image: statisticsms
-#    build:
-#      context: ./StatisticsMS/
-#      dockerfile: Dockerfile
-#    ports:
-#      - 8084:8080
-#    hostname: statistics-service
-#    environment:
-#      - STATISTICS_MS=statistics-service:8080
-#    networks:
-#      - yml-network
-#
-#  tasksms:
-#    image: tasksms
-#    build:
-#      context: ./TasksMS/
-#      dockerfile: Dockerfile
-#    ports:
-#      - 8085:8080
-#    hostname: tasks-service
-#    environment:
-#      - STEAM_WEBCRWALER_MS=steam-webcrawler:8080
-#      - STATISTICS_MS=statistics-service:8080
-#    networks:
-#      - yml-network
-#
-#  steamwebcrawler:
-#    image: steamwebcrawler
-#    build:
-#      context: ./Webcrawler/SteamWebCrawler/
-#      dockerfile: Dockerfile
-#    ports:
-#      - 8086:8080
-#    hostname: steam-webcrawler
-#    environment:
-#      - STATISTICS_MS=statistics-service:8084
-#    networks:
-#      - yml-network
-#
+  resultsms:
+    image: resultsms
+    build:
+      context: ./ResultsMS/
+      dockerfile: Dockerfile
+    ports:
+      - 8083:8080
+    hostname: results-service
+    environment:
+      - DATABASE_MS=database-service:8080
+      - STATISTICS_MS=statistics-service:8080
+    networks:
+      - yml-network
+
+  statisticsms:
+    image: statisticsms
+    build:
+      context: ./StatisticsMS/
+      dockerfile: Dockerfile
+    ports:
+      - 8084:8080
+    hostname: statistics-service
+    environment:
+      - STATISTICS_MS=statistics-service:8080
+    networks:
+      - yml-network
+
+  tasksms:
+    image: tasksms
+    build:
+      context: ./TasksMS/
+      dockerfile: Dockerfile
+    ports:
+      - 8085:8080
+    hostname: tasks-service
+    environment:
+      - STEAM_WEBCRWALER_MS=steam-webcrawler:8080
+      - STATISTICS_MS=statistics-service:8080
+    networks:
+      - yml-network
+
+  steamwebcrawler:
+    image: steamwebcrawler
+    build:
+      context: ./Webcrawler/SteamWebCrawler/
+      dockerfile: Dockerfile
+    ports:
+      - 8086:8080
+    hostname: steam-webcrawler
+    environment:
+      - STATISTICS_MS=statistics-service:8084
+    networks:
+      - yml-network
