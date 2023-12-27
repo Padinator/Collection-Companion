@@ -107,7 +107,7 @@ jobs:
                             },
                             {
                                 "type": "TextBlock",
-                                "text": "<at>Patrick</at>,  <at>Dominik</at>,  <at>Tom</at>",
+                                "text": "<at>Patrick</at>,  <at>Dominik</at>,  <at>Tom</at>, <at>Stefan</at>",
                                 "wrap": true
                             }
                         ],
@@ -144,7 +144,14 @@ jobs:
                                         "name": "Tom"
                                     }
                                 },
-                                
+                                {
+                                    "type": "mention",
+                                    "text": "<at>Stefan</at>",
+                                    "mentioned": {
+                                        "id": "stefan.heyne@th-bingen.de",
+                                        "name": "Stefan"
+                                    }
+                                }      
                             ]
                         }
                     }
