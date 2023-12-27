@@ -5,7 +5,7 @@ on:
     branches: ["main"]
 name: Inspections    
 jobs:
-  run-lint:
+  mega-linter:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -58,3 +58,107 @@ jobs:
         name: playwright-report
         path: tests/browser-test/playwright-report/
         retention-days: 5
+        
+  notify-teams:
+    runs-on: ubuntu-latest
+    needs: [mega-linter, unit-tests, playwright]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Teams Notification 📣
+      env:
+        PR_NAME: ${{ github.event.pull_request.title }}
+      if: success()
+      run: |
+        # Check if Workflow already successfully ran 
+        REPO_OWNER=${{ github.event.repository.owner.login }}
+        REPO_NAME=${{ github.event.repository.name }}
+        
+        BRANCH_JSON=$(curl -s https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/actions/runs?branch=${{ github.event.pull_request.head.ref }} \
+        -H "Authorization: Bearer ${{ secrets.GH_BOT_TOKEN }}")
+        echo $BRANCH_JSON | grep -q '"conclusion": "success"' \
+        && echo "Messaged already published" \
+        && exit 0
+        
+        # Teams Notification functionality
+        PR_URL="https://github.com/${{ github.repository }}/pull/${{ github.event.number }}"
+        echo "name:"
+        echo $PR_NAME
+        ESCAPED_PR_NAME=$(echo "$PR_NAME" | sed 's/\\/\\\\/g; s/"/\\\"/g')
+        #echo 
+        json=$(echo '
+        {
+            "type": "message",
+            "attachments": [
+                {
+                    "contentType": "application/vnd.microsoft.card.adaptive",
+                    "content": {
+                        "type": "AdaptiveCard",
+                        "body": [
+                            {
+                                "type": "TextBlock",
+                                "text": "Review benötigt!",
+                                "weight": "bolder",
+                                "size": "medium"
+                            },
+                            {
+                                "type": "TextBlock",
+                                "text": "Pull Request: '$ESCAPED_PR_NAME'",
+                                "wrap": true
+                            },
+                            {
+                                "type": "TextBlock",
+                                "text": "<at>Patrick</at>,  <at>Dominik</at>,  <at>Tom</at>",
+                                "wrap": true
+                            }
+                        ],
+                        "actions": [
+                            {
+                                "type": "Action.OpenUrl",
+                                "title": "GitHub Pull Request",
+                                "url": "'$PR_URL'"
+                            }
+                        ],
+                        "msteams": {
+                            "entities": [
+                                {
+                                    "type": "mention",
+                                    "text": "<at>Patrick</at>",
+                                    "mentioned": {
+                                        "id": "patrick.dieser@th-bingen.de",
+                                        "name": "Patrick"
+                                    }
+                                },
+                                {
+                                    "type": "mention",
+                                    "text": "<at>Dominik</at>",
+                                    "mentioned": {
+                                        "id": "dominik.sauter@th-bingen.de",
+                                        "name": "Dominik"
+                                    }
+                                },
+                                {
+                                    "type": "mention",
+                                    "text": "<at>Tom</at>",
+                                    "mentioned": {
+                                        "id": "tom.lauth@th-bingen.de",
+                                        "name": "Tom"
+                                    }
+                                },
+                                
+                            ]
+                        }
+                    }
+                }
+            ]
+        }')
+        echo "JSON: " $json
+        response=$(curl --location ${{ secrets.TEAMS_GITHUB_HOOK }} \
+        --header 'Content-Type: text/plain' \
+        --data-raw "$json")
+        echo "Response:"
+        echo $response
+        if [ "$response" != "1" ]
+        then
+          echo "Bad Request!"
+          exit 1
+        fi        
