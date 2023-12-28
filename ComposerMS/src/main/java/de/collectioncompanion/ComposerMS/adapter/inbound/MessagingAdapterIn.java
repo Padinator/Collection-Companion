@@ -22,18 +22,20 @@ public class MessagingAdapterIn {
     @Autowired
     private RestServerOut restServerOut;
 
-    @RabbitListener(queues = "nameOfMyTasksQueue")
+    @RabbitListener(queues = "#{queueIn.name}")
     public void receive(String receiveJson) {
-        CollectionRequestDTO collectionRequestDTO = CollectionRequestDTO.fromJson(receiveJson);
-        CollectionRequest collectionRequest = collectionRequestDTO.collectionRequest();
+        if (receiveJson.contains("searchTerm")) {
+            CollectionRequestDTO collectionRequestDTO = CollectionRequestDTO.fromJson(receiveJson);
+            CollectionRequest collectionRequest = collectionRequestDTO.collectionRequest();
 
-        System.out.println("Received JSON: " + receiveJson);
-        System.out.println("Received collection request DTO: " + collectionRequestDTO);
-        System.out.println("Received CollectionRequest: " + collectionRequest);
+            System.out.println("Received JSON: " + receiveJson);
+            System.out.println("Received collection request DTO: " + collectionRequestDTO);
+            System.out.println("Received CollectionRequest: " + collectionRequest);
 
-        // Forward request to web crawler (takes maybe a little time -> fix ???)
-        updatesNotificationPort.notifyUpdate(collectionRequest); // Output dequeue message
-        restServerOut.requestWebCrawler(collectionRequest);
+            // Forward request to web crawler (takes maybe a little time -> fix ???)
+            updatesNotificationPort.notifyUpdate(collectionRequest); // Output dequeue message
+            restServerOut.requestWebCrawler(collectionRequest);
+        }
     }
 
 }
