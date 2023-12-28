@@ -61,7 +61,7 @@ jobs:
         
   notify-teams:
     runs-on: ubuntu-latest
-    needs: [mega-linter, unit-tests, playwright]
+    #needs: [mega-linter, unit-tests, playwright]
     steps:
     - uses: actions/checkout@v3
     - name: Teams Notification 📣
