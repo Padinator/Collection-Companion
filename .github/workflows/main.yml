@@ -17,7 +17,7 @@ jobs:
         distribution: 'temurin'
     - name: Run the Maven verify phase
       run: |
-        docker-compose up --detach --build --wait
+        docker-compose up --detach --wait
         
 
                   
