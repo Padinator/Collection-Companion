@@ -5,15 +5,14 @@ on:
     branches: ["main"]
 name: Inspections    
 jobs:
-  mega-linter:
+
+  java-linte:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3 # v2 minimum required
+      - uses: axel-op/googlejavaformat-action@v3
         with:
-          fetch-depth: 0
-      - name: MegaLinter
-        uses: oxsecurity/megalinter/flavors/cupcake@v7.7.0
+          args: "--set-exit-if-changed"
         
 #  unit-tests:
 #      runs-on: ubuntu-latest
