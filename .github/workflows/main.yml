@@ -6,14 +6,14 @@ on:
 name: Inspections    
 jobs:
 
-  java-linter:
+  java-formatting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3 # v2 minimum required
+      - uses: actions/checkout@v3
       - uses: axel-op/googlejavaformat-action@v3
         with:
-          args: "--set-exit-if-changed"
-        
+          args: "--skip-sorting-imports --replace"
+                  
 #  unit-tests:
 #      runs-on: ubuntu-latest
 #      steps:
