@@ -42,7 +42,7 @@ jobs:
     - name: Start containers
       run: |
         sudo chmod -R 777 .
-        docker compose up wordpress --detach --wait --wait-timeout 2000
+        docker compose up --detach --wait --wait-timeout 2000
     - name: Install Playwright
       run: |
         npm install playwright@latest
