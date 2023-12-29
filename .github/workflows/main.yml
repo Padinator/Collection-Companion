@@ -23,16 +23,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: Start Docker Compose Services
       run: |
           if [ -f "docker-compose.yml" ]; then
             docker-compose up -d --build --force-recreate
           fi
-          cd ..
-          done
-
+                    
   playwright:
     name: Playwright 🎭
     timeout-minutes: 20
