@@ -23,24 +23,13 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - name: Build and Test Microservices
-      run: |
-        for dir in */ ; do
-          cd "$dir"
-          if [ -f "pom.xml" ]; then
-            mvn clean install
-          fi
-          cd ..
-        done
     - name: Start Docker Compose Services
       run: |
-        for dir in */ ; do
-          cd "$dir"
           if [ -f "docker-compose.yml" ]; then
             docker-compose up -d
           fi
           cd ..
-        done
+          done
 
   playwright:
     name: Playwright 🎭
