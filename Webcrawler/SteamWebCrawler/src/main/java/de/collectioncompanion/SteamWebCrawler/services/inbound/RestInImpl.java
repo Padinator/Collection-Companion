@@ -19,7 +19,6 @@ public class RestInImpl implements RestIn {
         Collection collection = webCrawler.findInformationToCollection(searchTerm);
         System.out.println("Found collection: " + collection);
 
-        // return ResponseEntity.status(200).body(collection.toString());
-        return ResponseEntity.status(200).body("Collection was created!");
+        return ResponseEntity.status(200).body(collection.toString());
     }
 }

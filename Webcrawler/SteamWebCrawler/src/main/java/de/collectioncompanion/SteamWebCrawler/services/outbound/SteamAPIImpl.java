@@ -142,21 +142,37 @@ public class SteamAPIImpl implements SteamAPI {
                     (String) ((LinkedHashMap) gameData.get("price_overview")).get("final_formatted"));
 
             // Supported languages
-            collectionData.put(formatter.getPropertyName("languages"), (String) gameData.get("supported_languages"));
+            String languages = Arrays.toString(((String) gameData.get("supported_languages")).split(", "));
+            collectionData.put(formatter.getPropertyName("languages"), languages);
 
             // Genres
-            String genres = ((ArrayList) gameData.get("genres")).stream().map(map -> ((LinkedHashMap) map).get("description")).collect(Collectors.toList()).toString();
+            String genres = ((ArrayList) gameData.get("genres")).stream()
+                    .map(map -> ((LinkedHashMap) map).get("description")).collect(Collectors.toList()).toString();
             collectionData.put(formatter.getPropertyName("genres"), genres);
 
-            ((LinkedHashMap) gameData.get("pc_requirements")).get("minimum");
+            // Get all PC requirements
+            String[] pcRequirements = ((String) ((LinkedHashMap) gameData.get("pc_requirements")).get("minimum"))
+                    .split("<br>");
 
-            /*
-            collectionData.put(formatter.getPropertyName("available_platforms"), body);
-            collectionData.put(formatter.getPropertyName("necessary_processor"), body);
-            collectionData.put(formatter.getPropertyName("necessary_ram"), body);
-            collectionData.put(formatter.getPropertyName("necessary_memory"), body);
-            collectionData.put(formatter.getPropertyName("necessary_desktop_resolution"), body);
-             */
+            // Platforms
+            String availablePlatforms = removeHTMLTags(pcRequirements[1].replaceAll(".*: ", ""));
+            collectionData.put(formatter.getPropertyName("available_platforms"), availablePlatforms);
+
+            // Processor
+            String necessaryProcessor = removeHTMLTags(pcRequirements[2].replaceAll(".*: ", ""));
+            collectionData.put(formatter.getPropertyName("necessary_processor"), necessaryProcessor);
+
+            // RAM
+            String necessaryRam = removeHTMLTags(pcRequirements[3].replaceAll(".*: ", ""));
+            collectionData.put(formatter.getPropertyName("necessary_ram"), necessaryRam);
+
+            // Memory
+            String necessaryMemory = removeHTMLTags(pcRequirements[4].replaceAll(".*: ", ""));
+            collectionData.put(formatter.getPropertyName("necessary_memory"), necessaryMemory);
+
+            // Desktop resolution
+            String necessaryDesktop_resolution = removeHTMLTags(pcRequirements[5].replaceAll(".*: ", ""));
+            collectionData.put(formatter.getPropertyName("necessary_desktop_resolution"), necessaryDesktop_resolution);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
