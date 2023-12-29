@@ -39,6 +39,10 @@ RUN ls
 FROM eclipse-temurin
 RUN pwd
 RUN ls
+
+FROM eclipse-temurin
+RUN pwd
+RUN ls
 ARG JAR_FILE=/usr/app/target/APIGateway-0.0.1-SNAPSHOT.jar
 COPY --from=build $JAR_FILE /app/APIGateway-0.0.1-SNAPSHOT.jar
 ENTRYPOINT java -jar /app/APIGateway-0.0.1-SNAPSHOT.jar
