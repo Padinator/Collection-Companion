@@ -1,6 +1,7 @@
 package de.collectioncompanion.SteamWebCrawler.ports.outbound;
 
 import de.collectioncompanion.SteamWebCrawler.ports.data_files.Collection;
+import de.collectioncompanion.SteamWebCrawler.ports.data_files.WebCrawler;
 
 import java.util.TreeMap;
 
@@ -17,7 +18,7 @@ public interface SteamAPI {
     TreeMap<Integer, String> getAllGames();
 
     /**
-     * Searches for a collection with passed search term
+     * Searches for a collection with passed search term -> Steam-API call
      *
      * @param searchTerm The search term to look for a collection
      * @return The requested collection

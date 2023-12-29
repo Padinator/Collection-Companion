@@ -42,9 +42,9 @@ public class RestServerOut {
      */
     @PostMapping
     public void requestWebCrawler(CollectionRequest collectionRequest) {
-        final String STEAM_WEBCRWALER_MS = "http://" + environment.getProperty("STEAM_WEBCRWALER_MS") + STARTING;
-        //final String STEAM_WEBCRWALER_MS = "http://localhost:8085/collection";
-        ResponseEntity<String> responseCollection = restOut.doPostCollectionRequest(STEAM_WEBCRWALER_MS,
+        final String STEAM_WEBCRAWLER_MS = "http://" + environment.getProperty("STEAM_WEBCRAWLER_MS") + STARTING;
+        //final String STEAM_WEBCRAWLER_MS = "http://localhost:8085/collection";
+        ResponseEntity<String> responseCollection = restOut.doGetCollectionRequest(STEAM_WEBCRAWLER_MS,
                 collectionRequest);
         System.out.println("response collection:" + responseCollection.getBody());
         TreeMap<String, String> data = new TreeMap<>();

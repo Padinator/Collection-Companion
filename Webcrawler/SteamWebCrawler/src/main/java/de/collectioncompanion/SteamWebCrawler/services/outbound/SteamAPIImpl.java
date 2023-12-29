@@ -1,18 +1,22 @@
-package de.collectioncompanion.SteamWebCrawler.services;
+package de.collectioncompanion.SteamWebCrawler.services.outbound;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.collectioncompanion.SteamWebCrawler.data_files.CollectionImpl;
+import de.collectioncompanion.SteamWebCrawler.data_files.GameCollectionFormatter;
 import de.collectioncompanion.SteamWebCrawler.ports.data_files.Collection;
 import de.collectioncompanion.SteamWebCrawler.ports.outbound.SteamAPI;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class SteamAPIImpl implements SteamAPI {
@@ -43,9 +47,6 @@ public class SteamAPIImpl implements SteamAPI {
                     allGames.put(appID, gameName);
                 }
             });
-
-            System.out.println(allGames.size());
-            System.out.println(allGames.get(1551830));
 
             reader.close();
         } catch (IOException e) {
@@ -112,11 +113,71 @@ public class SteamAPIImpl implements SteamAPI {
      * @return Return the formatted data as Map
      */
     private Map<String, String> formatCollectionData(String body) {
+        GameCollectionFormatter formatter = new GameCollectionFormatter();
         Map<String, String> collectionData = new TreeMap<>();
 
-        collectionData.put("time_stamp", String.valueOf(System.currentTimeMillis()));
-        collectionData.put("data", body); // For starting only two entries
+        try {
+            TreeMap rawBody = new ObjectMapper().readValue(body, TreeMap.class);
+            LinkedHashMap rawData = (LinkedHashMap) ((Map.Entry) rawBody.entrySet().iterator().next()).getValue();
+            LinkedHashMap gameData = (LinkedHashMap) rawData.get("data");
+
+            // Name
+            collectionData.put(formatter.getPropertyName("title"), (String) gameData.get("name"));
+
+            // Title
+            collectionData.put(formatter.getPropertyName("main_img"), (String) gameData.get("header_image"));
+
+            // Short description
+            collectionData.put(formatter.getPropertyName("short_description"), (String) gameData.get("short_description"));
+
+            // Detailed description
+            String detailedDescription = removeHTMLTags((String) gameData.get("detailed_description"));
+            collectionData.put(formatter.getPropertyName("detailed_description"), detailedDescription);
+
+            // Required age
+            collectionData.put(formatter.getPropertyName("required_age"), String.valueOf(gameData.get("required_age")));
+
+            // Price
+            collectionData.put(formatter.getPropertyName("price"),
+                    (String) ((LinkedHashMap) gameData.get("price_overview")).get("final_formatted"));
+
+            // Supported languages
+            collectionData.put(formatter.getPropertyName("languages"), (String) gameData.get("supported_languages"));
+
+            // Genres
+            String genres = ((ArrayList) gameData.get("genres")).stream().map(map -> ((LinkedHashMap) map).get("description")).collect(Collectors.toList()).toString();
+            collectionData.put(formatter.getPropertyName("genres"), genres);
+
+            ((LinkedHashMap) gameData.get("pc_requirements")).get("minimum");
+
+            /*
+            collectionData.put(formatter.getPropertyName("available_platforms"), body);
+            collectionData.put(formatter.getPropertyName("necessary_processor"), body);
+            collectionData.put(formatter.getPropertyName("necessary_ram"), body);
+            collectionData.put(formatter.getPropertyName("necessary_memory"), body);
+            collectionData.put(formatter.getPropertyName("necessary_desktop_resolution"), body);
+             */
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
         return collectionData;
     }
+
+    private static String removeHTMLTags(String input) {
+        String regex = "<.*?>";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.replaceAll("");
+    }
 }
+
+/*
+            Pattern pattern = Pattern.compile( "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)"
+                            + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
+                            + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
+                    Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+            Matcher matcher = pattern.matcher((String) gameData.get("header_image"));
+            while (matcher.find())
+                System.out.println(matcher.group());
+ */

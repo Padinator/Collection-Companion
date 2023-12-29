@@ -45,7 +45,6 @@ services:
       - 8085:8080
     hostname: tasks-service
     environment:
-      - STEAM_WEBCRWALER_MS=steam-webcrawler:8080
       - STATISTICS_MS=statistics-service:8080
     depends_on:
       - rabbitmqbroker
@@ -61,7 +60,7 @@ services:
       composer-service
     environment:
       - STATISTICS_MS=statistics-service:8080
-      - STEAM_WEBCRWALER_MS=steam-webcrawler:8080
+      - STEAM_WEBCRAWLER_MS=steam-webcrawler:8080
     depends_on:
       - rabbitmqbroker
 

@@ -27,4 +27,12 @@ public class DatabaseImpl implements Database {
         return new CollectionImpl(results);
     }
 
+    @Override
+    public void insertCollection(Collection collection) {
+        collection.putEntry("time_stamp", String.valueOf(System.currentTimeMillis())); // First add a timestamp
+
+        // Insert all data into DB
+        // insert(data into DB ...);
+    }
+
 }
