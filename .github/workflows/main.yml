@@ -18,28 +18,34 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         reporter: 'github-pr-check'
 
-  test-code: 
+  build-and-test:
     runs-on: ubuntu-latest
-    steps: 
-     - name: Checkout repository 🥊      
-       uses: actions/checkout@v3     
-     - name: Set up Java
-       uses: actions/setup-java@v2
-       with:
-         java-version: '11'
-     - name: Maven build and test
-       run: mvn test
-     - name: Generate JUnit report
-       uses: actions/junit-report@v3
-       with:
+    
+    steps:
+    - name: Checkout repository 🥊
+      uses: actions/checkout@v3
+      
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+      
+    - name: Maven build and test
+      run: mvn test
+      
+    - name: Generate JUnit report
+      uses: actions/junit-report@v3
+      with:
         path: target/surefire-reports/TEST-*.xml
-     - name: Annotate JUnit report
-       uses: report-junit-annotations-as-github-actions-annotations@v4
-       with:
+      
+    - name: Annotate JUnit report
+      uses: report-junit-annotations-as-github-actions-annotations@v4
+      with:
         report-file: target/surefire-reports/TEST-*.xml
-     - name: Upload coverage reports
-       uses: codecov/codecov-action@v3
-       with:
+      
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
         token: ${{ secrets.CODECOV_TOKEN }}
         fail-on-error: false
 
