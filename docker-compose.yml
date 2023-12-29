@@ -51,21 +51,21 @@ services:
     networks:
       - yml-network
 
-  composerms:
-    image: composerms
-    build:
-      context: ./ComposerMS/
-      dockerfile: Dockerfile
-    ports:
-      - 8081:8080
-    container_name:
-      composer-service
-    hostname:
-      composer-service
-    environment:
-      - STATISTICS_MS=statistics-service:8080
-    networks:
-      - yml-network
+  #composerms:
+  #  image: composerms
+  #  build:
+  #    context: ./ComposerMS/
+  #    dockerfile: Dockerfile
+  #  ports:
+  #    - 8081:8080
+  #  container_name:
+  #    composer-service
+  #  hostname:
+  #    composer-service
+  #  environment:
+  #    - STATISTICS_MS=statistics-service:8080
+  #  networks:
+  #    - yml-network
     
 
   databsems:
