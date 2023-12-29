@@ -26,6 +26,7 @@
 FROM eclipse-temurin AS build
 ENV HOME=/usr/app
 RUN mkdir -p $HOME
+RUN mkdir -p $HOME/target
 WORKDIR $HOME
 ADD . $HOME
 RUN chmod +x mvnw
