@@ -26,15 +26,23 @@
 FROM eclipse-temurin AS build
 ENV HOME=/usr/app
 RUN mkdir -p $HOME
+RUN mkdir -p $HOME/target
 WORKDIR $HOME
 ADD . $HOME
 RUN chmod +x mvnw
-RUN --mount=type=cache,target=/root/.m2 ./mvnw -f $HOME/pom.xml clean package
-
+RUN --mount=type=cache,target=/root/.m2 ./mvnw -f $HOME/pom.xml clean package -Ddir=$HOME/target
+RUN pwd
+RUN ls
 #
 # Package stage
 #
 FROM eclipse-temurin
+RUN pwd
+RUN ls
+
+FROM eclipse-temurin
+RUN pwd
+RUN ls
 ARG JAR_FILE=/usr/app/target/APIGateway-0.0.1-SNAPSHOT.jar
 COPY --from=build $JAR_FILE /app/APIGateway-0.0.1-SNAPSHOT.jar
 ENTRYPOINT java -jar /app/APIGateway-0.0.1-SNAPSHOT.jar

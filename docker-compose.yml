@@ -30,8 +30,6 @@ services:
     build:
       context: ./DatabseMS/
       dockerfile: Dockerfile
-    ports:
-      - 8082:8080
     hostname: database-service
     environment:
       - STATISTICS_MS=statistics-service:8080
@@ -41,11 +39,8 @@ services:
     build:
       context: ./TasksMS/
       dockerfile: Dockerfile
-    ports:
-      - 8085:8080
     hostname: tasks-service
     environment:
-      - STEAM_WEBCRWALER_MS=steam-webcrawler:8080
       - STATISTICS_MS=statistics-service:8080
     depends_on:
       - rabbitmqbroker
@@ -55,8 +50,6 @@ services:
     build:
       context: ./ComposerMS/
       dockerfile: Dockerfile
-    ports:
-      - 8081:8080
     hostname:
       composer-service
     environment:
@@ -70,8 +63,6 @@ services:
     build:
       context: ./ResultsMS/
       dockerfile: Dockerfile
-    ports:
-      - 8083:8080
     hostname: results-service
     environment:
       - DATABASE_MS=database-service:8080
@@ -84,8 +75,6 @@ services:
     build:
       context: ./Webcrawler/SteamWebCrawler/
       dockerfile: Dockerfile
-    ports:
-      - 8086:8080
     hostname: steam-webcrawler
     environment:
       - STATISTICS_MS=statistics-service:8084
@@ -95,8 +84,6 @@ services:
     build:
       context: ./StatisticsMS/
       dockerfile: Dockerfile
-    ports:
-      - 8084:8080
     hostname: statistics-service
     environment:
       - STATISTICS_MS=statistics-service:8080
