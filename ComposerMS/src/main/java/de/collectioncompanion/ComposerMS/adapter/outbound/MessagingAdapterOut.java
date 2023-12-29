@@ -1,6 +1,5 @@
 package de.collectioncompanion.ComposerMS.adapter.outbound;
 
-import de.collectioncompanion.ComposerMS.MessagingQueueConfig;
 import de.collectioncompanion.ComposerMS.data_files.CollectionDTO;
 import de.collectioncompanion.ComposerMS.ports.data_files.Collection;
 import de.collectioncompanion.ComposerMS.ports.outbound.UpdatesNotificationPort;
@@ -15,9 +14,9 @@ public class MessagingAdapterOut implements UpdatesNotificationPort {
     @Autowired
     private Exchange exchange;
 
-    /*@Autowired // Does not work
-    @Qualifier("rabbitTemplateOut")*/
-    private final AmqpTemplate template = new MessagingQueueConfig().rabbitTemplateOut();
+    @Autowired
+    // @Qualifier("rabbitTemplateOut")
+    private AmqpTemplate template;
 
     @Override
     public void notifyUpdate(long id, Collection collection) {

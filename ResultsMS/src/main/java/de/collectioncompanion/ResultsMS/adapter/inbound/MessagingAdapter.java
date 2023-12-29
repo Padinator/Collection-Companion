@@ -28,16 +28,18 @@ public class MessagingAdapter {
      *
      * @param receiveJson Takes elements as json
      */
-    @RabbitListener(queues = "nameOfMyResultsQueue")
+    @RabbitListener(queues = "#{queue.name}")
     public void receive(String receiveJson) {
-        System.out.println(receiveJson);
-        CollectionDTO collectionDTO = CollectionDTO.fromJson(receiveJson);
-        Collection collection = collectionDTO.collection();
-        long id = collectionDTO.id();
+        if (!receiveJson.contains("searchTerm")) {
+            System.out.println(receiveJson);
+            CollectionDTO collectionDTO = CollectionDTO.fromJson(receiveJson);
+            Collection collection = collectionDTO.collection();
+            long id = collectionDTO.id();
 
-        updatesNotificationPort.notifyUpdate(id, collection); // Notify dequeuing a collection from rabbitmq
-        CollectionList.pushCollection(id, collection); // Push result into an own java class queue
-        databaseServerOut.addResultingCollectionToDB(collection); // Add request into DB
+            updatesNotificationPort.notifyUpdate(id, collection); // Notify dequeuing a collection from rabbitmq
+            CollectionList.pushCollection(id, collection); // Push result into an own java class queue
+            databaseServerOut.addResultingCollectionToDB(collection); // Add request into DB
+        }
     }
 
 }
