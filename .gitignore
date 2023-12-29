@@ -12,14 +12,12 @@ target/
 .settings
 .springBeans
 .sts4-cache
-mvnw*
 
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
-mvnw*
 
 ### NetBeans ###
 /nbproject/private/
@@ -30,8 +28,6 @@ mvnw*
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-mvnw*
 
 ### VS Code ###
 .vscode/
-mvnw*

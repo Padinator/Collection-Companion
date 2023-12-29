@@ -1,35 +1,11 @@
 # Do no use "" in hostnames. That is forbidden and does not work!!!!!
 
-networks:
-  yml-network:
-
 services:
-  rabbitmqbrokerIn:
+  rabbitmqbroker:
     image:
       rabbitmq:management
     hostname:
-      rabbitmq-broker-tasks
-    ports:
-     - 15672:15672
-     - 5672:5672
-    networks:
-      - yml-network
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 30s
-      timeout: 30s
-      retries: 3
-
-  rabbitmqbrokerOut:
-    image:
-      rabbitmq:management
-    hostname:
-      rabbitmq-broker-results
-    ports:
-     - 15673:15672
-     - 5673:5672
-    networks:
-      - yml-network
+      rabbit_mq_broker
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 30s
@@ -48,25 +24,6 @@ services:
       - TASKS_MS=tasks-service:8080
       - RESULTS_MS=results-service:8080
       - STATISTICS_MS=statistics-service:8080
-    networks:
-      - yml-network
-
-  #composerms:
-  #  image: composerms
-  #  build:
-  #    context: ./ComposerMS/
-  #    dockerfile: Dockerfile
-  #  ports:
-  #    - 8081:8080
-  #  container_name:
-  #    composer-service
-  #  hostname:
-  #    composer-service
-  #  environment:
-  #    - STATISTICS_MS=statistics-service:8080
-  #  networks:
-  #    - yml-network
-    
 
   databsems:
     image: databsems
@@ -78,35 +35,6 @@ services:
     hostname: database-service
     environment:
       - STATISTICS_MS=statistics-service:8080
-    networks:
-      - yml-network
-
-  resultsms:
-    image: resultsms
-    build:
-      context: ./ResultsMS/
-      dockerfile: Dockerfile
-    ports:
-      - 8083:8080
-    hostname: results-service
-    environment:
-      - DATABASE_MS=database-service:8080
-      - STATISTICS_MS=statistics-service:8080
-    networks:
-      - yml-network
-
-  statisticsms:
-    image: statisticsms
-    build:
-      context: ./StatisticsMS/
-      dockerfile: Dockerfile
-    ports:
-      - 8084:8080
-    hostname: statistics-service
-    environment:
-      - STATISTICS_MS=statistics-service:8080
-    networks:
-      - yml-network
 
   tasksms:
     image: tasksms
@@ -119,8 +47,37 @@ services:
     environment:
       - STEAM_WEBCRWALER_MS=steam-webcrawler:8080
       - STATISTICS_MS=statistics-service:8080
-    networks:
-      - yml-network
+    depends_on:
+      - rabbitmqbroker
+
+  composerms:
+    image: composerms
+    build:
+      context: ./ComposerMS/
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8080
+    hostname:
+      composer-service
+    environment:
+      - STATISTICS_MS=statistics-service:8080
+      - STEAM_WEBCRWALER_MS=steam-webcrawler:8080
+    depends_on:
+      - rabbitmqbroker
+
+  resultsms:
+    image: resultsms
+    build:
+      context: ./ResultsMS/
+      dockerfile: Dockerfile
+    ports:
+      - 8083:8080
+    hostname: results-service
+    environment:
+      - DATABASE_MS=database-service:8080
+      - STATISTICS_MS=statistics-service:8080
+    depends_on:
+      - rabbitmqbroker
 
   steamwebcrawler:
     image: steamwebcrawler
@@ -132,5 +89,14 @@ services:
     hostname: steam-webcrawler
     environment:
       - STATISTICS_MS=statistics-service:8084
-    networks:
-      - yml-network
+
+  statisticsms:
+    image: statisticsms
+    build:
+      context: ./StatisticsMS/
+      dockerfile: Dockerfile
+    ports:
+      - 8084:8080
+    hostname: statistics-service
+    environment:
+      - STATISTICS_MS=statistics-service:8080
