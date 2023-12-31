@@ -24,13 +24,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Start Docker Compose Services
-      run: |
-          if [ -f "docker-compose.yml" ]; then
-            docker-compose up -d --build --force-recreate
-          fi
-          cd ..
-          done
-
+      run:  docker-compose up -d --build --force-recreate
+                    
   playwright:
     name: Playwright 🎭
     timeout-minutes: 20
@@ -45,7 +40,7 @@ jobs:
     - name: Start containers
       run: |
         sudo chmod -R 777 .
-        docker compose up --d --wait --wait-timeout 2000
+        docker-compose up -d --build --force-recreate
     - name: Install Playwright
       run: |
         npm install playwright@latest
