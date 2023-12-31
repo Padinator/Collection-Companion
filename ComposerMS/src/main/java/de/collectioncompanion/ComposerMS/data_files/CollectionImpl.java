@@ -2,7 +2,9 @@ package de.collectioncompanion.ComposerMS.data_files;
 
 import de.collectioncompanion.ComposerMS.ports.data_files.Collection;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.TreeMap;
 
 /*
  * Share this class???
@@ -11,13 +13,37 @@ public class CollectionImpl implements Collection {
 
     private final Map<String, String> data;
 
+    public CollectionImpl() {
+        this(new TreeMap<>());
+    }
+
     public CollectionImpl(Map<String, String> results) {
-        data = results;
+        data = new TreeMap<>(results); // Deep copy
     }
 
     @Override
     public String toString() {
         return data.isEmpty() ? "" : data.toString();
+    }
+
+    public Map<String, String> getData() {
+        return Collections.unmodifiableMap(new TreeMap<>(data));
+    }
+
+    public String putEntry(String key, String value) {
+        return data.put(key, value);
+    }
+
+    @Override
+    public String getValue(String key) {
+        if (data.containsKey(key))
+            return data.get(key);
+        return null;
+    }
+
+    @Override
+    public boolean containsKey(String key) {
+        return data.containsKey(key);
     }
 
     @Override

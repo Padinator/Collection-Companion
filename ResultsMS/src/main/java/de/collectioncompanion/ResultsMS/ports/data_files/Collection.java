@@ -6,6 +6,31 @@ package de.collectioncompanion.ResultsMS.ports.data_files;
 public interface Collection {
 
     /**
+     * Set to the key "key" the value "value" and returns the old value
+     *
+     * @param key The key of the entry to insert/update
+     * @param value The value of the entry to insert/update
+     * @return Returns the value, which was set before to the key "key", else null
+     */
+    String putEntry(String key, String value);
+
+    /**
+     * Returns the value to the passed key
+     *
+     * @param key The key to the required value
+     * @return The value to the required key, if the collection contains the key, else null
+     */
+    String getValue(String key);
+
+    /**
+     * Returns, if the key "key" is in the collection
+     *
+     * @param key The key to check
+     * @return Returns true, if the passed key "key" is in the collection
+     */
+    boolean containsKey(String key);
+
+    /**
      * Tests if a collection is empty/has no content.
      *
      * @return Returns true, if the collection is empty/has no content

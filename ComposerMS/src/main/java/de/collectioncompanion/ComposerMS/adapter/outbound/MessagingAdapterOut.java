@@ -15,7 +15,6 @@ public class MessagingAdapterOut implements UpdatesNotificationPort {
     private Exchange exchange;
 
     @Autowired
-    // @Qualifier("rabbitTemplateOut")
     private AmqpTemplate template;
 
     @Override

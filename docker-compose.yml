@@ -87,15 +87,16 @@ services:
       - 8086:8080
     hostname: steam-webcrawler
     environment:
-      - STATISTICS_MS=statistics-service:8084
-
-  statisticsms:
-    image: statisticsms
-    build:
-      context: ./StatisticsMS/
-      dockerfile: Dockerfile
-    ports:
-      - 8084:8080
-    hostname: statistics-service
-    environment:
+      - COMPOSER_MS=composer-service:8080
       - STATISTICS_MS=statistics-service:8080
+
+#  statisticsms:
+#    image: statisticsms
+#    build:
+#      context: ./StatisticsMS/
+#      dockerfile: Dockerfile
+#    ports:
+#      - 8084:8080
+#    hostname: statistics-service
+#    environment:
+#      - STATISTICS_MS=statistics-service:8080
