@@ -2,17 +2,15 @@ package de.collectioncompanion.SteamWebCrawler.services.outbound;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.collectioncompanion.SteamWebCrawler.data_files.CollectionImpl;
-import de.collectioncompanion.SteamWebCrawler.data_files.GameCollectionFormatter;
-import de.collectioncompanion.SteamWebCrawler.ports.data_files.Collection;
+import data_files.CollectionImpl;
 import de.collectioncompanion.SteamWebCrawler.ports.outbound.SteamAPI;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ports.Collection;
+import data_files.GameCollectionFormatter;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

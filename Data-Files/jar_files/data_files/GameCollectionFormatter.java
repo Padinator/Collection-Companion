@@ -1,7 +1,7 @@
-package de.collectioncompanion.SteamWebCrawler.data_files;
+package data_files;
 
-import de.collectioncompanion.SteamWebCrawler.ports.data_files.Collection;
-import de.collectioncompanion.SteamWebCrawler.ports.data_files.CollectionFormatter;
+import ports.Collection;
+import ports.CollectionFormatter;
 
 import java.util.*;
 

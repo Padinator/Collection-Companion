@@ -1,6 +1,6 @@
 package de.collectioncompanion.SteamWebCrawler.ports.inbound;
 
-import de.collectioncompanion.SteamWebCrawler.ports.data_files.Collection;
+import ports.Collection;
 
 public interface RestOut {
 

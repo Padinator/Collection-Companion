@@ -1,8 +1,8 @@
 package de.collectioncompanion.SteamWebCrawler.data_files;
 
 import de.collectioncompanion.SteamWebCrawler.adapter.outbound.RestServerOut;
-import de.collectioncompanion.SteamWebCrawler.ports.data_files.Collection;
 import de.collectioncompanion.SteamWebCrawler.ports.inbound.RestOut;
+import ports.Collection;
 
 import java.util.concurrent.Semaphore;
 

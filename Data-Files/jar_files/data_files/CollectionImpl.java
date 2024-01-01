@@ -6,9 +6,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
-/*
- * Share this class???
- */
 public class CollectionImpl implements Collection {
 
     private final Map<String, String> data;

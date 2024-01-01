@@ -1,5 +1,7 @@
 package de.collectioncompanion.SteamWebCrawler.ports.data_files;
 
+import ports.Collection;
+
 public interface WebCrawler {
 
     /**

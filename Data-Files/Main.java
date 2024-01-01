@@ -11,7 +11,8 @@ public class Main {
 		CollectionRequest cr;
 		CollectionDTO cdto;
 		CollectionRequestDTO crdto;
-		CollectionFormatter gcfm = new GameCollectionFormatter();
+		CollectionFormatter cfm;
+		GameCollectionFormatter gcfm = new GameCollectionFormatter();
 	}
 
 }

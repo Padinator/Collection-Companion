@@ -1,6 +1,5 @@
 package de.collectioncompanion.SteamWebCrawler.services.inbound;
 
-import de.collectioncompanion.SteamWebCrawler.ports.data_files.Collection;
 import de.collectioncompanion.SteamWebCrawler.ports.data_files.WebCrawler;
 import de.collectioncompanion.SteamWebCrawler.ports.inbound.RestOut;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.URI;
-import java.net.URISyntaxException;
+import ports.Collection;
 
 @Service
 public class RestOutImpl implements RestOut {

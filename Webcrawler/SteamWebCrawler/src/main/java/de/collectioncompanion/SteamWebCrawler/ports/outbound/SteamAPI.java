@@ -1,8 +1,6 @@
 package de.collectioncompanion.SteamWebCrawler.ports.outbound;
 
-import de.collectioncompanion.SteamWebCrawler.ports.data_files.Collection;
-import de.collectioncompanion.SteamWebCrawler.ports.data_files.WebCrawler;
-
+import ports.Collection;
 import java.util.TreeMap;
 
 /**
