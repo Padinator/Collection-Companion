@@ -1,11 +1,11 @@
 package de.collectioncompanion.DatabseMS.adapter.inbound;
 
+import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.adapter.outbound.DatabaseOut;
-import de.collectioncompanion.DatabseMS.data_files.CollectionImpl;
-import de.collectioncompanion.DatabseMS.ports.data_files.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ports.Collection;
 
 @RestController
 @RequestMapping("/collection")

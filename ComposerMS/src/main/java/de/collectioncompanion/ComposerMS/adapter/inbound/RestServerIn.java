@@ -1,6 +1,6 @@
 package de.collectioncompanion.ComposerMS.adapter.inbound;
 
-import de.collectioncompanion.ComposerMS.data_files.CollectionImpl;
+import data_files.CollectionImpl;
 import de.collectioncompanion.ComposerMS.ports.outbound.UpdatesNotificationPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,11 +1,11 @@
 package de.collectioncompanion.ResultsMS.adapter.outbound;
 
-import de.collectioncompanion.ResultsMS.ports.data_files.Collection;
 import de.collectioncompanion.ResultsMS.ports.outbound.RestOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ports.Collection;
 
 @Service
 public class DatabaseServerOut {

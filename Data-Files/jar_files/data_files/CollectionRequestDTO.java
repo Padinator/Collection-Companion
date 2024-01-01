@@ -1,6 +1,7 @@
-package de.collectioncompanion.TasksMS.data_files;
+package data_files;
 
 import com.google.gson.Gson;
+import lombok.Getter;
 
 public record CollectionRequestDTO(CollectionRequest collectionRequest) {
 

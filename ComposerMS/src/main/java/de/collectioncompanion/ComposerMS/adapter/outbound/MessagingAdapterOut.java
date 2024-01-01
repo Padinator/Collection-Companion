@@ -1,12 +1,13 @@
 package de.collectioncompanion.ComposerMS.adapter.outbound;
 
-import de.collectioncompanion.ComposerMS.data_files.CollectionDTO;
-import de.collectioncompanion.ComposerMS.ports.data_files.Collection;
+import data_files.CollectionDTO;
+import data_files.CollectionImpl;
 import de.collectioncompanion.ComposerMS.ports.outbound.UpdatesNotificationPort;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import ports.Collection;
 
 @Controller
 public class MessagingAdapterOut implements UpdatesNotificationPort {
@@ -19,10 +20,10 @@ public class MessagingAdapterOut implements UpdatesNotificationPort {
 
     @Override
     public void notifyUpdate(long id, Collection collection) {
-        CollectionDTO collectionDTO = new CollectionDTO(id, collection);
+        CollectionDTO collectionDTO = new CollectionDTO(id, new CollectionImpl(collection));
         System.out.println("Push to out queue: " + collection);
         template.convertAndSend(exchange.getName(), "", // "" = route
-                de.collectioncompanion.ComposerMS.data_files.CollectionDTO.toJson(collectionDTO));
+                CollectionDTO.toJson(collectionDTO));
     }
 
 }

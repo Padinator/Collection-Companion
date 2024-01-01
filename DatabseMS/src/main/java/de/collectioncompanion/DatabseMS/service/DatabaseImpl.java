@@ -1,9 +1,9 @@
 package de.collectioncompanion.DatabseMS.service;
 
-import de.collectioncompanion.DatabseMS.data_files.CollectionImpl;
-import de.collectioncompanion.DatabseMS.ports.data_files.Collection;
+import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.ports.service.Database;
 import org.springframework.stereotype.Service;
+import ports.Collection;
 
 import java.util.Map;
 import java.util.TreeMap;

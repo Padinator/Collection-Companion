@@ -15,8 +15,8 @@ services:
   apigatewayms:
     image: apigatewayms
     build:
-      context: ./APIGatewayMS/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile_APIGatewayMS
     ports:
       - 8080:8080
     environment:
@@ -28,8 +28,8 @@ services:
   databsems:
     image: databsems
     build:
-      context: ./DatabseMS/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile_DatabaseMS
     hostname: database-service
     environment:
       - STATISTICS_MS=statistics-service:8080
@@ -37,8 +37,8 @@ services:
   tasksms:
     image: tasksms
     build:
-      context: ./TasksMS/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile_TasksMS
     hostname: tasks-service
     environment:
       - STATISTICS_MS=statistics-service:8080
@@ -48,21 +48,20 @@ services:
   composerms:
     image: composerms
     build:
-      context: ./ComposerMS/
-      dockerfile: Dockerfile
-    hostname:
-      composer-service
+      context: .
+      dockerfile: Dockerfile_ComposerMS
+    hostname: composer-service
     environment:
-      - STATISTICS_MS=statistics-service:8080
       - STEAM_WEBCRAWLER_MS=steam-webcrawler:8080
+      - STATISTICS_MS=statistics-service:8080
     depends_on:
       - rabbitmqbroker
 
   resultsms:
     image: resultsms
     build:
-      context: ./ResultsMS/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile_ResultsMS
     hostname: results-service
     environment:
       - DATABASE_MS=database-service:8080
@@ -73,17 +72,22 @@ services:
   steamwebcrawler:
     image: steamwebcrawler
     build:
-      context: ./Webcrawler/SteamWebCrawler/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile_SteamWebCrawler
     hostname: steam-webcrawler
     environment:
-      - STATISTICS_MS=statistics-service:8084
+      - COMPOSER_MS=composer-service:8080
+      - STATISTICS_MS=statistics-service:8080
 
 #  statisticsms:
 #    image: statisticsms
 #    build:
-#      context: ./StatisticsMS/
-#      dockerfile: Dockerfile
+#      context: .
+#      dockerfile: Dockerfile_StatisticsMS
 #    hostname: statistics-service
 #    environment:
-#      - STATISTICS_MS=statistics-service:8080
+#      - DATABASE_MS=database-service:8080
+#      - TASKS_MS=tasks-service:8080
+#      - RESULTS_MS=results-service:8080
+#      - COMPOSER_MS=composer-service:8080
+#      - STEAM_WEBCRAWLER_MS=steam-webcrawler:8080

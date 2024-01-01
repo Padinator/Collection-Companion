@@ -1,12 +1,18 @@
-package de.collectioncompanion.ResultsMS.ports.data_files;
+package ports;
 
-/*
- * Share this class???
- */
+import java.util.Map;
+
 public interface Collection {
 
+	/**
+	 * Returns a deep copy of all data (data element in CollectionImpl)
+	 *
+	 * @return Return an unmodifiable copied Map of data element "data" in CollectionImpl
+	 */
+	 Map<String, String> getData();
+
     /**
-     * Set to the key "key" the value "value" and returns the old value
+     * Sets to the key "key" the value "value" and returns the old value
      *
      * @param key The key of the entry to insert/update
      * @param value The value of the entry to insert/update

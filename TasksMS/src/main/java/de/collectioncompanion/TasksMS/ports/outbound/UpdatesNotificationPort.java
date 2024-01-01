@@ -1,6 +1,6 @@
 package de.collectioncompanion.TasksMS.ports.outbound;
 
-import de.collectioncompanion.TasksMS.data_files.CollectionRequest;
+import data_files.CollectionRequest;
 
 public interface UpdatesNotificationPort {
 

@@ -24,25 +24,26 @@
 # Build stage
 #
 FROM eclipse-temurin AS build
-ENV HOME=/usr/app
+
+# Create directories and environment variables
+ENV HOME=/usr/app/APIGatewayMS
 RUN mkdir -p $HOME
 RUN mkdir -p $HOME/target
 WORKDIR $HOME
-ADD . $HOME
+
+# Share src folder from host (= no copy of files) with image -> change in files will be changed in next build
+ADD ./APIGatewayMS $HOME
+ADD Data-Files /usr/app/Data-Files
+
+# Do maven build
 RUN chmod +x mvnw
 RUN --mount=type=cache,target=/root/.m2 ./mvnw -f $HOME/pom.xml clean package -Ddir=$HOME/target
-RUN pwd
-RUN ls
+
 #
 # Package stage
 #
 FROM eclipse-temurin
-RUN pwd
-RUN ls
-
-FROM eclipse-temurin
-RUN pwd
-RUN ls
-ARG JAR_FILE=/usr/app/target/APIGateway-0.0.1-SNAPSHOT.jar
+ENV HOME=/usr/app/APIGatewayMS
+ARG JAR_FILE=$HOME/target/APIGateway-0.0.1-SNAPSHOT.jar
 COPY --from=build $JAR_FILE /app/APIGateway-0.0.1-SNAPSHOT.jar
 ENTRYPOINT java -jar /app/APIGateway-0.0.1-SNAPSHOT.jar

@@ -1,6 +1,6 @@
 package de.collectioncompanion.DatabseMS.ports.service;
 
-import de.collectioncompanion.DatabseMS.ports.data_files.Collection;
+import ports.Collection;
 
 public interface Database {
 

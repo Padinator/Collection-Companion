@@ -1,6 +1,6 @@
-package de.collectioncompanion.ComposerMS.data_files;
+package data_files;
 
-import de.collectioncompanion.ComposerMS.ports.data_files.Collection;
+import ports.Collection;
 
 import java.util.Collections;
 import java.util.Map;
@@ -19,6 +19,10 @@ public class CollectionImpl implements Collection {
 
     public CollectionImpl(Map<String, String> results) {
         data = new TreeMap<>(results); // Deep copy
+    }
+
+    public CollectionImpl(Collection collection) {
+        data = new TreeMap<>(collection.getData()); // Deep copy
     }
 
     @Override

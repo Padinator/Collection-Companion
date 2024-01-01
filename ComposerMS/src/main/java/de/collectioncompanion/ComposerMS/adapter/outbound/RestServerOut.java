@@ -1,10 +1,7 @@
 package de.collectioncompanion.ComposerMS.adapter.outbound;
 
-import de.collectioncompanion.ComposerMS.data_files.CollectionImpl;
-import de.collectioncompanion.ComposerMS.data_files.CollectionRequest;
-import de.collectioncompanion.ComposerMS.ports.data_files.Collection;
+import data_files.CollectionRequest;
 import de.collectioncompanion.ComposerMS.ports.outbound.RestOut;
-import de.collectioncompanion.ComposerMS.ports.outbound.UpdatesNotificationPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Objects;
-import java.util.TreeMap;
 
 @Service
 public class RestServerOut {
@@ -22,11 +18,6 @@ public class RestServerOut {
 
     @Autowired
     private RestOut restOut;
-
-    /**
-     * Port, on which each microservice can be used (basic addressing)
-     */
-    //public static final int ROUTING_PORT = 8080;
 
     /**
      * Starting of path of URI

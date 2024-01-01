@@ -1,6 +1,6 @@
 package de.collectioncompanion.ComposerMS.ports.outbound;
 
-import de.collectioncompanion.ComposerMS.data_files.CollectionRequest;
+import data_files.CollectionRequest;
 import org.springframework.http.ResponseEntity;
 
 public interface RestOut {

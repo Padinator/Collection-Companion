@@ -1,7 +1,4 @@
-package de.collectioncompanion.TasksMS.data_files;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+package data_files;
 
 import java.io.Serializable;
 

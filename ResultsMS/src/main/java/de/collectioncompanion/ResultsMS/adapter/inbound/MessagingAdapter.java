@@ -1,13 +1,14 @@
 package de.collectioncompanion.ResultsMS.adapter.inbound;
 
+import data_files.CollectionDTO;
 import de.collectioncompanion.ResultsMS.adapter.outbound.DatabaseServerOut;
-import de.collectioncompanion.ResultsMS.data_files.CollectionDTO;
-import de.collectioncompanion.ResultsMS.ports.data_files.Collection;
-import de.collectioncompanion.ResultsMS.ports.data_files.CollectionList;
+import de.collectioncompanion.ResultsMS.data_files.CollectionList;
 import de.collectioncompanion.ResultsMS.ports.inbound.UpdatesNotificationPort;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import ports.Collection;
+
 
 @Controller
 public class MessagingAdapter {

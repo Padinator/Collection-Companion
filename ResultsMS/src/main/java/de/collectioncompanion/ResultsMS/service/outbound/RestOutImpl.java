@@ -1,6 +1,5 @@
 package de.collectioncompanion.ResultsMS.service.outbound;
 
-import de.collectioncompanion.ResultsMS.ports.data_files.Collection;
 import de.collectioncompanion.ResultsMS.ports.outbound.RestOut;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -8,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ports.Collection;
 
 @Service
 public class RestOutImpl implements RestOut {

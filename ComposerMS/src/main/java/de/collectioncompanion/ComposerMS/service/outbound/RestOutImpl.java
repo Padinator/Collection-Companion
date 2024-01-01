@@ -1,13 +1,10 @@
 package de.collectioncompanion.ComposerMS.service.outbound;
 
-import de.collectioncompanion.ComposerMS.data_files.CollectionRequest;
+import data_files.CollectionRequest;
 import de.collectioncompanion.ComposerMS.ports.outbound.RestOut;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.URI;
-import java.net.URISyntaxException;
 
 @Service
 public class RestOutImpl implements RestOut {

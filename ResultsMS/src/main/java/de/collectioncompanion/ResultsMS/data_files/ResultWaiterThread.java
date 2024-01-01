@@ -1,8 +1,7 @@
 package de.collectioncompanion.ResultsMS.data_files;
 
-import de.collectioncompanion.ResultsMS.ports.data_files.Collection;
-import de.collectioncompanion.ResultsMS.ports.data_files.CollectionList;
 import lombok.Getter;
+import ports.Collection;
 
 @Getter
 public class ResultWaiterThread extends Thread {

@@ -1,4 +1,7 @@
-package de.collectioncompanion.ResultsMS.ports.data_files;
+package de.collectioncompanion.ResultsMS.data_files;
+
+
+import ports.Collection;
 
 import java.util.Map;
 import java.util.TreeMap;
