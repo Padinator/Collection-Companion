@@ -1,6 +1,5 @@
 package de.collectioncompanion.SteamWebCrawler.adapter.inbound;
 
-
 import de.collectioncompanion.SteamWebCrawler.adapter.outbound.RestServerOut;
 import de.collectioncompanion.SteamWebCrawler.data_files.WebcrawlerThread;
 import de.collectioncompanion.SteamWebCrawler.ports.inbound.RestOut;

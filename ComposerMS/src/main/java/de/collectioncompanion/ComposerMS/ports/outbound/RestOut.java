@@ -12,6 +12,6 @@ public interface RestOut {
      * @param collectionRequest Pass a request to search a collection in the internet
      * @return Returns the response as String
      */
-    ResponseEntity<String> doGetCollectionRequest(String uriToMicroService, CollectionRequest collectionRequest);
+    ResponseEntity<String> doPostCollectionRequest(String uriToMicroService, CollectionRequest collectionRequest);
 
 }

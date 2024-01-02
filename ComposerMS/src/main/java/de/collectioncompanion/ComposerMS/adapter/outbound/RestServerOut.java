@@ -33,7 +33,7 @@ public class RestServerOut {
     public void requestWebCrawler(CollectionRequest collectionRequest) {
         final String STEAM_WEBCRAWLER_MS = "http://" + environment.getProperty("STEAM_WEBCRAWLER_MS") + STARTING;
         //final String STEAM_WEBCRAWLER_MS = "http://localhost:8085/collection";
-        ResponseEntity<String> response = restOut.doGetCollectionRequest(STEAM_WEBCRAWLER_MS,
+        ResponseEntity<String> response = restOut.doPostCollectionRequest(STEAM_WEBCRAWLER_MS,
                 collectionRequest);
         int activeWebCrawlerSearches = Integer.parseInt(Objects.requireNonNull(response.getBody()));
         System.out.println("Response, active webcrawler-searches:" + activeWebCrawlerSearches);

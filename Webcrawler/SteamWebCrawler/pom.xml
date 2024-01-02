@@ -37,6 +37,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Dependency for converting from json to objects and from objects to json -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.10.1</version>
+		</dependency>
+
 		<!-- Own dependencies -->
 		<!-- Dependency for Collections -->
 		<dependency>

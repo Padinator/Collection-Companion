@@ -1,7 +1,9 @@
 package de.collectioncompanion.SteamWebCrawler.services.inbound;
 
-import de.collectioncompanion.SteamWebCrawler.ports.data_files.WebCrawler;
+import data_files.CollectionImpl;
+import de.collectioncompanion.SteamWebCrawler.adapter.outbound.SteamAPIOut;
 import de.collectioncompanion.SteamWebCrawler.ports.inbound.RestOut;
+import de.collectioncompanion.SteamWebCrawler.ports.outbound.RAWGioOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -10,6 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ports.Collection;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class RestOutImpl implements RestOut {
@@ -23,15 +29,54 @@ public class RestOutImpl implements RestOut {
     public static final String STARTING = "/collection";
 
     @Autowired
-    private WebCrawler webCrawler;
+    private SteamAPIOut steamAPIOut;
+
+    @Autowired
+    private RAWGioOut rawGioOut;
 
     @Override
-    public Collection crawl(String searchTerm) {
-        System.out.println("Collection request was received successfully!");
-        Collection collection = webCrawler.findInformationToCollection(searchTerm);
-        System.out.println("Found collection: " + collection);
+    public Collection crawlGame(String searchTerm) {
+        List<Collection> collections = new LinkedList<>();
+        collections.add(steamAPIOut.findInformationToCollection(searchTerm));
+        collections.add(rawGioOut.findInformationToCollection(searchTerm));
+        System.out.println(merge(collections));
+        return merge(collections);
+    }
 
-        return collection;
+    @Override
+    public Collection crawlMovie(String searchTerm) {
+        List<Collection> collections = new LinkedList<>();
+        return merge(collections);
+    }
+
+    @Override
+    public Collection crawlSeries(String searchTerm) {
+        List<Collection> collections = new LinkedList<>();
+        return merge(collections);
+    }
+
+    @Override
+    public Collection crawlComic(String searchTerm) {
+        List<Collection> collections = new LinkedList<>();
+        return merge(collections);
+    }
+
+    /**
+     * Merge resulting collections in order of the List -> attributes of first collection will be used completely
+     *
+     * @param collections All searched collections from each page
+     * @return Return one collection containing information of all collections
+     */
+    private Collection merge(List<Collection> collections) {
+        Collection mergedCollection = new CollectionImpl();
+
+        // Insert all key value pairs, if the key does not exist in merged collection yet
+        for (Collection collection : collections)
+            for (Map.Entry<String, String> pair : collection.getData().entrySet())
+                if (!mergedCollection.containsKey(pair.getKey()))
+                    mergedCollection.putEntry(pair.getKey(), pair.getValue());
+
+        return mergedCollection;
     }
 
     @Override

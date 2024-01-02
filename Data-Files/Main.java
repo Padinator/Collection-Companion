@@ -11,8 +11,8 @@ public class Main {
 		CollectionRequest cr;
 		CollectionDTO cdto;
 		CollectionRequestDTO crdto;
-		CollectionFormatter cfm;
-		GameCollectionFormatter gcfm = new GameCollectionFormatter();
+		System.out.println(GameCollectionFormatter.AdditionlAttributes.DEVELOPERS);
+		CollectionFormatter gcfm = new GameCollectionFormatter();
 	}
 
 }

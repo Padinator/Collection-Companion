@@ -10,9 +10,8 @@ import org.springframework.web.client.RestTemplate;
 public class RestOutImpl implements RestOut {
 
     @Override
-    public ResponseEntity<String> doGetCollectionRequest(String uriToMicroService, CollectionRequest collectionRequest) {
+    public ResponseEntity<String> doPostCollectionRequest(String uriToMicroService, CollectionRequest collectionRequest) {
         RestTemplate restTemplate = new RestTemplate();
-        // String uriWIthParams = uriToMicroService + collectionRequest.searchTerm();
         String uriWIthParams = uriToMicroService + collectionRequest.toPath();
 
         System.out.println("URI to call post request: " + uriWIthParams);

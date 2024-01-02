@@ -82,15 +82,26 @@ public class WebcrawlerThread extends Thread {
     @Override
     public void run() {
         try {
+            Collection result;
+
             // Acquire all resources
             countOfWebcrawlers.acquire();
             raiseCounterForActiveWebcrawlerSearches();
 
             // Find collection and response composer microservice
-            Collection result = restOut.crawl(searchTerm); // Search and create collection in web
+            result = switch (category) {
+                case "game" -> restOut.crawlGame(searchTerm); // Search in games
+                case "movie" -> restOut.crawlMovie(searchTerm); // Search in movies
+                case "series" -> restOut.crawlSeries(searchTerm); // Search in series
+                default -> restOut.crawlComic(searchTerm); // Search in comics
+            };
+
+            // Add default values, which are always necessary
             result.putEntry("category", category); // Add the category of the collection to the collection
             result.putEntry("time_stamp", String.valueOf(System.currentTimeMillis())); // Add time stamp
             System.out.println("Created the collection: " + result);
+
+            // Response composer microservice
             restServerOut.postResponse(id, result);
 
             // Release all resources

@@ -7,6 +7,10 @@ import java.util.*;
 
 public class GameCollectionFormatter implements CollectionFormatter {
 
+    public enum AdditionlAttributes {
+        DEVELOPERS;
+    }
+
     private static final TreeMap<String, String> properties = new TreeMap<>();
 
     public GameCollectionFormatter() {
