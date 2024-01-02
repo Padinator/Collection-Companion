@@ -65,7 +65,7 @@ jobs:
     - name: Teams Notification 📣
       env:
         PR_NAME: ${{ github.event.pull_request.title }}
-      if: success() && 1 == 2 #muss am ende entfernt werden
+      if: success()
       run: |
         # Check if Workflow already successfully ran 
         REPO_OWNER=${{ github.event.repository.owner.login }}
