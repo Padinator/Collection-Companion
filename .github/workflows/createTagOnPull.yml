@@ -40,8 +40,8 @@ jobs:
           # Push the newly created tag to the remote repository
           git push origin $new_tag
           
-          #git checkout $new_tag
-          #docker-compose up -d --build --force-recreate          
+          git checkout $new_tag
+          docker-compose up -d --build --force-recreate          
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
@@ -50,10 +50,12 @@ jobs:
     needs: [ create-tag ]
     runs-on: "ubuntu-latest"
     steps:
+      - name: Run ls
+        run: ls -la
+      - name: Run pwd
+        run: pwd
       - name: "Build & test"
         run: |
-          pwd
-          ls
           #docker-compose up -d --build --force-recreate  
           echo "done!"
 
