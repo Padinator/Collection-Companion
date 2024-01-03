@@ -22,11 +22,11 @@ public class ControlDockerContainers {
     private static final int MAX_WORK_LOAD_PER_MICROSERVICE = 10;
 
     /**
-     * Save all active/running web crawlers
+     * Save all active/running web crawlers. Start with one web crawler, initialized by "docker-compose ..."
      */
     private static final LinkedList<WebCrawler> activeWebCrawlers = new LinkedList<>(List.of(
-           new WebCrawlerImpl("webcrawler-1", "webcrawler-1"),
-            new WebCrawlerImpl("webcrawler-2", "webcrawler-2")
+           new WebCrawlerImpl("webcrawler-1", "webcrawler-1")
+            //new WebCrawlerImpl("webcrawler-2", "webcrawler-2")
     ));
 
     private static int nextFreeNumber = 1;
