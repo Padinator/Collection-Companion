@@ -27,7 +27,7 @@ jobs:
           echo "Newest tag: $newest_tag"
       
           # Extract the version number from the newest tag
-          version_number=$(echo "$newest_tag" | cut -d '.' -f 2)
+          version_number=$(echo "$newest_tag" | cut -d '.' -f 1)
           echo "Version number: $version_number"
       
           # Increment the version number
