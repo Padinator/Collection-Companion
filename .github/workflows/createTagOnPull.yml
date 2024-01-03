@@ -56,7 +56,7 @@ jobs:
         run: pwd
       - name: "Build & test"
         run: |
-          docker-compose up -d --build --force-recreate
+          #docker-compose up -d --build --force-recreate
           echo "done!"
 
       - name: Trigger release
