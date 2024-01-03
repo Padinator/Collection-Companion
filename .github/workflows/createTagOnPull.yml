@@ -22,12 +22,19 @@ jobs:
       - name: Extract and increment version number
         id: extract_version
         run: |
-          # Define the fixed version number (x)
-          fixed_version_number=2
-          echo "Fixed version number: $fixed_version_number"
+          # Extract tags and filter only the tags that match the desired format
+          filtered_tags=$(echo "$all_tags" | grep '^Collection-Companion-v1\.[0-9]*\.[0-9]*$')
       
-          # Increment the fixed version number
-          incremented_version_number=$((fixed_version_number + 1))
+          # Sort tags in descending order and get the first one
+          newest_tag=$(echo "$filtered_tags" | sort -r -V | head -n 1)
+          echo "Newest tag: $newest_tag"
+      
+          # Extract the version number from the newest tag
+          version_number=$(echo "$newest_tag" | cut -d '.' -f 2)
+          echo "Version number: $version_number"
+      
+          # Increment the version number
+          incremented_version_number=$((version_number + 1))
           echo "Incremented version number: $incremented_version_number"
       
           # Create the new tag with the incremented version number
@@ -40,9 +47,9 @@ jobs:
           # Push the newly created tag to the remote repository
           git push origin $new_tag
           
-          git checkout origin $new_tag
+          #git checkout origin $new_tag
 
-          docker-compose up -d --build --force-recreate
+          #docker-compose up -d --build --force-recreate
 
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
