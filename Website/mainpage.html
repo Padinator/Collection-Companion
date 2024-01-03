@@ -86,15 +86,13 @@
                             Freunde
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="freundeDropdown">
-                            <li><a class="dropdown-item" href="#">Freund 1</a></li>
-                            <li><a class="dropdown-item" href="#">Freund 2</a></li>
-                            <li><a class="dropdown-item" href="#">Freund 3</a></li>
+                            <li><a class="dropdown-item" href="friends.html">Freund 1</a></li>
+                            <li><a class="dropdown-item" href="friends.html">Freund 2</a></li>
+                            <li><a class="dropdown-item" href="friends.html">Freund 3</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-
-
         </div>
 
         <!-- Webseiten Inhalt -->
@@ -107,25 +105,60 @@
                 <div class="p-2 border mb-3 rounded position-relative">
                     <h5 class="text-left">Titel: </h5>
                     <p>Beschreibung: ...</p>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Hinzufügen</button>
+                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2" data-bs-toggle="modal"
+                        data-bs-target="#sammlungHinzufuegen">Hinzufügen</button>
                 </div>
 
                 <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
+                    <h5 class="text-left">Titel: </h5>
                     <p>Beschreibung: ...</p>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Hinzufügen</button>
+                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2" data-bs-toggle="modal"
+                        data-bs-target="#sammlungHinzufuegen">Hinzufügen</button>
                 </div>
 
                 <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
+                    <h5 class="text-left">Titel: </h5>
                     <p>Beschreibung: ...</p>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Hinzufügen</button>
+                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2" data-bs-toggle="modal"
+                        data-bs-target="#sammlungHinzufuegen">Hinzufügen</button>
                 </div>
 
                 <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
+                    <h5 class="text-left">Titel: </h5>
                     <p>Beschreibung: ...</p>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Hinzufügen</button>
+                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2" data-bs-toggle="modal"
+                        data-bs-target="#sammlungHinzufuegen">Hinzufügen</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pop-Up Fenster fuer Sammlung hinzufuegen -->
+        <div class="modal fade" id="sammlungHinzufuegen" tabindex="-1" aria-labelledby="sammlungHinzufuegenLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="sammlungErstellenModalLabel">Sammlung hinzufügen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3 row">
+                                <label for="kategorie" class="col-sm-3 col-form-label">Sammlung:</label>
+                                <div class="col-sm-9">
+                                    <select class="form-select" id="kategorie" aria-label="Kategorie auswählen">
+                                        <option selected disabled>Bitte Sammlung auswählen</option>
+                                        <option value="spiele">Die Besten Horrospiele</option>
+                                        <option value="filme">Must have Videspiele</option>
+                                        <option value="serien">Kinderfilme</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary">Hinzufügen</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

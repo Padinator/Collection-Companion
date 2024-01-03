@@ -97,62 +97,66 @@
         <!-- Webseiten Inhalt -->
         <div class="row mt-5">
             <div class="col-md-8 d-flex flex-column mx-auto border rounded" style="height: 50vh;">
-                <h3 class="text-center mt-2">Benutzerdaten
+                <h3 class="text-center my-2">Profil: Freund 1
                     <hr class="my-2">
                 </h3>
 
-                <form action="#!">
-                    <div class="row gy-3 gy-md-4 overflow-hidden">
-                        <div class="col-12">
-                            <label for="email" class="form-label">Benutzername:</label>
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-person" viewBox="0 0 16 16">
-                                        <path
-                                            d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664z" />
-                                    </svg>
-                                </span>
-                                <input type="username" class="form-control" name="username" id="username">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <label for="password" class="form-label">Passwort:</label>
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-key" viewBox="0 0 16 16">
-                                        <path
-                                            d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5" />
-                                        <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-                                    </svg>
-                                </span>
-                                <input type="password" class="form-control" name="password" id="password" value="">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <label for="password" class="form-label">E-Mail:</label>
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-envelope" viewBox="0 0 16 16">
-                                        <path
-                                            d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
-                                    </svg>
-                                </span>
-                                <input type="email" class="form-control" name="email" id="email" value="">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-grid mx-auto" style="width:10vh;">
-                                <a href="mainpage.html" class="btn btn-primary" type="submit">Speichern</a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <h5 class="text-left my-2">Auflistung aller Öffentlichen Sammlungen</h5>
 
+                <!-- Liste der oeffentlichen Sammlungen des Freundes -->
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Sammlung 1
+                        <div>
+                            <button type="button" class="btn btn-success">👍</button>
+                            <button type="button" class="btn btn-danger">👎</button>
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#sammlungAnsehen">Ansehen</a>
+                        </div>
+                    </li>
+                    <li class=" list-group-item d-flex justify-content-between align-items-center">
+                        Sammlung 2
+                        <div>
+                            <button type="button" class="btn btn-success">👍</button>
+                            <button type="button" class="btn btn-danger">👎</button>
+                            <a href="#" class="btn btn-primary">Ansehen</a>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Sammlung 3
+                        <div>
+                            <button type="button" class="btn btn-success">👍</button>
+                            <button type="button" class="btn btn-danger">👎</button>
+                            <a href="#" class="btn btn-primary">Ansehen</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
+
+        <!-- Pop-Up Fenster fuer Sammlung Ansehen -->
+        <div class="modal fade" id="sammlungAnsehen" tabindex="-1" aria-labelledby="sammlungAnsehenLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="sammlungAnsehenLabel">Sammlung Ansehen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Einträge in dieser Sammlung:</h4>
+                        <ul class="list-group">
+                            <!-- Beispiel-Einträge, ersetze dies durch deine dynamischen Daten -->
+                            <li class="list-group-item">Eintrag 1</li>
+                            <li class="list-group-item">Eintrag 2</li>
+                            <li class="list-group-item">Eintrag 3</li>
+                            <!-- Weitere Einträge hier ... -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Vorschlag Box -->
         <div class="row mt-5">
