@@ -26,6 +26,7 @@ jobs:
           version_number=$(echo $last_tag | cut -d '.' -f 2)
           echo $version_number
 
+          # Increment the version number
           incremented_version_number=$(( $version_number + 1 ))
           echo $incremented_version_number
           # Store the incremented version number in an environment variable
@@ -34,10 +35,14 @@ jobs:
 
       - name: Create a new tag with the incremented version number
         run: |
-          git tag Collection-Companion-v1.${{ env.TAG_VERSION_FUNCTIONS }}.0
+          # Temporarily store the incremented version number for tag creation
+          tmp_tag_version_number=${{ env.TAG_VERSION_FUNCTIONS }}
 
-      - name: Push new tag
-        run: git push origin Collection-Companion-v1."${{ env.TAG_VERSION_FUNCTIONS }}".0
+          # Create the tag with the temporary version number
+          git tag Collection-Companion-v1.$tmp_tag_version_number.0
+
+          # Push the newly created tag to the remote repository
+          git push origin Collection-Companion-v1."${{ env.TAG_VERSION_FUNCTIONS }}".0
 
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
