@@ -56,12 +56,13 @@ jobs:
         run: pwd
       - name: "Build & test"
         run: |
-          #docker-compose up -d --build --force-recreate  
+          #docker-compose up -d --build --force-recreate
           echo "done!"
 
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Trigger release
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: "${{ secrets.GH_BOT_TOKEN }}"
+          repo-token: ${{ secrets.GH_BOT_TOKEN }}
           prerelease: false
           files: |
             LICENSE.txt
