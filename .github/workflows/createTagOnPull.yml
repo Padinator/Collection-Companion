@@ -42,8 +42,9 @@ jobs:
           
           #git checkout $new_tag
           #docker-compose up -d --build --force-recreate          
-        #env:
-          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Create release
         uses: actions/create-release@latest
         with:
