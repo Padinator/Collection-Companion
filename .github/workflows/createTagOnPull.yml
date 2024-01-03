@@ -12,24 +12,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Check pull request status 🧪      
-          #git tag "$BRANCH_NAME"
-          #git push origin "$BRANCH_NAME"        
+      - name: Check pull request status 🧪            
         run: |
-          #if [ "${{ github.event.pull_request.merged }}" = true ]; then
-            echo "Creating tag"
-            # Get the latest commit message
-            COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-            # Create a tag using the commit message
-            # Replace spaces with underscores in the tag name
-            TAG_NAME=$(echo "$COMMIT_MESSAGE" | tr ' ' '_')
-            # Create the tag
-            git tag "$TAG_NAME" 
-            # Push the tag to the remote repository
-            git push origin "$TAG_NAME"
-            # Check if any tags exist
-            docker-compose up -d --build --force-recreate
-          #fi
-          
+          # List all tags, filter by the desired pattern, and determine the highest version number
+          LATEST_TAG=$(git tag -l 'Collection-Companion-v*' | sort -rV | head -n 1)
+          echo "Latest Tag: $LATEST_TAG"
+          # Extract version number and increment the appropriate segment
+          VERSION=$(echo "$LATEST_TAG" | awk -F'-' '{print $2}' | awk -F'.' '{print $2}')
+          NEW_VERSION=$((VERSION + 1))
+          # Construct the new tag name
+          NEW_TAG="Collection-Companion-v1.$NEW_VERSION.0"
+          echo "New Tag: $NEW_TAG"
+          echo "::set-output name=new_tag::$NEW_TAG"
+      
+      - name: Create and Push New Tag
+        run: |
+          NEW_TAG="${{ steps.latest_tag.outputs.new_tag }}"
+          git tag "$NEW_TAG"
+          git push origin "$NEW_TAG"
+          git checkout "$NEW_TAG"
+          docker-compose up -d --build --force-recreate
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
