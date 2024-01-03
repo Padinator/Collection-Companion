@@ -16,7 +16,7 @@ jobs:
           #git tag "$BRANCH_NAME"
           #git push origin "$BRANCH_NAME"        
         run: |
-          if [ "${{ github.event.pull_request.merged }}" = true ]; then
+          #if [ "${{ github.event.pull_request.merged }}" = true ]; then
             echo "Creating tag"
             # Get the latest commit message
             COMMIT_MESSAGE=$(git log -1 --pretty=%B)
