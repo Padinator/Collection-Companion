@@ -48,3 +48,5 @@ jobs:
           release_name: Release ${{ steps.extract_version.outputs.new_tag }}
           draft: false
           prerelease: false
+
+          
