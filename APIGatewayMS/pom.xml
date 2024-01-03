@@ -48,6 +48,16 @@
 			<artifactId>spring-cloud-starter-gateway</artifactId>
 			<version>4.1.0</version>
 		</dependency>
+
+		<!-- Own dependencies -->
+		<!-- Dependency for Collections -->
+		<dependency>
+			<artifactId>collections</artifactId>
+			<groupId>collections</groupId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/../Data-Files/collections.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -64,6 +74,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<includeSystemScope>true</includeSystemScope> <!-- For using external jars in Docker containers -->
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

@@ -1,8 +1,8 @@
 package de.collectioncompanion.ComposerMS.adapter.inbound;
 
+import data_files.CollectionRequest;
+import data_files.CollectionRequestDTO;
 import de.collectioncompanion.ComposerMS.adapter.outbound.RestServerOut;
-import de.collectioncompanion.ComposerMS.data_files.CollectionRequest;
-import de.collectioncompanion.ComposerMS.data_files.CollectionRequestDTO;
 import de.collectioncompanion.ComposerMS.ports.inbound.UpdatesNotificationPort;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;

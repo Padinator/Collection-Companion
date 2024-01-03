@@ -1,6 +1,6 @@
 package de.collectioncompanion.TasksMS.adapter.inbound;
 
-import de.collectioncompanion.TasksMS.data_files.CollectionRequest;
+import data_files.CollectionRequest;
 import de.collectioncompanion.TasksMS.ports.outbound.UpdatesNotificationPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
