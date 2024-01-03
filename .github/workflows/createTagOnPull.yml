@@ -9,8 +9,8 @@ jobs:
   create-tag:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Check pull request status
+      - uses: actions/checkout@v3
+      - name: Check pull request status 🧪
         run: |
           if [ "${{ github.event.pull_request.merged }}" = true ]; then
             echo "Creating tag"
