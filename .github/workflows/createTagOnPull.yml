@@ -40,4 +40,4 @@ jobs:
         run: git push origin Collection-Companion-v1."${{ env.TAG_VERSION_FUNCTIONS }}".0
 
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }} 
