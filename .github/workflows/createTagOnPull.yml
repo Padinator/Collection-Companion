@@ -48,8 +48,8 @@ jobs:
         uses: actions/create-release@latest
         with:
           tag_name: ${{ steps.extract_version.outputs.new_tag }}
-          release_name: "Release v${{ steps.extract_version.outputs.incremented_version_number }}.0"
-          release_description: "This is the release description for v${{ steps.extract_version.outputs.incremented_version_number }}.0."
+          release_name: "Collection-Companion-v1.$incremented_version_number.0"
+          release_description: "This is the release description"
           branch: main
 
       - name: Attach assets
