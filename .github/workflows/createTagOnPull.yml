@@ -12,16 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Get all tags
+      - name: Extract and increment version number
+        id: extract_version
         run: |
           git fetch --tags
           all_tags=$(git tag)
           echo "All tags: $all_tags"
-
-      - name: Extract and increment version number
-        id: extract_version
-        run: |
           # Sort tags in descending order and get the first one
           newest_tag=$(echo "$all_tags" | sort -r -V | tail -n 1)
           echo "Newest tag: $newest_tag"
