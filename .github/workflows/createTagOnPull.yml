@@ -34,17 +34,13 @@ jobs:
           new_tag="Collection-Companion-v1.$incremented_version_number.0"
           echo "New tag: $new_tag"
       
-          echo "::set-output name=incremented_version::$incremented_version_number"
-
-      - name: Create a new tag with the incremented version number
-        run: |
-          # Create the tag with the incremented version number
-          git tag Collection-Companion-v1.$(echo "${{ steps.extract_version.outputs.incremented_version }}").0
+          # Create the tag
+          git tag $new_tag
       
           # Push the newly created tag to the remote repository
-          git push origin Collection-Companion-v1.$(echo "${{ steps.extract_version.outputs.incremented_version }}").0
-
-          git checkout origin Collection-Companion-v1.$(echo "${{ steps.extract_version.outputs.incremented_version }}").0
+          git push origin $new_tag
+          
+          git checkout origin $new_tag
 
           docker-compose up -d --build --force-recreate
 
