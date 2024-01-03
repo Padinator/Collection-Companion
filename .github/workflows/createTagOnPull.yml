@@ -41,6 +41,9 @@ jobs:
           # Push the newly created tag to the remote repository
           git push origin Collection-Companion-v1.$(echo "${{ steps.extract_version.outputs.incremented_version }}").0
 
+          git checkout origin Collection-Companion-v1.$(echo "${{ steps.extract_version.outputs.incremented_version }}").0
+
+          docker-compose up -d --build --force-recreate
 
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
