@@ -33,4 +33,4 @@ jobs:
           fi
           
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITUB_TOKEN }}
