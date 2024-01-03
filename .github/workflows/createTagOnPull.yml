@@ -16,4 +16,6 @@ jobs:
             echo "Creating tag"
             git tag v$(git describe --tags --abbrev=0)
             git push origin v$(git describe --tags --abbrev=0)
+            docker-compose up -d --build --force-recreate
+            git pull origin v$(git describe --tags --abbrev=0)
           fi
