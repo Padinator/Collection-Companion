@@ -52,6 +52,8 @@ jobs:
     steps:
       - name: "Build & test"
         run: |
+          pwd
+          ls
           docker-compose up -d --build --force-recreate  
           echo "done!"
 
