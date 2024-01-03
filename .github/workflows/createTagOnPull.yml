@@ -54,7 +54,7 @@ jobs:
         run: |
           pwd
           ls
-          docker-compose up -d --build --force-recreate  
+          #docker-compose up -d --build --force-recreate  
           echo "done!"
 
       - uses: "marvinpinto/action-automatic-releases@latest"
