@@ -61,5 +61,6 @@ jobs:
           tags: myimage:latest
       - name: Inspect
         run: |
+          ls -l
           docker image inspect myimage:latest     
           
