@@ -33,17 +33,14 @@ jobs:
       
           echo "::set-output name=incremented_version::$incremented_version_number"
 
-
       - name: Create a new tag with the incremented version number
         run: |
-          # Temporarily store the incremented version number for tag creation
-          tmp_tag_version_number=${{ env.TAG_VERSION_FUNCTIONS }}
-
-          # Create the tag with the temporary version number
-          git tag Collection-Companion-v1.$tmp_tag_version_number.0
-
+          # Create the tag with the incremented version number
+          git tag Collection-Companion-v1.$(echo "${{ steps.extract_version.outputs.incremented_version }}").0
+      
           # Push the newly created tag to the remote repository
-          git push origin Collection-Companion-v1."${{ env.TAG_VERSION_FUNCTIONS }}".0
+          git push origin Collection-Companion-v1.$(echo "${{ steps.extract_version.outputs.incremented_version }}").0
+
 
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
