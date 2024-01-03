@@ -27,7 +27,7 @@ jobs:
 
           # Increment the version number
           incremented_version_number=$(( $version_number + 1 ))
-
+          echo $incremented_version_number
           # Store the incremented version number in an environment variable
           env:
             TAG_VERSION_FUNCTIONS: ${{ incremented_version_number }}
