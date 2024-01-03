@@ -33,15 +33,6 @@ jobs:
           # Create the new tag with the incremented version number
           new_tag="Collection-Companion-v1.$incremented_version_number.0"
           echo "New tag: $new_tag"
-            
-          # Increment the version number
-          incremented_version_number=$((version_number + 1))
-          echo "Incremented version number: $incremented_version_number"
-      
-          # Create the new tag with the incremented version number
-          new_tag="Collection-Companion-v1.$incremented_version_number.0"
-          echo "New tag: $new_tag"
-
       
           echo "::set-output name=incremented_version::$incremented_version_number"
 
