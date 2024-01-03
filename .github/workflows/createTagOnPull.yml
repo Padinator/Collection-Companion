@@ -22,9 +22,12 @@ jobs:
       - name: Extract and increment version number
         id: extract_version
         run: |
-          # Extract the version number from the last tag
-          last_tag=$(echo $all_tags | head -n 1)
-          version_number=$(echo $last_tag | cut -d '.' -f 2)
+          # Sort tags in descending order and get the first one
+          newest_tag=$(echo "$all_tags" | sort -r -V | head -n 1)
+          echo "Newest tag: $newest_tag"
+      
+          # Extract the version number from the newest tag
+          version_number=$(echo "$newest_tag" | cut -d '.' -f 2)
           echo "Version number: $version_number"
       
           # Increment the version number
