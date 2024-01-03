@@ -1,5 +1,7 @@
 name: Create tag on pull request merge
 on:
+  push:
+    branches: ["main"]
   pull_request:
     types:
       - closed
