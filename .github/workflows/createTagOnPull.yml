@@ -44,9 +44,9 @@ jobs:
           # Push the newly created tag to the remote repository
           git push origin $new_tag
           
-          #git checkout origin $new_tag
+          git checkout origin $new_tag
 
-          #docker-compose up -d --build --force-recreate
+          docker-compose up -d --build --force-recreate
 
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
