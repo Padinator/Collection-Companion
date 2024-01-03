@@ -8,6 +8,13 @@ on:
     branches:
       - main
 jobs:
+  get-tag-version-functions-variable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get TAG_VERSION_FUNCTIONS variable
+        run: echo ${{ env.TAG_VERSION_FUNCTIONS }}
+        
   create-tag:
     runs-on: ubuntu-latest
     steps:
