@@ -15,18 +15,16 @@ jobs:
       - name: Check pull request status 🧪
         run: |
           #if [ "${{ github.event.pull_request.merged }}" = true ]; then
-          # Check if any tags exist
-          if [ -z "$(git tag)" ]; then
-            echo "No tags found."
-          else {
-            # Create a new tag
-            git tag v1.0.0
-            # Push the new tag to the remote repository
-            git push origin v1.0.0
             echo "Creating tag"
-            git tag v$(git describe --tags --abbrev=0)
-            git push origin v$(git describe --tags --abbrev=0)
-            git checkout origin v$(git describe --tags --abbrev=0)
+            # Get the latest commit message
+            COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+            # Create a tag using the commit message
+            # Replace spaces with underscores in the tag name
+            TAG_NAME=$(echo "$COMMIT_MESSAGE" | tr ' ' '_')
+            # Create the tag
+            git tag "$TAG_NAME" 
+            # Push the tag to the remote repository
+            git push origin "$TAG_NAME"
+            # Check if any tags exist
             docker-compose up -d --build --force-recreate
-          }
           fi
