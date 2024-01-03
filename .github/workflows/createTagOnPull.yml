@@ -27,7 +27,7 @@ jobs:
           incremented_version_number=$(( $version_number + 1 ))
           echo $incremented_version_number
           # Create a new tag with the incremented version number
-          git tag Collection-Companion-v1."$incremented_version_number".0
+          git tag Collection-Companion-v1."${{incremented_version_number}}".0
       - name: Push new tag
         run: git push origin Collection-Companion-v1."$incremented_version_number".0
         env:
