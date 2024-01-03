@@ -30,7 +30,7 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
      */
     @Override
     public Collection findInformationToCollection(String searchTerm) {
-        return requestGameSpecificAPI(searchTerm);
+        return requestGameSpecificAPI(searchTerm, -1);
     }
 
     @Override
@@ -40,11 +40,10 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
     }
 
     @Override
-    protected Collection requestGameSpecificAPI(String searchTerm) {
+    protected Collection requestGameSpecificAPI(String searchTerm, int appID) {
         String urlWithSearchTerm = BASE_URL_GET_ALL_GAMES + "?search=" + searchTerm + "&key=" + API_KEY;
         String foundGames = requestAnAPI(urlWithSearchTerm);
         String urlToGame, /* foundGames = "" , */ body = "";
-        int appID = -1;
 
         /*
         // Get all games from file (remove later)

@@ -25,7 +25,7 @@ public abstract class GameOutImpl implements GameOut {
         if (appID == -1) // Cannot find a collection with passed search term
             return new CollectionImpl(new TreeMap<>());
 
-        return requestGameSpecificAPI(searchTerm); // The collection exists
+        return requestGameSpecificAPI(searchTerm, appID); // The collection exists
     }
 
     /**
@@ -41,9 +41,10 @@ public abstract class GameOutImpl implements GameOut {
      *
      * @param searchTerm The term to search for a collection -> it can only be correct, because of caller
      *                   "findInformationToCollection"
+     * @param appID The ID of game in the API
      * @return Return the collection matching the search term
      */
-    protected abstract Collection requestGameSpecificAPI(String searchTerm);
+    protected abstract Collection requestGameSpecificAPI(String searchTerm, int appID);
 
     // Helper methods
     /**
