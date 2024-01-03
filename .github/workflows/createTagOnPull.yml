@@ -14,17 +14,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: Check pull request status 🧪            
         run: |
-          # List all tags, filter by the desired pattern, and determine the highest version number
-          LATEST_TAG=$(git tag -l 'Collection-Companion-v*' | sort -rV | head -n 1)
-          echo "Latest Tag: $LATEST_TAG"
-          # Extract version number and increment the appropriate segment
-          VERSION=$(echo "$LATEST_TAG" | awk -F'-' '{print $2}' | awk -F'.' '{print $2}')
-          NEW_VERSION=$((VERSION + 1))
-          # Construct the new tag name
-          NEW_TAG="Collection-Companion-v1.$NEW_VERSION.0"
-          echo "New Tag: $NEW_TAG"
-          echo "::set-output name=new_tag::$NEW_TAG"
-          NEW_TAG="${{ steps.latest_tag.outputs.new_tag }}"
+          
+          NEW_TAG="Collection-Companion-v1.${TAG_VERSION_FUNCTIONS}++.0"
           git tag "$NEW_TAG"
           git push origin "$NEW_TAG"
           #git checkout "$NEW_TAG"
