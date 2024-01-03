@@ -42,28 +42,26 @@ jobs:
           
           #git checkout $new_tag
           #docker-compose up -d --build --force-recreate          
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-  tagged-release:
-    name: "Tagged Release"
-    needs: [ create-tag ]
-    runs-on: "ubuntu-latest"
-    steps:
-      - name: Run ls
-        run: ls -la
-      - name: Run pwd
-        run: pwd
-      - name: "Build & test"
-        run: |
-          #docker-compose up -d --build --force-recreate
-          echo "done!"
+        #env:
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create release
+        uses: actions/create-release@latest
+        with:
+          tag_name: ${{ steps.extract_version.outputs.new_tag }}
+          release_name: "Release v${{ steps.extract_version.outputs.incremented_version_number }}.0"
+          release_description: "This is the release description for v${{ steps.extract_version.outputs.incremented_version_number }}.0."
+          branch: main
+
+      - name: Attach assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-assets
+          path: dist/
 
       - name: Trigger release
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: ${{ secrets.GH_BOT_TOKEN }}
-          automatic_release_tag: $new_tag
+          repo-token: ${{ secrets.GH_BOT_TOKEN }}
           prerelease: false
           files: |
             LICENSE.txt
