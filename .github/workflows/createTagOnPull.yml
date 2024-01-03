@@ -1,5 +1,4 @@
 name: Create tag on pull request merge
-
 on:
   push:
     branches: ["main"]
@@ -8,34 +7,45 @@ on:
       - closed
     branches:
       - main
-
 jobs:
   create-tag:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - name: Extract and increment version number
         id: extract_version
         run: |
           git fetch --tags
           all_tags=$(git tag)
           echo "All tags: $all_tags"
+          # Sort tags in descending order and get the first one
           newest_tag=$(echo "$all_tags" | sort -r -V | head -n 1)
           echo "Newest tag: $newest_tag"
+      
+          # Extract the version number from the newest tag
           version_number=$(echo "$newest_tag" | cut -d '.' -f 2)
           echo "Version number: $version_number"
+      
+          # Increment the version number
           incremented_version_number=$((version_number + 1))
           echo "Incremented version number: $incremented_version_number"
+      
+          # Create the new tag with the incremented version number
           new_tag="Collection-Companion-v1.$incremented_version_number.0"
           echo "New tag: $new_tag"
+      
+          # Create the tag
           git tag $new_tag
+      
+          # Push the newly created tag to the remote repository
           git push origin $new_tag
+          
+          #git checkout $new_tag
+          #docker-compose up -d --build --force-recreate          
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          
       - name: Create release
-        id: create_release
         uses: actions/create-release@latest
         with:
           tag_name: ${{ steps.extract_version.outputs.new_tag }}
@@ -54,5 +64,6 @@ jobs:
         with:
           repo-token: ${{ secrets.GH_BOT_TOKEN }}
           prerelease: false
-          tag_name: ${{ steps.create_release.outputs.tag_name }}
-          release_name: ${{ steps.create_release.outputs.release_name }}
+          files: |
+            LICENSE.txt
+            *.jar
