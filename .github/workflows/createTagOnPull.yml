@@ -22,7 +22,7 @@ jobs:
       - name: Check pull request status 🧪            
         run: |
           echo "TAG_VERSION_FUNCTIONS=$(( ${{ env.TAG_VERSION_FUNCTIONS }} + 1 ))" >> .env
-          NEW_TAG="Collection-Companion-v1. $TAG_VERSION_FUNCTIONS >> .env.0"
+          NEW_TAG="Collection-Companion-v1. ${{TAG_VERSION_FUNCTIONS}} .0"
           echo $NEW_TAG
           git tag "$NEW_TAG"
           git push origin "$NEW_TAG"
