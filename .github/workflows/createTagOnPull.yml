@@ -12,12 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Get all tags
         run: |
           git fetch --tags
           all_tags=$(git tag)
           echo "All tags: $all_tags"
-      - name: Increment tag version
+
+      - name: Extract and increment version number
         run: |
           # Extract the version number from the last tag
           last_tag=$(echo $all_tags | tail -n 1)
@@ -25,11 +27,17 @@ jobs:
 
           # Increment the version number
           incremented_version_number=$(( $version_number + 1 ))
-          echo $incremented_version_number
-          echo "TAG_VERSION_FUNCTIONS=$incremented_version_number" >> .env
-          # Create a new tag with the incremented version number
-          git tag Collection-Companion-v1.$incremented_version_number.0
+
+          # Store the incremented version number in an environment variable
+          env:
+            TAG_VERSION_FUNCTIONS: ${{ incremented_version_number }}
+
+      - name: Create a new tag with the incremented version number
+        run: |
+          git tag Collection-Companion-v1.${{ env.TAG_VERSION_FUNCTIONS }}.0
+
       - name: Push new tag
-        run: git push origin Collection-Companion-v1."$incremented_version_number".0
+        run: git push origin Collection-Companion-v1."${{ env.TAG_VERSION_FUNCTIONS }}".0
+
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_TOKEN }}
