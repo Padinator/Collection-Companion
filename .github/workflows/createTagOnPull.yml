@@ -63,6 +63,7 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GH_BOT_TOKEN }}
+          automatic_release_tag: "Collection-Companion-v1.16.0"
           prerelease: false
           files: |
             LICENSE.txt
