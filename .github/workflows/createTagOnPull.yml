@@ -23,7 +23,7 @@ jobs:
         id: extract_version
         run: |
           # Define the fixed version number (x)
-          fixed_version_number=1
+          fixed_version_number=2
           echo "Fixed version number: $fixed_version_number"
       
           # Increment the fixed version number
