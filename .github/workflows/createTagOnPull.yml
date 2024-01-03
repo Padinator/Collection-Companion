@@ -15,7 +15,7 @@ jobs:
       - name: Check pull request status 🧪            
         run: |
           
-          NEW_TAG="Collection-Companion-v1.${TAG_VERSION_FUNCTIONS}++.0"
+          NEW_TAG="Collection-Companion-v1.{$TAG_VERSION_FUNCTIONS}++.0"
           echo $NEW_TAG
           git tag "$NEW_TAG"
           git push origin "$NEW_TAG"
