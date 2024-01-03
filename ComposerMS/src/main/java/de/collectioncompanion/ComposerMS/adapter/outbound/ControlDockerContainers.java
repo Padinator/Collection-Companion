@@ -118,7 +118,8 @@ public class ControlDockerContainers {
         String WEBCRAWLER_MS = "WEBCRAWLER_MS=" + environment.getProperty("WEBCRAWLER_MS");
         String STATISTICS_MS = "STATISTICS_MS=" + environment.getProperty("STATISTICS_MS");
         String runDockerContainer = "docker run -d --hostname " + hostname + " --name " + containerName
-                + " --rm -e " + COMPOSER_MS + " -e " + WEBCRAWLER_MS + " -e " + STATISTICS_MS + " --network=kingsanta59_cc-net webcrawler";
+                + " --rm -e " + COMPOSER_MS + " -e " + WEBCRAWLER_MS + " -e " + STATISTICS_MS
+                + " --network=collection-companion_default webcrawler";
 
         OPExecCmd.execCMD(runDockerContainer); // Start command with shell command
         activeWebCrawlers.add(new WebCrawlerImpl(hostname, containerName)); // Create new web crawler

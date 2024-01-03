@@ -1,6 +1,4 @@
 # Do no use "" in hostnames. That is forbidden and does not work!!!!!
-networks:
-  cc-net:
 
 services:
   rabbitmqbroker:
@@ -13,8 +11,6 @@ services:
       interval: 30s
       timeout: 30s
       retries: 3
-    networks:
-      - cc-net
 
   apigatewayms:
     image: apigatewayms
@@ -28,8 +24,6 @@ services:
       - TASKS_MS=tasks-service:8080
       - RESULTS_MS=results-service:8080
       - STATISTICS_MS=statistics-service:8080
-    networks:
-      - cc-net
 
   databsems:
     image: databsems
@@ -39,8 +33,6 @@ services:
     hostname: database-service
     environment:
       - STATISTICS_MS=statistics-service:8080
-    networks:
-      - cc-net
 
   tasksms:
     image: tasksms
@@ -52,8 +44,6 @@ services:
       - STATISTICS_MS=statistics-service:8080
     depends_on:
       - rabbitmqbroker
-    networks:
-      - cc-net
 
   resultsms:
     image: resultsms
@@ -66,8 +56,6 @@ services:
       - STATISTICS_MS=statistics-service:8080
     depends_on:
       - rabbitmqbroker
-    networks:
-      - cc-net
 
   composerms:
     image: composerms
@@ -83,8 +71,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - rabbitmqbroker
-    networks:
-      - cc-net
 
   webcrawler:
     image: webcrawler
