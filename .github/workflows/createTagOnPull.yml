@@ -44,8 +44,7 @@ jobs:
           # Push the newly created tag to the remote repository
           git push origin $new_tag
           
-          git checkout origin $new_tag
-
+          git checkout $new_tag
           docker-compose up -d --build --force-recreate
 
         env:
