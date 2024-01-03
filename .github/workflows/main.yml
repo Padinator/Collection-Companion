@@ -20,7 +20,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
+    - name: Checkout code 🏗️
       uses: actions/checkout@v3
     - name: Start Docker Compose Services
       run:  docker-compose up -d --build --force-recreate
