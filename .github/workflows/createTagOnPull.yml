@@ -62,7 +62,7 @@ jobs:
       - name: Trigger release
         uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo-token: ${{ secrets.GH_BOT_TOKEN }}
+          repo_token: ${{ secrets.GH_BOT_TOKEN }}
           prerelease: false
           files: |
             LICENSE.txt
