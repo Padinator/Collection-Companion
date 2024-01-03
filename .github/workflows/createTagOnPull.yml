@@ -23,7 +23,7 @@ jobs:
         id: extract_version
         run: |
           # Extract the version number from the last tag
-          last_tag=$(echo $all_tags | tail -n 1)
+          last_tag=$(echo $all_tags | head -n 1)
           version_number=$(echo $last_tag | cut -d '.' -f 2)
           echo "Version number: $version_number"
       
