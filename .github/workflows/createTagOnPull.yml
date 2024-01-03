@@ -26,6 +26,7 @@ jobs:
           # Increment the version number
           incremented_version_number=$(( $version_number + 1 ))
           echo $incremented_version_number
+          echo "TAG_VERSION_FUNCTIONS=$incremented_version_number" >> .env
           # Create a new tag with the incremented version number
           git tag Collection-Companion-v1.$incremented_version_number.0
       - name: Push new tag
