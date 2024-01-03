@@ -41,7 +41,7 @@ public class RestServerIn {
     @PostMapping
     public ResponseEntity<String> addNewCollection(@RequestBody CollectionImpl collection) {
         System.out.println("Received collection to insert: " + collection);
-        // Insert <collection> into(...)
+        databaseOut.insertCollection(collection);
         return ResponseEntity.status(200).body("Inserted successfully params into DB!");
     }
 

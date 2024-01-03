@@ -8,6 +8,8 @@ import ports.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static de.collectioncompanion.DatabseMS.adapter.outbound.DatabaseOut.databaseRepo;
+
 @Service
 public class DatabaseImpl implements Database {
 
@@ -29,10 +31,17 @@ public class DatabaseImpl implements Database {
 
     @Override
     public void insertCollection(Collection collection) {
-        collection.putEntry("time_stamp", String.valueOf(System.currentTimeMillis())); // First add a timestamp
+        TreeMap<String, String> data = new TreeMap<>();
+        data.put("time_stamp", "1704292340644");
+        data.put("title", "Passengers Of Execution");
+        data.put("category", "game");
+
+        collection = new CollectionImpl(data);
+        System.out.println("Collection to insert: " + collection);
 
         // Insert all data into DB
-        // insert(data into DB ...);
+        Collection c = databaseRepo.insert(collection);
+        System.out.println("Inserted: " + c);
     }
 
 }
