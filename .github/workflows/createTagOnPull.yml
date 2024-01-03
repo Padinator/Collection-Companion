@@ -22,12 +22,13 @@ jobs:
       - name: Extract and increment version number
         id: extract_version
         run: |
+          filtered_tags=$(echo "$all_tags" | grep '^Collection-Companion-v1\.[0-9]*\.[0-9]*$')
           # Sort tags in descending order and get the first one
-          newest_tag=$(echo "$all_tags" | sort -r -V | head -n 1)
+          newest_tag=$(echo "$filtered_tags" | sort -r -V | head -n 1)
           echo "Newest tag: $newest_tag"
       
           # Extract the version number from the newest tag
-          version_number=$(echo "$newest_tag" | cut -d '.' -f 1)
+          version_number=$(echo "$newest_tag" | cut -d '.' -f 2)
           echo "Version number: $version_number"
       
           # Increment the version number
@@ -37,6 +38,7 @@ jobs:
           # Create the new tag with the incremented version number
           new_tag="Collection-Companion-v1.$incremented_version_number.0"
           echo "New tag: $new_tag"
+
       
           echo "::set-output name=incremented_version::$incremented_version_number"
 
