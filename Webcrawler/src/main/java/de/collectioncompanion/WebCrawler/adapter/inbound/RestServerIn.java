@@ -36,12 +36,22 @@ public class RestServerIn {
      *
      * @param searchTerm The term to search for in the category
      * @param id         The ID of the collection request
-     * @return Return the response as string
+     * @return The count of pending requests
      */
     @PostMapping
     public ResponseEntity<Integer> searchForCollection(@RequestParam String category, @RequestParam String searchTerm,
                                                        @RequestParam long id) {
         new WebcrawlerThread(category, searchTerm, id, restOut, restServerOut);
+        return ResponseEntity.status(200).body(getCounterForActiveWebcrawlerSearches());
+    }
+
+    /**
+     * Get the count of pending requests
+     *
+     * @return The count of pending requests
+     */
+    @GetMapping("workload")
+    public ResponseEntity<Integer> getWorkload() {
         return ResponseEntity.status(200).body(getCounterForActiveWebcrawlerSearches());
     }
 

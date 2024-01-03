@@ -1,13 +1,13 @@
 package de.collectioncompanion.WebCrawler.adapter.outbound;
 
-import de.collectioncompanion.WebCrawler.ports.data_files.WebCrawler;
+import de.collectioncompanion.WebCrawler.ports.outbound.WebAPICall;
 import de.collectioncompanion.WebCrawler.ports.outbound.RAWGioOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ports.Collection;
 
 @Service
-public class RAWGioAPIOut implements WebCrawler {
+public class RAWGioAPIOut implements WebAPICall {
 
     @Autowired
     private RAWGioOut rawGioOut;

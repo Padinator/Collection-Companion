@@ -1,8 +1,8 @@
-package de.collectioncompanion.WebCrawler.ports.data_files;
+package de.collectioncompanion.WebCrawler.ports.outbound;
 
 import ports.Collection;
 
-public interface WebCrawler {
+public interface WebAPICall {
 
     /**
      * Searches for a collection with passed search term -> API call, HTML checking, ...

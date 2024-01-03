@@ -1,49 +1,73 @@
 # Do no use "" in hostnames. That is forbidden and does not work!!!!!
+networks:
+  cc-net:
 
 services:
-  rabbitmqbroker:
-    image:
-      rabbitmq:management
-    hostname:
-      rabbit_mq_broker
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 30s
-      timeout: 30s
-      retries: 3
-
-  apigatewayms:
-    image: apigatewayms
-    build:
-      context: .
-      dockerfile: Dockerfile_APIGatewayMS
-    ports:
-      - 8080:8080
-    environment:
-      - DATABASE_MS=database-service:8080
-      - TASKS_MS=tasks-service:8080
-      - RESULTS_MS=results-service:8080
-      - STATISTICS_MS=statistics-service:8080
-
-  databsems:
-    image: databsems
-    build:
-      context: .
-      dockerfile: Dockerfile_DatabaseMS
-    hostname: database-service
-    environment:
-      - STATISTICS_MS=statistics-service:8080
-
-  tasksms:
-    image: tasksms
-    build:
-      context: .
-      dockerfile: Dockerfile_TasksMS
-    hostname: tasks-service
-    environment:
-      - STATISTICS_MS=statistics-service:8080
-    depends_on:
-      - rabbitmqbroker
+#  rabbitmqbroker:
+#    image:
+#      rabbitmq:management
+#    hostname:
+#      rabbit_mq_broker
+#    healthcheck:
+#      test: rabbitmq-diagnostics -q ping
+#      interval: 30s
+#      timeout: 30s
+#      retries: 3
+#    networks:
+#      - cc-net
+#
+#  apigatewayms:
+#    image: apigatewayms
+#    build:
+#      context: .
+#      dockerfile: Dockerfile_APIGatewayMS
+#    ports:
+#      - 8080:8080
+#    environment:
+#      - DATABASE_MS=database-service:8080
+#      - TASKS_MS=tasks-service:8080
+#      - RESULTS_MS=results-service:8080
+#      - STATISTICS_MS=statistics-service:8080
+#    networks:
+#      - cc-net
+#
+#  databsems:
+#    image: databsems
+#    build:
+#      context: .
+#      dockerfile: Dockerfile_DatabaseMS
+#    hostname: database-service
+#    environment:
+#      - STATISTICS_MS=statistics-service:8080
+#    networks:
+#      - cc-net
+#
+#  tasksms:
+#    image: tasksms
+#    build:
+#      context: .
+#      dockerfile: Dockerfile_TasksMS
+#    hostname: tasks-service
+#    environment:
+#      - STATISTICS_MS=statistics-service:8080
+#    depends_on:
+#      - rabbitmqbroker
+#    networks:
+#      - cc-net
+#
+#  resultsms:
+#    image: resultsms
+#    build:
+#      context: .
+#      dockerfile: Dockerfile_ResultsMS
+#    hostname: results-service
+#    environment:
+#      - DATABASE_MS=database-service:8080
+#      - STATISTICS_MS=statistics-service:8080
+#    depends_on:
+#      - rabbitmqbroker
+#    networks:
+#      - cc-net
 
   composerms:
     image: composerms
@@ -52,32 +76,26 @@ services:
       dockerfile: Dockerfile_ComposerMS
     hostname: composer-service
     environment:
-      - STEAM_WEBCRAWLER_MS=steam-webcrawler:8080
-      - STATISTICS_MS=statistics-service:8080
-    depends_on:
-      - rabbitmqbroker
+      - COMPOSER_MS=composer-service:8080     # Necessary for webcrawler image
+      - WEBCRAWLER_MS=webcrawler:8080
+      - STATISTICS_MS=statistics-service:8080 # Necessary for webcrawler image
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+#    depends_on:
+#      - rabbitmqbroker
+    networks:
+      - cc-net
 
-  resultsms:
-    image: resultsms
-    build:
-      context: .
-      dockerfile: Dockerfile_ResultsMS
-    hostname: results-service
-    environment:
-      - DATABASE_MS=database-service:8080
-      - STATISTICS_MS=statistics-service:8080
-    depends_on:
-      - rabbitmqbroker
-
-  steamwebcrawler:
-    image: steamwebcrawler
-    build:
-      context: .
-      dockerfile: Dockerfile_SteamWebCrawler
-    hostname: steam-webcrawler
-    environment:
-      - COMPOSER_MS=composer-service:8080
-      - STATISTICS_MS=statistics-service:8080
+#  webcrawler:
+#    image: webcrawler
+#    build:
+#      context: .
+#      dockerfile: Dockerfile_WebCrawler
+#    hostname: webcrawler-1
+#    container_name: webcrawler-1
+#    environment:
+#      - COMPOSER_MS=composer-service:8080
+#      - STATISTICS_MS=statistics-service:8080
 
 #  statisticsms:
 #    image: statisticsms
@@ -90,4 +108,4 @@ services:
 #      - TASKS_MS=tasks-service:8080
 #      - RESULTS_MS=results-service:8080
 #      - COMPOSER_MS=composer-service:8080
-#      - STEAM_WEBCRAWLER_MS=steam-webcrawler:8080
+#      - WEBCRAWLER_MS=webcrawler:8080

@@ -2,7 +2,6 @@
 # Build stage
 #
 FROM eclipse-temurin AS build
-
 # Create directories and environment variables
 ENV HOME=/usr/app/ComposerMS
 RUN mkdir -p $HOME
@@ -25,3 +24,8 @@ ENV HOME=/usr/app/ComposerMS
 ARG JAR_FILE=$HOME/target/ComposerMS-0.0.1-SNAPSHOT.jar
 COPY --from=build $JAR_FILE /app/ComposerMS-0.0.1-SNAPSHOT.jar
 ENTRYPOINT java -jar /app/ComposerMS-0.0.1-SNAPSHOT.jar
+
+# Install docker in the container for starting web crawlers
+RUN apt update
+RUN apt upgrade -y
+RUN apt install docker.io -y

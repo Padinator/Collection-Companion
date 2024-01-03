@@ -9,15 +9,10 @@ import de.collectioncompanion.WebCrawler.ports.outbound.RAWGioOut;
 import org.springframework.stereotype.Service;
 import ports.Collection;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 @Service
 public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
@@ -47,10 +42,11 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
     @Override
     protected Collection requestGameSpecificAPI(String searchTerm) {
         String urlWithSearchTerm = BASE_URL_GET_ALL_GAMES + "?search=" + searchTerm + "&key=" + API_KEY;
-        //String foundGames = requestAnAPI(urlWithSearchTerm);
-        String urlToGame, foundGames = "" , body = "";
+        String foundGames = requestAnAPI(urlWithSearchTerm);
+        String urlToGame, /* foundGames = "" , */ body = "";
         int appID = -1;
 
+        /*
         // Get all games from file (remove later)
         try {
             File games = new File(new File("").getAbsolutePath() + "/rawgio_game1.txt");
@@ -60,6 +56,7 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+         */
 
         // Filter returned games for first matching game
         try {
@@ -75,9 +72,10 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
         }
 
         // Request game with its ID
-        //urlToGame = BASE_URL_GET_ONE_GAME + appID + "?key=" + API_KEY;
-        //body = requestAnAPI(urlToGame);
+        urlToGame = BASE_URL_GET_ONE_GAME + appID + "?key=" + API_KEY;
+        body = requestAnAPI(urlToGame);
 
+        /*
         File game = new File(new File("").getAbsolutePath() + "/rawgio_game1_details.txt");
         try {
             BufferedReader reader = new BufferedReader(new FileReader(game));
@@ -86,6 +84,7 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+         */
 
         return new CollectionImpl(formatCollectionData(body)); // Return the collection with correct format
     }

@@ -15,6 +15,7 @@
 	<description>Webcrawler for Collection Companion</description>
 	<properties>
 		<java.version>21</java.version>
+		<spring-shell.version>3.1.6</spring-shell.version>
 	</properties>
 	<dependencies>
 		<!--Dependency for Spring Boot web-->
@@ -54,6 +55,18 @@
 			<systemPath>${project.basedir}/../Data-Files/collections.jar</systemPath>
 		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.shell</groupId>
+				<artifactId>spring-shell-dependencies</artifactId>
+				<version>${spring-shell.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>

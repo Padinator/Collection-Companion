@@ -4,13 +4,13 @@
 FROM eclipse-temurin AS build
 
 # Create directories and environment variables
-ENV HOME=/usr/app/Webcrawler/SteamWebCrawler
+ENV HOME=/usr/app/Webcrawler
 RUN mkdir -p $HOME
 RUN mkdir -p $HOME/target
 WORKDIR $HOME
 
 # Share src folder from host (= no copy of files) with image -> change in files will be changed in next build
-ADD ./Webcrawler/SteamWebCrawler $HOME
+ADD ./Webcrawler $HOME
 ADD Data-Files /usr/app//Data-Files
 
 # Do maven build
@@ -21,7 +21,7 @@ RUN --mount=type=cache,target=/root/.m2 ./mvnw -f $HOME/pom.xml clean package -D
 # Package stage
 #
 FROM eclipse-temurin
-ENV HOME=/usr/app/Webcrawler/SteamWebCrawler
-ARG JAR_FILE=$HOME/target/SteamWebCrawler-0.0.1-SNAPSHOT.jar
-COPY --from=build $JAR_FILE /app/SteamWebCrawler-0.0.1-SNAPSHOT.jar
-ENTRYPOINT java -jar /app/SteamWebCrawler-0.0.1-SNAPSHOT.jar
+ENV HOME=/usr/app/Webcrawler
+ARG JAR_FILE=$HOME/target/WebCrawler-0.0.1-SNAPSHOT.jar
+COPY --from=build $JAR_FILE /app/WebCrawler-0.0.1-SNAPSHOT.jar
+ENTRYPOINT java -jar /app/WebCrawler-0.0.1-SNAPSHOT.jar

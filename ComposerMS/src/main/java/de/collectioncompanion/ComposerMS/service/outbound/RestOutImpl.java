@@ -13,7 +13,6 @@ public class RestOutImpl implements RestOut {
     public ResponseEntity<String> doPostCollectionRequest(String uriToMicroService, CollectionRequest collectionRequest) {
         RestTemplate restTemplate = new RestTemplate();
         String uriWIthParams = uriToMicroService + collectionRequest.toPath();
-
         System.out.println("URI to call post request: " + uriWIthParams);
         return restTemplate.postForEntity(uriWIthParams, null, String.class);
     }
