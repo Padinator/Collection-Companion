@@ -14,23 +14,26 @@ jobs:
       - uses: actions/checkout@v3
       - name: Check pull request status 🧪
         run: |
+        
           #git tag "$BRANCH_NAME"
           #git push origin "$BRANCH_NAME"
-
+        
           #if [ "${{ github.event.pull_request.merged }}" = true ]; then
             echo "Creating tag"
             # Get the latest commit message
             COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-            # Create a tag using the commit message
+            
             # Replace spaces with underscores in the tag name
             TAG_NAME=$(echo "$COMMIT_MESSAGE" | tr ' ' '_')
+            
             # Create the tag
             git tag "$TAG_NAME" 
+            
             # Push the tag to the remote repository
             git push origin "$TAG_NAME"
-            # Check if any tags exist
+
             docker-compose up -d --build --force-recreate
           fi
           
         env:
-          GITHUB_TOKEN: ${{ secrets.GITUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
