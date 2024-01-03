@@ -20,18 +20,19 @@ jobs:
           echo "All tags: $all_tags"
 
       - name: Extract and increment version number
+        id: extract_version
         run: |
           # Extract the version number from the last tag
           last_tag=$(echo $all_tags | tail -n 1)
           version_number=$(echo $last_tag | cut -d '.' -f 2)
-          echo $version_number
-
+          echo "Version number: $version_number"
+      
           # Increment the version number
-          incremented_version_number=$(( $version_number + 1 ))
-          echo $incremented_version_number
-          # Store the incremented version number in an environment variable
-          env:
-            TAG_VERSION_FUNCTIONS: ${{ incremented_version_number }}
+          incremented_version_number=$((version_number + 1))
+          echo "Incremented version number: $incremented_version_number"
+      
+          echo "::set-output name=incremented_version::$incremented_version_number"
+
 
       - name: Create a new tag with the incremented version number
         run: |
