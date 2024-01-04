@@ -101,3 +101,5 @@ services:
     build:
       context: .
       dockerfile: Dockerfile_BrowserTest
+    ports:
+      - 8090:80
