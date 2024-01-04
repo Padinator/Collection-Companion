@@ -1,9 +1,9 @@
 package de.collectioncompanion.DatabseMS.service;
 
-import de.collectioncompanion.DatabseMS.data_files.CollectionImpl;
-import de.collectioncompanion.DatabseMS.ports.data_files.Collection;
+import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.ports.service.Database;
 import org.springframework.stereotype.Service;
+import ports.Collection;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -25,6 +25,14 @@ public class DatabaseImpl implements Database {
         results.put("time_stamp", "1693413832070"); // Invalid entry
 
         return new CollectionImpl(results);
+    }
+
+    @Override
+    public void insertCollection(Collection collection) {
+        collection.putEntry("time_stamp", String.valueOf(System.currentTimeMillis())); // First add a timestamp
+
+        // Insert all data into DB
+        // insert(data into DB ...);
     }
 
 }

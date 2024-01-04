@@ -1,6 +1,7 @@
 package de.collectioncompanion.ResultsMS.ports.inbound;
 
-import de.collectioncompanion.ResultsMS.ports.data_files.Collection;
+
+import ports.Collection;
 
 public interface UpdatesNotificationPort {
 

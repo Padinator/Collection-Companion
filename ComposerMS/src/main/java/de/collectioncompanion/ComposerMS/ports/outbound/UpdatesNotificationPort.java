@@ -1,6 +1,6 @@
 package de.collectioncompanion.ComposerMS.ports.outbound;
 
-import de.collectioncompanion.ComposerMS.ports.data_files.Collection;
+import ports.Collection;
 
 public interface UpdatesNotificationPort {
 

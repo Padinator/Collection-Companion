@@ -1,7 +1,7 @@
 package de.collectioncompanion.TasksMS.adapter.outbound;
 
-import de.collectioncompanion.TasksMS.data_files.CollectionRequest;
-import de.collectioncompanion.TasksMS.data_files.CollectionRequestDTO;
+import data_files.CollectionRequest;
+import data_files.CollectionRequestDTO;
 import de.collectioncompanion.TasksMS.ports.outbound.UpdatesNotificationPort;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Exchange;
@@ -22,7 +22,7 @@ public class MessagingAdapter implements UpdatesNotificationPort {
         CollectionRequestDTO collectionRequestDTO = new CollectionRequestDTO(collectionRequest);
         System.out.println("Push following collection request to rabbitmq: " + collectionRequest);
         template.convertAndSend(exchange.getName(), "", // "/collection" = route
-                de.collectioncompanion.TasksMS.data_files.CollectionRequestDTO.toJson(collectionRequestDTO));
+                CollectionRequestDTO.toJson(collectionRequestDTO));
     }
 
 }

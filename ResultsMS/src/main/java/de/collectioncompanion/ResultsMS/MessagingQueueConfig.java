@@ -12,4 +12,22 @@ public class MessagingQueueConfig {
         return new Queue("nameOfMyResultsQueue");
     }
 
+    /*
+    @Bean
+    public GsonBuilderCustomizer typeAdapterRegistration() {
+        return builder -> {
+            builder.registerTypeAdapter(Collection.class, new CollectionImpl());
+        };
+    }
+    */
+
+    /*
+    @Bean
+    public SimpleModule customSerializer() {
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Collection.class, new NullSerializer<>());
+        return module;
+    }
+    */
+
 }

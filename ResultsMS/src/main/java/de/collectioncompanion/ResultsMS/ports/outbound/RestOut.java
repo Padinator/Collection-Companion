@@ -1,7 +1,7 @@
 package de.collectioncompanion.ResultsMS.ports.outbound;
 
-import de.collectioncompanion.ResultsMS.ports.data_files.Collection;
 import org.springframework.http.ResponseEntity;
+import ports.Collection;
 
 public interface RestOut {
 
