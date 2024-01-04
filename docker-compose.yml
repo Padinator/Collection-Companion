@@ -95,3 +95,9 @@ services:
       - RESULTS_MS=results-service:8080
       - COMPOSER_MS=composer-service:8080
       - WEBCRAWLER_MS=webcrawler:8080
+
+  browsertestms:
+    image: browsertestms
+    build:
+      context: .
+      dockerfile: Dockerfile_BrowserTest
