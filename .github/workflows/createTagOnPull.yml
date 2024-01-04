@@ -45,25 +45,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Create release
-        uses: actions/create-release@latest
-        with:
-          tag_name: ${{ steps.extract_version.outputs.new_tag }}
-          release_name: "Collection-Companion-v1.${{ steps.extract_version.outputs.incremented_version_number }}.0"
-          release_description: "This is the release description"
-          branch: main
-
-      - name: Attach assets
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-assets
-          path: dist/
-
-      - name: Trigger release
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo-token: ${{ secrets.GH_BOT_TOKEN }}
-          prerelease: false
-          files: |
-            LICENSE.txt
-            *.jar
+      - name: Create Release from Latest Tag
+        id: create_release
+        run: |
+          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "Latest tag is $latest_tag"
+          
+          git tag -a "release-$latest_tag" -m "Release $latest_tag"
+          git push --tags
+  
+      - name: Extract Tag as ZIP
+        run: |
+          latest_release=$(echo "release-$latest_tag")
+          curl -L "https://github.com/${{ github.repository }}/archive/refs/tags/$latest_release.zip" -o "release.zip"
+          unzip release.zip -d extracted/
+  
+      - name: Build with Docker Compose
+        run: |
+          cd extracted/${{ github.repository }}-$latest_release
+          docker-compose up -d
