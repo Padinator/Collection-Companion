@@ -1,6 +1,10 @@
 # Collection-Companion
 Movs Project
 
+# Build & Start Production Environment
+docker build -t prodenv -f Dockerfile_ProductionEnvironment .
+docker run -v /var/run/docker.sock:/var/run/docker.sock --name prodenv prodenv
+
 # (Re)build images and (re)create containers from images in detached mode:
 docker-compose up -d --build --force-recreate
 
