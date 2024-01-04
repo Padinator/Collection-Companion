@@ -2,13 +2,14 @@ package de.collectioncompanion.DatabseMS.service;
 
 import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.ports.service.Database;
+import de.collectioncompanion.DatabseMS.ports.service.DatabaseRepo;
 import org.springframework.stereotype.Service;
 import ports.Collection;
 
-import java.util.Map;
+import java.util.List;
 import java.util.TreeMap;
 
-import static de.collectioncompanion.DatabseMS.adapter.outbound.DatabaseOut.databaseRepo;
+import static ports.CollectionFormatter.compareGameNames;
 
 @Service
 public class DatabaseImpl implements Database {
@@ -20,28 +21,24 @@ public class DatabaseImpl implements Database {
      * @param searchTerm term to look for
      * @return the found collection or an empty one
      */
-    public Collection select(String category, String searchTerm) {
-        Map<String, String> results = new TreeMap<>();
+    public Collection select(String category, String searchTerm, DatabaseRepo databaseRepo) {
+        List<Collection> results = databaseRepo.findAll().stream() // Query DB
+                .filter(collection -> collection.getValue("category").equals(category)
+                        && compareGameNames(collection.getValue("title"), searchTerm))
+                .toList();
 
-        // Query DB
-        results.put("time_stamp", "1693413832070"); // Invalid entry
-
-        return new CollectionImpl(results);
+        if (results.size() == 0)
+            return new CollectionImpl(new TreeMap<>());
+        return results.get(0);
     }
 
     @Override
-    public void insertCollection(Collection collection) {
-        TreeMap<String, String> data = new TreeMap<>();
-        data.put("time_stamp", "1704292340644");
-        data.put("title", "Passengers Of Execution");
-        data.put("category", "game");
-
-        collection = new CollectionImpl(data);
-        System.out.println("Collection to insert: " + collection);
-
+    public void insertCollection(Collection collection, DatabaseRepo databaseRepo) {
         // Insert all data into DB
+        System.out.println("Collection to insert: " + collection);
         Collection c = databaseRepo.insert(collection);
         System.out.println("Inserted: " + c);
+        System.out.println("Complete content:\n" + databaseRepo.findAll());
     }
 
 }

@@ -13,14 +13,14 @@ public class DatabaseOut {
     private Database database;
 
     @Autowired
-    public static DatabaseRepo databaseRepo;
+    public DatabaseRepo databaseRepo;
 
     public Collection requestCollectionFromDB(String category, String searchTerm) {
-        return database.select(category, searchTerm); // Query DB
+        return database.select(category, searchTerm, databaseRepo); // Query DB
     }
 
     public void insertCollection(Collection collection) {
-        database.insertCollection(collection);
+        database.insertCollection(collection, databaseRepo);
     }
 
 }

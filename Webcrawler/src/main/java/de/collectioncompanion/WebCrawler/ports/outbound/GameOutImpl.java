@@ -9,6 +9,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static ports.CollectionFormatter.compareGameNames;
+
 public abstract class GameOutImpl implements GameOut {
 
     /**
@@ -69,18 +71,6 @@ public abstract class GameOutImpl implements GameOut {
                 return game.getKey();
 
         return -1;
-    }
-
-    /**
-     * Compares two strings (game names) with equals method of class String -> later comparing with tolerance depending
-     * on string lengths
-     *
-     * @param game1 Name of first game to check
-     * @param game2 Name of second game to check
-     * @return Returns true, if the game names are equal or mostly equal
-     */
-    protected boolean compareGameNames(String game1, String game2) {
-        return game1.equals(game2);
     }
 
     /**
