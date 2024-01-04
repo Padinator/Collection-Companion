@@ -3,7 +3,10 @@ const { test, expect } = require('@playwright/test');
 test('Opening Main Page', async ({ page }) => {
 
     // Navigate to Main page
+    // URL for Github / Docker Container
     await page.goto('file:///usr/app/Website/login.html');
+    // URL for local testing
+    // await page.goto('/Website/login.html');
 
     // Click on login button
     await page.click('#cc-login');
