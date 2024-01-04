@@ -104,7 +104,7 @@
 
                 <div class="p-2 border mb-3 rounded position-relative">
                     <h5 class="text-left">Titel: </h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2" data-bs-toggle="modal"
+                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2" id="cc-edit-collection-button" data-bs-toggle="modal"
                         data-bs-target="#sammlungBearbeiten">Bearbeiten</button>
                 </div>
 
@@ -160,7 +160,7 @@
                         <ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Titel 1
-                                <button type="button" class="btn btn-outline-danger btn-sm">X</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" id="cc-delete-entry-in-collection-button">X</button>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Titel 2
@@ -169,7 +169,7 @@
                         </ul>
                         <form>
                             <div class="d-flex justify-content-center mt-2">
-                                <button type="submit" class="btn btn-primary">Speichern</button>
+                                <button type="submit" class="btn btn-primary" id="cc-submit-collection-button">Speichern</button>
                             </div>
                         </form>
                     </div>
@@ -180,7 +180,7 @@
 
         <!-- Button fuer Sammlung erstellen -->
         <div class="col-md-2 mt-4 mx-auto">
-            <button class="btn btn-primary mx-auto d-inline-block" data-bs-toggle="modal"
+            <button class="btn btn-primary mx-auto d-inline-block" id="cc-create-collection-button" data-bs-toggle="modal"
                 data-bs-target="#sammlungErstellenModal">
                 Sammlung Erstellen
             </button>
@@ -228,7 +228,7 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary">Speichern</button>
+                                <button type="submit" class="btn btn-primary" id="cc-create-collection-submit-button">Speichern</button>
                             </div>
                         </form>
                     </div>
