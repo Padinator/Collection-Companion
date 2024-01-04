@@ -1,0 +1,12 @@
+FROM httpd
+#ADD ./tests/browser-test/ /usr/app/tests/browser-test/
+#ADD ./Website/ /usr/app/Website/
+ADD ./Website/ /usr/local/apache2/htdocs
+#WORKDIR /usr/app/tests/browser-test
+#RUN apt update && apt upgrade -y
+#RUN apt install npm -y
+#RUN npm install playwright@latest
+#RUN npx playwright install
+#RUN npx playwright install-deps
+#RUN npx playwright test
+# RUN npx playwright show-report # Do it later

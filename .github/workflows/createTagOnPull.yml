@@ -44,26 +44,5 @@ jobs:
           #docker-compose up -d --build --force-recreate          
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
           
-      - name: Create release
-        uses: actions/create-release@latest
-        with:
-          tag_name: ${{ steps.extract_version.outputs.new_tag }}
-          release_name: "Collection-Companion-v1.${{ steps.extract_version.outputs.incremented_version_number }}.0"
-          release_description: "This is the release description"
-          branch: main
-
-      - name: Attach assets
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-assets
-          path: dist/
-
-      - name: Trigger release
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo-token: ${{ secrets.GH_BOT_TOKEN }}
-          prerelease: false
-          files: |
-            LICENSE.txt
-            *.jar
