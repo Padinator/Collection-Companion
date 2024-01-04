@@ -3,13 +3,13 @@ const { test, expect } = require('@playwright/test');
 test('Opening Main Page', async ({ page }) => {
 
     // Navigate to Main page
-    await page.goto('file:///usr/app/Website/login.html');
+    await page.goto('http://localhost');
 
     // Click on login button
     await page.click('#cc-login');
 
     // Check if on the I am on the next right page 
-    expect(page.url(), 'Not the right page ').toBe('file:///usr/app/Website/mainpage.html');
+    expect(page.url(), 'Not the right page ').toBe('http://localhost/mainpage.html');
 
     // // Click on first exercise sheet entry
     // await page.click('.fl-table tbody tr:first-child');
