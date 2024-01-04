@@ -1,0 +1,18 @@
+FROM ubuntu
+
+# Install Docker
+RUN apt update
+RUN apt upgrade -y
+RUN apt install docker.io -y
+
+#Install Curl
+RUN apt install curl -y
+
+# Install Git
+RUN apt install git -y
+
+#Add file to microservice
+ADD ./checkoutGitRepo.sh .
+
+# Run script for checking git repository
+ENTRYPOINT bash checkoutGitRepo.sh
