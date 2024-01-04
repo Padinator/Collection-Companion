@@ -5,15 +5,14 @@ RUN apt update
 RUN apt upgrade -y
 RUN apt install docker.io -y
 
-# Install Docker-Compose-Plugin
-RUN DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-RUN mkdir -p $DOCKER_CONFIG/cli-plugins
-RUN curl -SL https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+#Install Curl
+RUN apt install curl -y
 
 # Install Git
 RUN apt install git -y
 
-
+#Add file to microservice
+ADD ./checkoutGitRepo.sh .
 
 # Run script for checking git repository
-RUN bash checkoutGitRepo.sh
+ENTRYPOINT bash checkoutGitRepo.sh
