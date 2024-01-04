@@ -1,11 +1,8 @@
 on:
-  push:
-    branches: ["main"]
   pull_request:
     branches: ["main"]
 name: Inspections    
 jobs:
-
   java-tests:
     runs-on: ubuntu-latest
     name: Checkstyle job 🥊
@@ -21,7 +18,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
+    - name: Checkout code 🏗️
       uses: actions/checkout@v3
     - name: Start Docker Compose Services
       run:  docker-compose up -d --build --force-recreate
@@ -59,13 +56,13 @@ jobs:
         
   notify-teams:
     runs-on: ubuntu-latest
-    ##needs: [mega-linter, unit-tests, playwright]
+    needs: [java-tests, build-and-test, playwright]
     steps:
     - uses: actions/checkout@v3
     - name: Teams Notification 📣
       env:
         PR_NAME: ${{ github.event.pull_request.title }}
-      if: success() && 1 == 2 #muss am ende entfernt werden
+      if: success()
       run: |
         # Check if Workflow already successfully ran 
         REPO_OWNER=${{ github.event.repository.owner.login }}
@@ -166,4 +163,4 @@ jobs:
         then
           echo "Bad Request!"
           exit 1
-        fi        
+        fi
