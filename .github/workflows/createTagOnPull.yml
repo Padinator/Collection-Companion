@@ -44,28 +44,5 @@ jobs:
           #docker-compose up -d --build --force-recreate          
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
           
-      - name: Set up Git
-        run: |
-          git config --global user.email "sauterdominik1211@gmail.com"
-          git config --global user.name "Dominik308"
-  
-      - name: Create Release from Latest Tag
-        id: create_release
-        run: |
-          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
-          echo "Latest tag is $latest_tag"
-          
-          git tag -a "release-$latest_tag" -m "Release $latest_tag"
-          git push --tags
-  
-      - name: Extract Tag as ZIP
-        run: |
-          latest_release=$(echo "release-$latest_tag")
-          curl -L "https://github.com/${{ github.repository }}/archive/refs/tags/$latest_release.zip" -o "release.zip"
-          unzip release.zip -d extracted/
-  
-      - name: Build with Docker Compose
-        run: |
-          cd extracted/${{ github.repository }}-$latest_release
-          docker-compose up -d
