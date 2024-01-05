@@ -52,13 +52,7 @@ public class RestServerIn {
         return ResponseEntity.status(200).body("Inserted successfully params into DB!");
     }
 
-    @PostMapping
-    public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
-        databaseOut.insertUser(new User(username, password, email));
-        return ResponseEntity.status(200).body("Inserted successfully user into DB!");
-    }
-
-    @GetMapping
+    @GetMapping("/users")
     public ResponseEntity<String> getUser(@RequestParam String username) {
         User user = databaseOut.requestUserFromDB(username);
 
@@ -68,4 +62,11 @@ public class RestServerIn {
         user.setPassword("");
         return ResponseEntity.status(200).body(user.toString());
     }
+
+    @PostMapping("/users")
+    public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
+        databaseOut.insertUser(new User(username, password, email));
+        return ResponseEntity.status(200).body("Inserted successfully user into DB!");
+    }
+
 }
