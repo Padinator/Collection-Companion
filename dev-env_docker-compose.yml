@@ -1,0 +1,106 @@
+# Do no use "" in hostnames. That is forbidden and does not work!!!!!
+
+services:
+  rabbitmqbroker:
+    image:
+      rabbitmq:management
+    hostname:
+      rabbit_mq_broker
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  webserverms:
+    image: webserverms
+    build:
+      context: .
+      dockerfile: Dockerfile_WebServerMS
+    ports:
+      - 8090:80
+
+  apigatewayms:
+    image: apigatewayms
+    build:
+      context: .
+      dockerfile: Dockerfile_APIGatewayMS
+    hostname: apigateway-service
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_MS=database-service:8080
+      - TASKS_MS=tasks-service:8080
+      - RESULTS_MS=results-service:8080
+      - STATISTICS_MS=statistics-service:8080
+
+  databsems:
+    image: databsems
+    build:
+      context: .
+      dockerfile: Dockerfile_DatabaseMS
+    hostname: database-service
+    environment:
+      - STATISTICS_MS=statistics-service:8080
+
+  tasksms:
+    image: tasksms
+    build:
+      context: .
+      dockerfile: Dockerfile_TasksMS
+    hostname: tasks-service
+    environment:
+      - STATISTICS_MS=statistics-service:8080
+    depends_on:
+      - rabbitmqbroker
+
+  resultsms:
+    image: resultsms
+    build:
+      context: .
+      dockerfile: Dockerfile_ResultsMS
+    hostname: results-service
+    environment:
+      - DATABASE_MS=database-service:8080
+      - STATISTICS_MS=statistics-service:8080
+    depends_on:
+      - rabbitmqbroker
+
+  composerms:
+    image: composerms
+    build:
+      context: .
+      dockerfile: Dockerfile_ComposerMS
+    hostname: composer-service
+    environment:
+      - COMPOSER_MS=composer-service:8080     # Necessary for webcrawler image
+      - WEBCRAWLER_MS=webcrawler:8080
+      - STATISTICS_MS=statistics-service:8080 # Necessary for webcrawler image
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - rabbitmqbroker
+
+  webcrawler:
+    image: webcrawler
+    build:
+      context: .
+      dockerfile: Dockerfile_WebCrawler
+    hostname: webcrawler-1
+    container_name: webcrawler-1
+    environment:
+      - COMPOSER_MS=composer-service:8080
+      - STATISTICS_MS=statistics-service:8080
+
+  statisticsms:
+    image: statisticsms
+    build:
+      context: .
+      dockerfile: Dockerfile_StatisticsMS
+    hostname: statistics-service
+    environment:
+      - DATABASE_MS=database-service:8080
+      - TASKS_MS=tasks-service:8080
+      - RESULTS_MS=results-service:8080
+      - COMPOSER_MS=composer-service:8080
+      - WEBCRAWLER_MS=webcrawler:8080

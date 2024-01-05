@@ -1,0 +1,8 @@
+service:
+  prodenvms:
+    image: prodenvms
+    build:
+      context: .
+      dockerfile: Dockerfile_ProductionEnvironment
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

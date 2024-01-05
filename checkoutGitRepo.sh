@@ -13,7 +13,7 @@ newest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 git checkout $tag -b latest
 
 # Do first docker compose build
-docker compose -p collection-companion up -d --build --force-recreate
+docker compose -p collection-companion up -d --build --force-recreate -f dev-env_docker-compose.yml
 
 # Check git repository
 while true
@@ -27,7 +27,7 @@ do
 	then
 	    newest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 		  git checkout $tag
-	    docker compose -p collection-companion up -d --build --force-recreate
+	    docker compose -p collection-companion up -d --build --force-recreate -f dev-env_docker-compose.yml
 	else
 	    echo "Nothing to checkout, wait 1 minute"
 	    sleep 1m
