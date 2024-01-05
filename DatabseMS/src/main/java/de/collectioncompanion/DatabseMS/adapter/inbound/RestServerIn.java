@@ -45,4 +45,9 @@ public class RestServerIn {
         return ResponseEntity.status(200).body("Inserted successfully params into DB!");
     }
 
+    @PostMapping
+    public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
+        return ResponseEntity.status(200).body("Inserted successfully user into DB!");
+    }
+
 }
