@@ -2,11 +2,10 @@
 Movs Project
 
 # Build & Start Production Environment
-docker build -t prodenv -f Dockerfile_ProductionEnvironment .
-docker run -v /var/run/docker.sock:/var/run/docker.sock --name prodenv prodenv
+docker-compose up -d --build --force-recreate -f prod-env_docker-compose
 
 # (Re)build images and (re)create containers from images in detached mode:
-docker-compose up -d --build --force-recreate
+docker-compose up -d --build --force-recreate -f dev-env_docker-compose.yml
 
 # Stop and remove all containers and images:
 docker-compose down --rmi all
