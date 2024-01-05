@@ -2,6 +2,8 @@ package de.collectioncompanion.DatabseMS.adapter.inbound;
 
 import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.adapter.outbound.DatabaseOut;
+import de.collectioncompanion.DatabseMS.data_files.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +54,18 @@ public class RestServerIn {
 
     @PostMapping
     public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
+        databaseOut.insertUser(new User(username, password, email));
         return ResponseEntity.status(200).body("Inserted successfully user into DB!");
     }
 
+    @GetMapping
+    public ResponseEntity<String> getUser(@RequestParam String username) {
+        User user = databaseOut.requestUserFromDB(username);
+
+        if (user == null) // No user was found
+            return ResponseEntity.status(404).body("No user was found!");
+
+        user.setPassword("");
+        return ResponseEntity.status(200).body(user.toString());
+    }
 }
