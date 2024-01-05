@@ -64,11 +64,11 @@
                 </form>
             </div>
 
-            <script>
-                const headers = {
+            <script type='module'>
+				const headers = {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'POST,PATCH,OPTIONS'
+                    'Access-Control-Allow-Methods': 'GET,POST,PATCH,OPTIONS'
                 }
 
                 const fetchData = {
@@ -77,7 +77,8 @@
                     headers: headers
                 }
 
-                fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
+				//fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
+				fetch("http://localhost:8086", fetchData)
                     .then(response => response)
                     .then(data => { console.log(data); }).catch(error => { console.error('There was a problem with the fetch operation:', error.message); });
             </script>
