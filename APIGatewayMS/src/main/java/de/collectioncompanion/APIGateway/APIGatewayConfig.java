@@ -102,7 +102,7 @@ class UserURLResolver implements GatewayFilter {
         try {
             if (request.getStatusCode().value() == 200) // Route request to database microservice
                 exchange.getAttributes().put(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR,
-                        new URI(DATABASE_MS + params));
+                        new URI(DATABASE_MS + params.toString().replaceAll(" ", "%20")));
             else { // Ask Result-MS for result of call to Task-MS
                 // Extend parameters with ID
                 if (params.toString().equals(""))

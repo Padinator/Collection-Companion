@@ -14,6 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static ports.CollectionFormatter.compareGameNames;
+
 @Service
 public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
 

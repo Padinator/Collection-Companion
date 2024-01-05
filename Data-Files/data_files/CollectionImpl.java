@@ -8,19 +8,24 @@ import java.util.TreeMap;
 
 public class CollectionImpl implements Collection {
 
-    private final Map<String, String> data;
+    private Map<String, String> data;
 
     public CollectionImpl() {
         this(new TreeMap<>());
     }
 
-    public CollectionImpl(Map<String, String> results) {
-        data = new TreeMap<>(results); // Deep copy
+    public CollectionImpl(Map<String, String> data) {
+        this.data = new TreeMap<>(data); // Deep copy
     }
 
     public CollectionImpl(Collection collection) {
         data = new TreeMap<>(collection.getData()); // Deep copy
     }
+
+	@Override
+	public void setData(Map<String, String> data) {
+		this.data = new TreeMap<>(data); // Deep copy
+	}
 
     @Override
     public String toString() {
