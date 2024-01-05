@@ -65,21 +65,10 @@
             </div>
 
             <script type='module'>
-				const headers = {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET,POST,PATCH,OPTIONS'
-                }
 
-                const fetchData = {
-                    method: 'GET',
-                    mode: 'no-cors',
-                    headers: headers
-                }
-
-				//fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
-				fetch("http://localhost:8086", fetchData)
-                    .then(response => response)
+                fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution")
+                    //fetch("http://localhost:8086", fetchData)
+                    .then(response => response.json())
                     .then(data => { console.log(data); }).catch(error => { console.error('There was a problem with the fetch operation:', error.message); });
             </script>
 
