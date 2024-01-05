@@ -27,6 +27,9 @@ services:
 
   mongodb:
     image: mongo
+    hostname: mongodb
+    ports:
+      - 27017:27017
 
   databsems:
     image: databsems
@@ -38,6 +41,8 @@ services:
       - STATISTICS_MS=statistics-service:8080
     depends_on:
       - mongodb
+    ports:
+    - 8081:8080
 
   tasksms:
     image: tasksms

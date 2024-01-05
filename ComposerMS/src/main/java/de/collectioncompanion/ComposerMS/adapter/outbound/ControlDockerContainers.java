@@ -96,6 +96,7 @@ public class ControlDockerContainers {
      */
     private static void actualizeWebCrawlers(int workload) {
         int optimalCountOfWebCrawlers = workload == 0 ? 1 : workload / (MAX_WORK_LOAD_PER_MICROSERVICE / 2);
+        optimalCountOfWebCrawlers = optimalCountOfWebCrawlers == 0 ? 1 : optimalCountOfWebCrawlers; // Leave at least one web crawler
         int countOfWebCrawlersToStop = activeWebCrawlers.size() - optimalCountOfWebCrawlers;
 
         System.out.println("optimalCountOfWebCrawlers: " + optimalCountOfWebCrawlers);

@@ -26,6 +26,11 @@ public class RestServerIn {
         Collection result = databaseOut.requestCollectionFromDB(category, searchTerm);
         System.out.println(result);
 
+        System.out.println("Result is empty: " + result.isEmpty());
+
+        if (!result.isEmpty())
+            System.out.println("Result is valid: " + result.isValid());
+
         if (!result.isEmpty() && result.isValid()) // Found a valid collection
             return ResponseEntity.status(200).body(result.toString());
         else // Found no collection or an outdated collection
