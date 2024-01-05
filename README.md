@@ -2,10 +2,10 @@
 Movs Project
 
 # Build & Start Production Environment
-docker-compose up -d --build --force-recreate -f prod-env_docker-compose
+docker-compose -f prod-env_docker-compose.yml up -d --build --force-recreate
 
 # (Re)build images and (re)create containers from images in detached mode:
-docker-compose up -d --build --force-recreate -f dev-env_docker-compose.yml
+docker-compose -f dev-env_docker-compose.yml up -d --build --force-recreate
 
 # Stop and remove all containers and images:
 docker-compose down --rmi all
