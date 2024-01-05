@@ -25,6 +25,10 @@ services:
       - RESULTS_MS=results-service:8080
       - STATISTICS_MS=statistics-service:8080
 
+  mongodb:
+    image: mongo
+    hostname: mongodb
+
   databsems:
     image: databsems
     build:
@@ -33,6 +37,8 @@ services:
     hostname: database-service
     environment:
       - STATISTICS_MS=statistics-service:8080
+    depends_on:
+      - mongodb
 
   tasksms:
     image: tasksms

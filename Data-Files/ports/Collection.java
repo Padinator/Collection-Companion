@@ -11,6 +11,13 @@ public interface Collection {
 	 */
 	 Map<String, String> getData();
 
+	/**
+	 * Setter for data element "data", but makes a deep copy
+	 *
+	 * @param data The Map to set as data element
+	 */
+	void setData(Map<String, String> data);
+
     /**
      * Sets to the key "key" the value "value" and returns the old value
      *

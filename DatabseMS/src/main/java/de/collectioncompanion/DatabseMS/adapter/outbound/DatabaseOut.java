@@ -1,6 +1,7 @@
 package de.collectioncompanion.DatabseMS.adapter.outbound;
 
 import de.collectioncompanion.DatabseMS.ports.service.Database;
+import de.collectioncompanion.DatabseMS.ports.service.DatabaseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ports.Collection;
@@ -11,12 +12,15 @@ public class DatabaseOut {
     @Autowired
     private Database database;
 
+    @Autowired
+    public DatabaseRepo databaseRepo;
+
     public Collection requestCollectionFromDB(String category, String searchTerm) {
-        return database.select(category, searchTerm); // Query DB
+        return database.select(category, searchTerm, databaseRepo); // Query DB
     }
 
     public void insertCollection(Collection collection) {
-        database.insertCollection(collection);
+        database.insertCollection(collection, databaseRepo);
     }
 
 }

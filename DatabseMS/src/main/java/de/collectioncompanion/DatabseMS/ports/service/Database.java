@@ -11,8 +11,8 @@ public interface Database {
      * @param searchTerm of requested data
      * @return result as String
      */
-    Collection select(String category, String searchTerm);
+    Collection select(String category, String searchTerm, DatabaseRepo databaseRepo);
 
-    void insertCollection(Collection collection);
+    void insertCollection(Collection collection, DatabaseRepo databaseRepo);
 
 }
