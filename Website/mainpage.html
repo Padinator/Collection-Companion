@@ -65,17 +65,21 @@
             </div>
 
             <script>
-                const fetchData = {
-                    method: 'GET',
-                    headers: new Headers({
-                        'Content-Type': 'application/json; charset=UTF-8'
-                    })
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'POST,PATCH,OPTIONS'
                 }
 
-                fetch("http://apigateway-service:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData).then(response => {
-                    if (!response.ok) { throw new Error('Network response was not ok'); }
-                    return response.json();
-                }).then(data => { console.log(data); }).catch(error => { console.error('There was a problem with the fetch operation:', error.message); });
+                const fetchData = {
+                    method: 'GET',
+                    mode: 'no-cors',
+                    headers: headers
+                }
+
+                fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
+                    .then(response => response)
+                    .then(data => { console.log(data); }).catch(error => { console.error('There was a problem with the fetch operation:', error.message); });
             </script>
 
             <!-- Spalte 3: Collection und Freunde Button -->
