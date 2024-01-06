@@ -3,7 +3,7 @@ package de.collectioncompanion.DatabseMS.service;
 import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.data_files.User;
 import de.collectioncompanion.DatabseMS.ports.service.Database;
-import de.collectioncompanion.DatabseMS.ports.service.DatabaseRepo;
+import de.collectioncompanion.DatabseMS.ports.service.CollectionRepo;
 import de.collectioncompanion.DatabseMS.ports.service.UserRepo;
 import org.springframework.stereotype.Service;
 import ports.Collection;
@@ -17,19 +17,19 @@ import static ports.CollectionFormatter.compareGameNames;
 @Service
 public class DatabaseImpl implements Database {
 
-    public Collection select(String category, String searchTerm, DatabaseRepo databaseRepo) {
-        List<Collection> results = databaseRepo.findAll().stream() // Query DB
+    public Collection selectCollection(String category, String searchTerm, CollectionRepo collectionRepo) {
+        List<Collection> results = collectionRepo.findAll().stream() // Query DB
                 .filter(collection -> collection.getValue("category").equals(category)
                         && compareGameNames(collection.getValue("title"), searchTerm))
                 .toList();
 
         System.out.println("\n\nFound:");
-        System.out.println(databaseRepo.findAll() + "\n");
-        System.out.println(databaseRepo.findAll().stream() // Query DB
+        System.out.println(collectionRepo.findAll() + "\n");
+        System.out.println(collectionRepo.findAll().stream() // Query DB
                 .filter(collection -> collection.getValue("category").equals(category))
                 .toList() + "\n");
 
-        System.out.println(databaseRepo.findAll().stream() // Query DB
+        System.out.println(collectionRepo.findAll().stream() // Query DB
                 .filter(collection -> compareGameNames(collection.getValue("title"), searchTerm))
                 .toList() + "\n\n");
 
@@ -41,15 +41,15 @@ public class DatabaseImpl implements Database {
     }
 
     @Override
-    public void insertCollection(Collection collection, DatabaseRepo databaseRepo) {
+    public void insertCollection(Collection collection, CollectionRepo collectionRepo) {
         // Insert all data into DB
         // collection.putEntry("title", "Passengers Of Execution");
         // collection.putEntry("category", "game");
         // collection.putEntry("time_stamp", "1734567890109");
         System.out.println("Collection to insert: " + collection);
-        Collection c = databaseRepo.insert(collection);
+        Collection c = collectionRepo.insert(collection);
         System.out.println("Inserted: " + c);
-        System.out.println("Complete content:\n" + databaseRepo.findAll());
+        System.out.println("Complete content:\n" + collectionRepo.findAll());
     }
 
     @Override
@@ -70,10 +70,10 @@ public class DatabaseImpl implements Database {
 
     @Override
     public void insertCollectionToUser(String username, CollectionImpl collection, UserRepo userRepo,
-            DatabaseRepo databaseRepo) {
+            CollectionRepo collectionRepo) {
         Optional<User> optinalUser = userRepo.findById(username);
 
-        if (!optinalUser.isEmpty()) {
+        if (optinalUser.isPresent()) {
             User user = optinalUser.get();
             List<String> collectionId = user.getCollectionId();
 
@@ -88,7 +88,7 @@ public class DatabaseImpl implements Database {
     public void insertFriendToUser(String username, String usernameFriend, UserRepo userRepo) {
         Optional<User> user1 = userRepo.findById(username), user2 = userRepo.findById(usernameFriend);
 
-        if (!(user1.isEmpty() || user2.isEmpty())) {
+        if (user1.isPresent() && user2.isPresent()) {
             User user = user1.get();
             List<String> friendsId = user.getUserFriendsId();
 

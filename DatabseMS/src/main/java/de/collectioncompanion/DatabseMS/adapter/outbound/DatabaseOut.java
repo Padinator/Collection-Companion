@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.data_files.User;
 import de.collectioncompanion.DatabseMS.ports.service.Database;
-import de.collectioncompanion.DatabseMS.ports.service.DatabaseRepo;
+import de.collectioncompanion.DatabseMS.ports.service.CollectionRepo;
 import de.collectioncompanion.DatabseMS.ports.service.UserRepo;
 import ports.Collection;
 
@@ -17,17 +17,17 @@ public class DatabaseOut {
     private Database database;
 
     @Autowired
-    public DatabaseRepo databaseRepo;
+    public CollectionRepo collectionRepo;
 
     @Autowired
     public UserRepo userRepo;
 
     public Collection requestCollectionFromDB(String category, String searchTerm) {
-        return database.select(category, searchTerm, databaseRepo); // Query DB
+        return database.selectCollection(category, searchTerm, collectionRepo); // Query DB
     }
 
     public void insertCollection(Collection collection) {
-        database.insertCollection(collection, databaseRepo);
+        database.insertCollection(collection, collectionRepo);
     }
 
     public void insertUser(User user) {
@@ -39,7 +39,7 @@ public class DatabaseOut {
     }
 
     public void insertCollectionToUser(String username, CollectionImpl collection) {
-        database.insertCollectionToUser(username, collection, userRepo, databaseRepo);
+        database.insertCollectionToUser(username, collection, userRepo, collectionRepo);
     }
 
     public void addFriendToUser(String username, String usernameFriend) {
