@@ -104,6 +104,7 @@ class UserURLResolver implements GatewayFilter {
 
         // Route request
         try {
+            exchange.getResponse().getHeaders().add("Content-Type", "application/json");
             exchange.getResponse().getHeaders().add("Access-Control-Allow-Origin", "*");
             exchange.getResponse().getHeaders().add("Access-Control-Allow-Methods", "GET,POST,PATCH,OPTIONS");
             System.out.println(exchange.getResponse().getHeaders());

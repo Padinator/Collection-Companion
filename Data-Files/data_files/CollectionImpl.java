@@ -87,6 +87,12 @@ public class CollectionImpl implements Collection {
         return params.toString();
     }
 
+    @Override
+    public String toJSON() {
+        
+        return null;
+    }
+
     private static class FormatDate {
 
         private final static long diff = 30; // Each 30 days entries will be renewed

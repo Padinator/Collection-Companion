@@ -27,7 +27,7 @@ public class RestServerIn {
     @GetMapping
     public ResponseEntity<String> getCollection(@RequestParam String category, @RequestParam String searchTerm) {
         Collection result = databaseOut.requestCollectionFromDB(category, searchTerm);
-        System.out.println(result);
+        System.out.println(result.toJSON());
 
         System.out.println("Result is empty: " + result.isEmpty());
 
@@ -35,7 +35,7 @@ public class RestServerIn {
             System.out.println("Result is valid: " + result.isValid());
 
         if (!result.isEmpty() && result.isValid()) // Found a valid collection
-            return ResponseEntity.status(200).body(result.toString());
+            return ResponseEntity.status(200).body(result.toJSON());
         else // Found no collection or an outdated collection
             return ResponseEntity.status(204).body(result.toString());
     }
