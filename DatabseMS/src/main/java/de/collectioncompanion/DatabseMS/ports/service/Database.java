@@ -42,9 +42,21 @@ public interface Database {
     void insertUser(User user, UserRepo userRepo);
 
     /**
-     * Insert Collection Entrys to passed User
-     * @param username to Insert entry in Collection
-     * @param collection 
+     * Insert Collection into passed User
+     * 
+     * @param username to insert Collection into
+     * @param collection to insert into User
+     * @param userRepo object for accessing DB
+     * @param databaseRepo object for accessing DB
      */
-    void insertCollectionToUser(String username, CollectionImpl collection);
+    void insertCollectionToUser(String username, CollectionImpl collection, UserRepo userRepo, DatabaseRepo databaseRepo);
+
+    /**
+     * Add Friend To User
+     * 
+     * @param username to add passed Friend
+     * @param usernameFriend to add in usernames list
+     * @param userRepo object for accessing DB
+     */
+    void inserFriendToUser(String username, String usernameFriend, UserRepo userRepo);
 }

@@ -65,8 +65,8 @@ public class RestServerIn {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email, List<String> collectionId) {
-        databaseOut.insertUser(new User(username, password, email, collectionId));
+    public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email, List<String> collectionId, List<String> userFriendsId) {
+        databaseOut.insertUser(new User(username, password, email, collectionId, userFriendsId));
         return ResponseEntity.status(200).body("Inserted successfully user into DB!");
     }
 
@@ -74,5 +74,11 @@ public class RestServerIn {
     public ResponseEntity<String> addCollectionToUser(@RequestBody String username, @RequestBody CollectionImpl collection) {
         databaseOut.insertCollectionToUser(username, collection);
         return ResponseEntity.status(200).body("Added successfully collection to user in DB!");
+    }
+
+    @PostMapping("/users/friends")
+    public ResponseEntity<String> addFriendToUser(@RequestParam String username, @RequestParam String usernameFriend) {
+        databaseOut.addFriendToUser(username, usernameFriend);
+        return ResponseEntity.status(200).body("Added successfully Friend to User in DB!");
     }
 }
