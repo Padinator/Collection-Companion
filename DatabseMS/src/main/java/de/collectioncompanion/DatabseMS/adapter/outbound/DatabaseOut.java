@@ -43,7 +43,7 @@ public class DatabaseOut {
     }
 
     public void addFriendToUser(String username, String usernameFriend) {
-        database.inserFriendToUser(username, usernameFriend, userRepo);
+        database.insertFriendToUser(username, usernameFriend, userRepo);
     }
 
 }

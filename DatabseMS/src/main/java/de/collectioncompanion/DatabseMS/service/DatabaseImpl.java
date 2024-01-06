@@ -71,16 +71,21 @@ public class DatabaseImpl implements Database {
     @Override
     public void insertCollectionToUser(String username, CollectionImpl collection, UserRepo userRepo,
             DatabaseRepo databaseRepo) {
-        Optional<User> user = userRepo.findById(username);
+        Optional<User> optinalUser = userRepo.findById(username);
 
-        if (!user.isEmpty()) {
-            List<String> collectionId = user.get().getCollectionId();
-            // if (collectionId.contains(collection.get))
+        if (!optinalUser.isEmpty()) {
+            User user = optinalUser.get();
+            List<String> collectionId = user.getCollectionId();
+
+            if (!collectionId.contains(collection.getId())) {
+                collectionId.add(collection.getId());
+                userRepo.save(user);
+            }
         }
     }
 
     @Override
-    public void inserFriendToUser(String username, String usernameFriend, UserRepo userRepo) {
+    public void insertFriendToUser(String username, String usernameFriend, UserRepo userRepo) {
         Optional<User> user1 = userRepo.findById(username), user2 = userRepo.findById(usernameFriend);
 
         if (!(user1.isEmpty() || user2.isEmpty())) {

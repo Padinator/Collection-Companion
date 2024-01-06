@@ -58,5 +58,5 @@ public interface Database {
      * @param usernameFriend to add in usernames list
      * @param userRepo object for accessing DB
      */
-    void inserFriendToUser(String username, String usernameFriend, UserRepo userRepo);
+    void insertFriendToUser(String username, String usernameFriend, UserRepo userRepo);
 }
