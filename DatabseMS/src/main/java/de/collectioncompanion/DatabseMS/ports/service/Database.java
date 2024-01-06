@@ -1,5 +1,6 @@
 package de.collectioncompanion.DatabseMS.ports.service;
 
+import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.data_files.User;
 import ports.Collection;
 
@@ -39,4 +40,11 @@ public interface Database {
      * @param userRepo object for accessing DB
      */
     void insertUser(User user, UserRepo userRepo);
+
+    /**
+     * Insert Collection Entrys to passed User
+     * @param username to Insert entry in Collection
+     * @param collection 
+     */
+    void insertCollectionToUser(String username, CollectionImpl collection);
 }

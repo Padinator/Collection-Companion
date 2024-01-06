@@ -1,12 +1,13 @@
 package de.collectioncompanion.DatabseMS.adapter.outbound;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.data_files.User;
 import de.collectioncompanion.DatabseMS.ports.service.Database;
 import de.collectioncompanion.DatabseMS.ports.service.DatabaseRepo;
 import de.collectioncompanion.DatabseMS.ports.service.UserRepo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import ports.Collection;
 
 @Service
@@ -37,4 +38,7 @@ public class DatabaseOut {
         return database.selectUser(username, userRepo);
     }
 
+    public void insertCollectionToUser(String username, CollectionImpl collection) {
+        database.insertCollectionToUser(username, collection);
+    }
 }
