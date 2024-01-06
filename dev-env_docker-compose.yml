@@ -48,8 +48,6 @@ services:
       - STATISTICS_MS=statistics-service:8080
     depends_on:
       - mongodb
-    ports:
-      - 8081:8080
 
   tasksms:
     image: tasksms
