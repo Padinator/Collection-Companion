@@ -60,7 +60,7 @@ services:
     depends_on:
       - rabbitmqbroker
 
- resultsms:
+  resultsms:
     image: resultsms
     build:
       context: .
