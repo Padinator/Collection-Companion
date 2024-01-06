@@ -21,7 +21,7 @@ jobs:
     - name: Checkout code 🏗️
       uses: actions/checkout@v3
     - name: Start Docker Compose Services
-      run:  docker-compose up -d --build --force-recreate
+      run:  docker-compose -f dev-env_docker-compose.yml up -d --build --force-recreate
                     
   playwright:
     name: Playwright 🎭
@@ -37,7 +37,7 @@ jobs:
     - name: Start containers
       run: |
         sudo chmod -R 777 .
-        docker-compose up -d --build --force-recreate
+        docker-compose -f dev-env_docker-compose.yml up -d --build --force-recreate
     - name: Install Playwright
       run: |
         npm install playwright@latest
