@@ -10,4 +10,5 @@ public class WebCrawlerApplication {
         SpringApplication.run(WebCrawlerApplication.class, args);
     }
 
+
 }
