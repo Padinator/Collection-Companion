@@ -77,4 +77,11 @@ public interface Collection {
      * @return Returns a string with values of the collection as all URI-parameters
      */
     String toParams();
+
+	/**
+     * Format a String into a valid JSON String
+     *
+     * @return Returns a valid JSON String
+     */
+    String toJSON();
 }
