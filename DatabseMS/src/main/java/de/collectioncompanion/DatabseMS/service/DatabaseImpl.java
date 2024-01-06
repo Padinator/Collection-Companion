@@ -71,10 +71,10 @@ public class DatabaseImpl implements Database {
     @Override
     public void insertCollectionToUser(String username, CollectionImpl collection, UserRepo userRepo,
             CollectionRepo collectionRepo) {
-        Optional<User> optinalUser = userRepo.findById(username);
+        Optional<User> optionalUser = userRepo.findById(username);
 
-        if (optinalUser.isPresent()) {
-            User user = optinalUser.get();
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
             List<String> collectionId = user.getCollectionId();
 
             if (!collectionId.contains(collection.getId())) {
