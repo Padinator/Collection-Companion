@@ -26,14 +26,6 @@ public class CollectionImpl implements Collection {
         data = new TreeMap<>(collection.getData()); // Deep copy
     }
 
-	public String getID() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	@Override
 	public void setData(Map<String, String> data) {
 		this.data = new TreeMap<>(data); // Deep copy
@@ -43,6 +35,14 @@ public class CollectionImpl implements Collection {
     public String toString() {
         return "ID: " + id + (data.isEmpty() ? "" : data.toString());
     }
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
     public Map<String, String> getData() {
         return Collections.unmodifiableMap(new TreeMap<>(data));
