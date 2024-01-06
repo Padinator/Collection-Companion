@@ -1,12 +1,19 @@
 package de.collectioncompanion.DatabseMS.adapter.inbound;
 
-import data_files.CollectionImpl;
-import de.collectioncompanion.DatabseMS.adapter.outbound.DatabaseOut;
-import de.collectioncompanion.DatabseMS.data_files.User;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import data_files.CollectionImpl;
+import de.collectioncompanion.DatabseMS.adapter.outbound.DatabaseOut;
+import de.collectioncompanion.DatabseMS.data_files.User;
 import ports.Collection;
 
 @RestController
@@ -64,9 +71,14 @@ public class RestServerIn {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
-        databaseOut.insertUser(new User(username, password, email));
+    public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email, List<String> collectionId) {
+        databaseOut.insertUser(new User(username, password, email, collectionId));
         return ResponseEntity.status(200).body("Inserted successfully user into DB!");
     }
 
+    @PostMapping
+    public ResponseEntity<String> addCollectionToUser(@RequestBody String username, @RequestBody CollectionImpl collection) {
+        databaseOut.insertCollectionToUser(username, collection);
+        return ResponseEntity.status(200).body("Added successfully collection to user in DB!");
+    }
 }
