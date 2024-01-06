@@ -66,9 +66,9 @@ class WebCrawlerApplicationTests {
         void testRequestGameSpecificAPI() {
             Collection result = new SteamAPIImpl().requestGameSpecificAPI("Passengers Of Execution", 1551830);
             Collection expected = new CollectionImpl(data);
-            // System.out.println(result);
-            // System.out.println(expected);
-            // System.out.println(difference(result.toString(), expected.toString()));
+            System.out.println(result);
+            System.out.println(expected);
+            System.out.println(difference(result.toString(), expected.toString()));
 
             assert expected.toString().equals(result.toString());
         }
@@ -147,7 +147,6 @@ class WebCrawlerApplicationTests {
 
     }
 
-    /*
     public static String difference(String str1, String str2) {
         if (str1 == null) {
             return str2;
@@ -180,6 +179,5 @@ class WebCrawlerApplicationTests {
         }
         return -1;
     }
-    */
 
 }
