@@ -5,9 +5,12 @@ import ports.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
+import org.springframework.data.annotation.Id;
 
 public class CollectionImpl implements Collection {
 
+	@Id
+	private String id;
     private Map<String, String> data;
 
     public CollectionImpl() {
@@ -29,7 +32,7 @@ public class CollectionImpl implements Collection {
 
     @Override
     public String toString() {
-        return data.isEmpty() ? "" : data.toString();
+        return "ID: " + id + (data.isEmpty() ? "" : data.toString());
     }
 
     public Map<String, String> getData() {

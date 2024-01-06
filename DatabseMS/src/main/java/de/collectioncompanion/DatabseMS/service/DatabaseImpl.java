@@ -60,6 +60,11 @@ public class DatabaseImpl implements Database {
     }
 
     @Override
+    public void insertCollectionToUser(String username, CollectionImpl collection) {
+
+    }
+
+    @Override
     public User selectUser(String username, UserRepo userRepo) {
         Optional<User> user = userRepo.findById(username);
 
