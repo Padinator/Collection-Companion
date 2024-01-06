@@ -76,7 +76,7 @@ public class RestServerIn {
         return ResponseEntity.status(200).body("Added successfully collection to user in DB!");
     }
 
-    @PostMapping
+    @PostMapping("/users/friends")
     public ResponseEntity<String> addFriendToUser(@RequestParam String username, @RequestParam String usernameFriend) {
         databaseOut.addFriendToUser(username, usernameFriend);
         return ResponseEntity.status(200).body("Added successfully Friend to User in DB!");
