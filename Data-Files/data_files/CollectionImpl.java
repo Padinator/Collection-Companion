@@ -7,10 +7,16 @@ import java.util.Map;
 import java.util.TreeMap;
 import org.springframework.data.annotation.Id;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class CollectionImpl implements Collection {
 
 	@Id
+	@Getter
+	@Setter
 	private String id;
+
     private Map<String, String> data;
 
     public CollectionImpl() {
