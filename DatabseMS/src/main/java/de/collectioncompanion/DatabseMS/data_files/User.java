@@ -18,10 +18,10 @@ public class User {
 
     private String password, email;
 
-    private List<String> collectionId;
+    private List<String> collectionId, userFriendsId;
 
     @Override
     public String toString() {
-        return "Username: " + username + ", Password: " + ", E-Mail: " + email + ", Sammlung: " + collectionId;
+        return "Username: " + username + ", Password: " + ", E-Mail: " + email + ", Sammlung: " + collectionId + ", Freunde: " + userFriendsId;
     }
 }

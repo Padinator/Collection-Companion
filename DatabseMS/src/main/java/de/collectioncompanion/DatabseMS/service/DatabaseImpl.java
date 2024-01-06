@@ -6,6 +6,8 @@ import de.collectioncompanion.DatabseMS.ports.service.Database;
 import de.collectioncompanion.DatabseMS.ports.service.DatabaseRepo;
 import de.collectioncompanion.DatabseMS.ports.service.UserRepo;
 
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import ports.Collection;
 
@@ -67,6 +69,32 @@ public class DatabaseImpl implements Database {
             return null;
 
         return user.get();
+    }
+
+    @Override
+    public void insertCollectionToUser(String username, CollectionImpl collection, UserRepo userRepo,
+            DatabaseRepo databaseRepo) {
+        Optional<User> user = userRepo.findById(username);
+
+        if (!user.isEmpty()) {
+            List<String> collectionId = user.get().getCollectionId();
+            // if (collectionId.contains(collection.get))
+        }
+    }
+
+    @Override
+    public void inserFriendToUser(String username, String usernameFriend, UserRepo userRepo) {
+        Optional<User> user1 = userRepo.findById(username), user2 = userRepo.findById(usernameFriend);
+
+        if (!(user1.isEmpty() || user2.isEmpty())) {
+            User user = user1.get();
+            List<String> friendsId = user.getUserFriendsId();
+
+            if (!friendsId.contains(usernameFriend)) {
+                user.getUserFriendsId().add(usernameFriend);
+                userRepo.save(user);
+            }
+        }
     }
 
 }

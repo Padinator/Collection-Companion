@@ -39,6 +39,11 @@ public class DatabaseOut {
     }
 
     public void insertCollectionToUser(String username, CollectionImpl collection) {
-        database.insertCollectionToUser(username, collection);
+        database.insertCollectionToUser(username, collection, userRepo, databaseRepo);
     }
+
+    public void addFriendToUser(String username, String usernameFriend) {
+        database.inserFriendToUser(username, usernameFriend, userRepo);
+    }
+
 }
