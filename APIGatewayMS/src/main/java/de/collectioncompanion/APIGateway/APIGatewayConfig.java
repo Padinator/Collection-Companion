@@ -31,7 +31,8 @@ public class APIGatewayConfig {
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder, UserURLResolver userURLResolver) {
         String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS");
-        //String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":" + 8081;
+        // String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + ":"
+        // + 8081;
         String RESULTS_MS = "http://" + environment.getProperty("RESULTS_MS");
         String TASKS_MS = "http://" + environment.getProperty("TASKS_MS");
         String STATISTICS_MS = "http://" + environment.getProperty("STATISTICS_MS");
@@ -70,11 +71,11 @@ class UserURLResolver implements GatewayFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         final String starting = exchange.getRequest().getPath().toString();
         final String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + starting;
-        //final String DATABASE_MS = "http://localhost:8081/collection";
+        // final String DATABASE_MS = "http://localhost:8081/collection";
         final String TASKS_MS = "http://" + environment.getProperty("TASKS_MS") + starting;
-        //final String TASKS_MS = "http://localhost:8082/collection";
+        // final String TASKS_MS = "http://localhost:8082/collection";
         final String RESULTS_MS = "http://" + environment.getProperty("RESULTS_MS") + starting;
-        //final String RESULTS_MS = "http://localhost:8083/collection";
+        // final String RESULTS_MS = "http://localhost:8083/collection";
         final String STATISTICS_MS = "http://" + environment.getProperty("STATISTICS_MS") + starting;
 
         Map<String, String> queryParams = exchange.getRequest().getQueryParams().toSingleValueMap();
@@ -94,7 +95,8 @@ class UserURLResolver implements GatewayFilter {
             params = new StringBuilder();
 
         // Ask DB-MS to request again
-        // Do call: webcrwalerRequest = localDatabaseMS.hasValidCollection(category, searchTerm);
+        // Do call: webcrwalerRequest = localDatabaseMS.hasValidCollection(category,
+        // searchTerm);
         request = restServerOut.doGetRequest(DATABASE_MS, params.toString());
         System.out.println("Status code of requesting DB-MS: " + request.getStatusCode());
 
@@ -104,7 +106,7 @@ class UserURLResolver implements GatewayFilter {
                 exchange.getAttributes().put(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR,
                         new URI(DATABASE_MS + params.toString().replaceAll(" ", "%20")));
             else { // Ask Result-MS for result of call to Task-MS
-                // Extend parameters with ID
+                   // Extend parameters with ID
                 if (params.toString().equals(""))
                     params.append("?id=").append(id);
                 else
