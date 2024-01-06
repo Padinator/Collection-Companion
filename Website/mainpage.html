@@ -69,9 +69,8 @@
                     method: 'GET'
                 }
 
-                //fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
-                const res = fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
-                    .then(response => response.json())
+				const res = fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
+                    .then(response => response.text())
                     .then(data => { console.log(data); }).catch(error => { console.error('There was a problem with the fetch operation:', error.message); });
                 console.log(res);
             </script>
