@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ServerWebExchange;
@@ -102,6 +104,10 @@ class UserURLResolver implements GatewayFilter {
 
         // Route request
         try {
+            exchange.getResponse().getHeaders().add("Access-Control-Allow-Origin", "*");
+            exchange.getResponse().getHeaders().add("Access-Control-Allow-Methods", "GET,POST,PATCH,OPTIONS");
+            System.out.println(exchange.getResponse().getHeaders());
+
             if (request.getStatusCode().value() == 200) // Route request to database microservice
                 exchange.getAttributes().put(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR,
                         new URI(DATABASE_MS + params.toString().replaceAll(" ", "%20")));
