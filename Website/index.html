@@ -86,8 +86,8 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <a href="#" class="btn btn-primary" id="cc-login"
-                                            type="submit" onclick="getValuesFromLogin()">Anmelden</a>
+                                        <a class="btn btn-primary" id="cc-login" type="submit"
+                                            onclick="getValuesFromLogin()">Anmelden</a>
                                     </div>
                                 </div>
                             </div>
@@ -127,6 +127,14 @@
                 method: "GET",
             }).then((response) => {
                 console.log(response.status);
+                if (response.status == 404) {
+                    console.log("No User was found!");
+                    alert("No User was found");
+                } else {
+                    // go on to the next page
+                    window.location.href = "http://localhost:8090/mainpage.html";
+                    console.log("User was found!");
+                }
             });
         }
 

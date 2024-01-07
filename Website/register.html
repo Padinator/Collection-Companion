@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <a href="#" class="btn btn-primary" type="submit"
+                                        <a class="btn btn-primary" type="submit"
                                             onclick="getRegisterValues()">Registrieren</a>
                                     </div>
                                 </div>
@@ -139,6 +139,11 @@
             }).then(respone => respone.text())
                 .then((res) => {
                     console.log(res);
+                    if (res == "User already exists!") {
+                        alert("User already exists");
+                    } else {
+                        window.location.href = "http:localhost:8090/index.html";
+                    }
                 }).catch(error => console.log(error));
         }
 
