@@ -35,7 +35,7 @@ public class RestServerIn {
             System.out.println("Result is valid: " + result.isValid());
 
         if (!result.isEmpty() && result.isValid()) // Found a valid collection
-            return ResponseEntity.status(200).body(result.toString());
+            return ResponseEntity.status(200).body(result.toJSON());
         else // Found no collection or an outdated collection
             return ResponseEntity.status(204).body(result.toString());
     }

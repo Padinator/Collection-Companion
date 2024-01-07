@@ -31,7 +31,7 @@ public class RestServerIn {
         System.out.println(
                 "Response is: " + ResponseEntity.status(200).body(resultWaiterThread.getCollection().toString()));
 
-        return ResponseEntity.status(200).body(resultWaiterThread.getCollection().toString());
+        return ResponseEntity.status(200).body(resultWaiterThread.getCollection().toJSON());
     }
 
 }
