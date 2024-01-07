@@ -3,10 +3,12 @@ package de.collectioncompanion.ResultsMS.data_files;
 import lombok.Getter;
 import ports.Collection;
 
+import java.util.List;
+
 @Getter
 public class ResultWaiterThread extends Thread {
 
-    private Collection collection;
+    private List<Collection> collections;
     private final long ID;
 
     public ResultWaiterThread(long ID) {
@@ -16,8 +18,8 @@ public class ResultWaiterThread extends Thread {
 
     @Override
     public void run() {
-        collection = CollectionList.popCollection(ID);
-        System.out.println(collection);
+        collections = CollectionList.popCollection(ID);
+        System.out.println("\n\nPopped follwing collection: " + collections);
     }
 
 }

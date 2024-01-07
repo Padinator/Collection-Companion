@@ -1,14 +1,16 @@
 package de.collectioncompanion.ComposerMS.ports.outbound;
 
-import ports.Collection;
+import data_files.CollectionImpl;
+
+import java.util.ArrayList;
 
 public interface UpdatesNotificationPort {
 
     /**
      * Notifies that the collection was enqueued to rabbitmq
      *
-     * @param collection Pass the collection for notifying
+     * @param collections Pass the collection for notifying
      */
-    void notifyUpdate(long id, Collection collection);
+    void notifyUpdate(long id, ArrayList<CollectionImpl> collections);
 
 }

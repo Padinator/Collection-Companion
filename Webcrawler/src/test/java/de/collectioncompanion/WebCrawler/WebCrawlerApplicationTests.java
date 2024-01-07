@@ -10,17 +10,61 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import ports.Collection;
 
-import java.util.AbstractMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static de.collectioncompanion.WebCrawler.services.inbound.RestOutImpl.merge;
 
 @SpringBootTest
 class WebCrawlerApplicationTests {
 
     @Test
     void contextLoads() {
+    }
+
+    @Nested
+    class RestOutImplTest {
+
+        @Test
+        void testMerge1() {
+            List<Collection> results = merge(List.of(
+                    new CollectionImpl(Stream.of(new AbstractMap.SimpleEntry<>("title", "title1"))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))),
+                    new CollectionImpl(Stream.of(new AbstractMap.SimpleEntry<>("title", "title1"),
+                                    new AbstractMap.SimpleEntry<>("name", "name123"))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))),
+                    new CollectionImpl(Stream.of(new AbstractMap.SimpleEntry<>("title", "title2"),
+                                    new AbstractMap.SimpleEntry<>("property", "value"))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))),
+                    new CollectionImpl(Stream.of(new AbstractMap.SimpleEntry<>("title", "title12"),
+                                    new AbstractMap.SimpleEntry<>("prop", "val"))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))),
+                    new CollectionImpl(Stream.of(new AbstractMap.SimpleEntry<>("title", "title123"))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
+                    , new CollectionImpl(Stream.of(new AbstractMap.SimpleEntry<>("title", "abcdefghi"))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
+            ));
+
+            List<Collection> expected = List.of(
+                    new CollectionImpl(Stream.of(new AbstractMap.SimpleEntry<>("title", "title1"),
+                                    new AbstractMap.SimpleEntry<>("name", "name123"),
+                                    new AbstractMap.SimpleEntry<>("property", "value"),
+                                    new AbstractMap.SimpleEntry<>("prop", "val"))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))),
+                    new CollectionImpl(Stream.of(new AbstractMap.SimpleEntry<>("title", "title123"))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))),
+                    new CollectionImpl(Stream.of(new AbstractMap.SimpleEntry<>("title", "abcdefghi"))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
+            );
+
+            assert expected.size() == results.size() : "Size1: " + expected.size() + ", Size2: " + results.size();
+
+            for (int i = 0; i < expected.size(); ++i)
+                assert expected.get(i).toString().equals(results.get(i).toString()) : "Expected[" + i + "]: "
+                        + expected.get(i) + ", Results: [" + i + "]: " + results.get(i);
+        }
+
     }
 
     @Nested
@@ -136,10 +180,10 @@ class WebCrawlerApplicationTests {
         /**
          * Tests requesting API
          */
-        @Disabled // Makes problems with Github Actions
+        @Disabled // Makes problems with GitHub Actions
         @Test
         void testRequestGameSpecificAPI() {
-            Collection result = new RAWGioOutImpl().requestGameSpecificAPI("Passengers Of Execution", 1551830);
+            Collection result = new RAWGioOutImpl().requestGameSpecificAPI("Passengers Of Execution", 42669);
             Collection expected = new CollectionImpl(data);
             System.out.println(result);
             System.out.println(expected);

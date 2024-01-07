@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ports.Collection;
 
 @RestController
 @RequestMapping("/collection")
@@ -27,11 +28,10 @@ public class RestServerIn {
             throw new RuntimeException(e);
         }
 
-        System.out.println("Requested collection is: " + resultWaiterThread.getCollection().toString());
-        System.out.println(
-                "Response is: " + ResponseEntity.status(200).body(resultWaiterThread.getCollection().toString()));
+        System.out.println("Requested collection is: " + resultWaiterThread.getCollections().toString());
 
-        return ResponseEntity.status(200).body(resultWaiterThread.getCollection().toJSON());
+        return ResponseEntity.status(200).body(resultWaiterThread.getCollections()
+                .stream().map(Collection::toJSON).toList().toString());
     }
 
 }
