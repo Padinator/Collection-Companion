@@ -38,8 +38,9 @@ public class MessagingAdapter {
             long id = collectionDTO.id();
 
             updatesNotificationPort.notifyUpdate(id, collection); // Notify dequeuing a collection from rabbitmq
+            String dbCollectionId = databaseServerOut.addResultingCollectionToDB(collection).getBody(); // Add collection into DB and get ID of inserted collection
+            collection.setId(dbCollectionId);
             CollectionList.pushCollection(id, collection); // Push result into an own java class queue
-            databaseServerOut.addResultingCollectionToDB(collection); // Add request into DB
         }
     }
 

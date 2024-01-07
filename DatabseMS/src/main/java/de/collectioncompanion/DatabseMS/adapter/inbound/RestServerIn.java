@@ -50,7 +50,7 @@ public class RestServerIn {
     public ResponseEntity<String> addNewCollection(@RequestBody CollectionImpl collection) {
         System.out.println("Received collection to insert: " + collection);
         databaseOut.insertCollection(collection);
-        return ResponseEntity.status(200).body("Inserted successfully params into DB!");
+        return ResponseEntity.status(200).body(collection.getId());
     }
 
     @GetMapping("/users")
