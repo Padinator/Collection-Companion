@@ -5,6 +5,20 @@ import java.util.Map;
 public interface Collection {
 
 	/**
+	 * Getter for property id
+	 *
+	 * @return the ID of the Collection
+	 */
+	String getId();
+
+	/**
+	 * Setter for property id
+	 *
+	 * @param id of the collection
+	 */
+	void setId(String id);
+
+	/**
 	 * Returns a deep copy of all data (data element in CollectionImpl)
 	 *
 	 * @return Return an unmodifiable copied Map of data element "data" in CollectionImpl
@@ -63,4 +77,11 @@ public interface Collection {
      * @return Returns a string with values of the collection as all URI-parameters
      */
     String toParams();
+
+	/**
+     * Format a String into a valid JSON String
+     *
+     * @return Returns a valid JSON String
+     */
+    String toJSON();
 }

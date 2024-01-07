@@ -12,11 +12,20 @@ services:
       timeout: 30s
       retries: 3
 
+  webserverms:
+    image: webserverms
+    build:
+      context: .
+      dockerfile: Dockerfile_WebServerMS
+    ports:
+      - 8090:80
+
   apigatewayms:
     image: apigatewayms
     build:
       context: .
       dockerfile: Dockerfile_APIGatewayMS
+    hostname: apigateway-service
     ports:
       - 8080:8080
     environment:
@@ -101,11 +110,3 @@ services:
       - RESULTS_MS=results-service:8080
       - COMPOSER_MS=composer-service:8080
       - WEBCRAWLER_MS=webcrawler:8080
-
-  browsertestms:
-    image: browsertestms
-    build:
-      context: .
-      dockerfile: Dockerfile_BrowserTest
-    ports:
-      - 8090:80

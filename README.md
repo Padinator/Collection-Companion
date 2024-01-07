@@ -2,11 +2,10 @@
 Movs Project
 
 # Build & Start Production Environment
-docker build -t prodenv -f Dockerfile_ProductionEnvironment .
-docker run -v /var/run/docker.sock:/var/run/docker.sock --name prodenv prodenv
+docker-compose -f prod-env_docker-compose.yml up -d --build --force-recreate
 
 # (Re)build images and (re)create containers from images in detached mode:
-docker-compose up -d --build --force-recreate
+docker-compose -f dev-env_docker-compose.yml up -d --build --force-recreate
 
 # Stop and remove all containers and images:
 docker-compose down --rmi all
@@ -20,7 +19,7 @@ docker build -t test123 --progress=plain --no-cache .
 jar -cf collections.jar ports data_files
 
 # Compile Main-file/-class:
-javac -cp "gson-2.10.1.jar;lombok.jar;collections.jar;" Main.java
+javac -cp "gson-2.10.1.jar;lombok.jar;collections.jar;mongo_jars/*;" Main.java
 
 # Call/Test Main class/file:
 java Main

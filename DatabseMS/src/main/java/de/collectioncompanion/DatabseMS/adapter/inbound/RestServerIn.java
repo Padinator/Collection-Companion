@@ -2,10 +2,13 @@ package de.collectioncompanion.DatabseMS.adapter.inbound;
 
 import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.adapter.outbound.DatabaseOut;
+import de.collectioncompanion.DatabseMS.data_files.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ports.Collection;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/collection")
@@ -32,7 +35,7 @@ public class RestServerIn {
             System.out.println("Result is valid: " + result.isValid());
 
         if (!result.isEmpty() && result.isValid()) // Found a valid collection
-            return ResponseEntity.status(200).body(result.toString());
+            return ResponseEntity.status(200).body(result.toJSON());
         else // Found no collection or an outdated collection
             return ResponseEntity.status(204).body(result.toString());
     }
@@ -50,4 +53,32 @@ public class RestServerIn {
         return ResponseEntity.status(200).body("Inserted successfully params into DB!");
     }
 
+    @GetMapping("/users")
+    public ResponseEntity<String> getUser(@RequestParam String username) {
+        User user = databaseOut.requestUserFromDB(username);
+
+        if (user == null) // No user was found
+            return ResponseEntity.status(404).body("No user was found!");
+
+        user.setPassword("");
+        return ResponseEntity.status(200).body(user.toString());
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email, List<String> collectionId, List<String> userFriendsId) {
+        databaseOut.insertUser(new User(username, password, email, collectionId, userFriendsId));
+        return ResponseEntity.status(200).body("Inserted successfully user into DB!");
+    }
+
+    @PostMapping("/users/collections")
+    public ResponseEntity<String> addCollectionToUser(@RequestBody String username, @RequestBody CollectionImpl collection) {
+        databaseOut.insertCollectionToUser(username, collection);
+        return ResponseEntity.status(200).body("Added successfully collection to user in DB!");
+    }
+
+    @PostMapping("/users/friends")
+    public ResponseEntity<String> addFriendToUser(@RequestParam String username, @RequestParam String usernameFriend) {
+        databaseOut.addFriendToUser(username, usernameFriend);
+        return ResponseEntity.status(200).body("Added successfully Friend to User in DB!");
+    }
 }

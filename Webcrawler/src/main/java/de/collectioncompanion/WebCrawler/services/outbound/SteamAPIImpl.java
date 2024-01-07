@@ -54,7 +54,7 @@ public class SteamAPIImpl extends GameOutImpl implements SteamAPI {
     }
 
     @Override
-    protected Collection requestGameSpecificAPI(String searchTerm, int appID) {
+    public Collection requestGameSpecificAPI(String searchTerm, int appID) {
         // Search for game data
         String url = BASE_URL_GET_ONE_GAME + "?appids=" + appID;
         String body = requestAnAPI(url);
@@ -82,7 +82,7 @@ public class SteamAPIImpl extends GameOutImpl implements SteamAPI {
      * @return Return the formatted data as Map
      */
     @Override
-    protected Map<String, String> formatCollectionData(String body) {
+    public Map<String, String> formatCollectionData(String body) {
         GameCollectionFormatter formatter = new GameCollectionFormatter();
         Map<String, String> collectionData = new TreeMap<>();
 

@@ -5,8 +5,12 @@ import ports.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
+import org.springframework.data.annotation.Id;
 
 public class CollectionImpl implements Collection {
+
+	@Id
+	private String id;
 
     private Map<String, String> data;
 
@@ -29,8 +33,16 @@ public class CollectionImpl implements Collection {
 
     @Override
     public String toString() {
-        return data.isEmpty() ? "" : data.toString();
+        return "ID: " + id + (data.isEmpty() ? "" : data.toString());
     }
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
     public Map<String, String> getData() {
         return Collections.unmodifiableMap(new TreeMap<>(data));
@@ -74,6 +86,25 @@ public class CollectionImpl implements Collection {
 
         return params.toString();
     }
+
+	@Override
+	public String toJSON() {
+		StringBuilder resultJSON = new StringBuilder("{ \"id\": \"").append(id).append("\", ");
+
+		for (Map.Entry<String, String> propValuePair : data.entrySet()) {
+			String property = "\"" + propValuePair.getKey() + "\"";
+			String value = propValuePair.getValue();
+
+			if (value.startsWith("["))
+				value = "[\"" + String.join("\", \"", value.substring(1, value.length() - 1).split(", ")) + "\"]";
+			else
+				value = "\"" + value + "\"";
+
+			resultJSON.append(property).append(": ").append(value).append(", ");
+		}
+
+		return resultJSON.toString().substring(0, resultJSON.length() - 2) + " }";
+	}
 
     private static class FormatDate {
 
