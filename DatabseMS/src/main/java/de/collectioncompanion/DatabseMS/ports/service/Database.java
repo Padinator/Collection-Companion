@@ -38,8 +38,9 @@ public interface Database {
      * 
      * @param user to Insert
      * @param userRepo object for accessing DB
+     * @return inserted User or null if User already exists
      */
-    void insertUser(User user, UserRepo userRepo);
+    User insertUser(User user, UserRepo userRepo);
 
     /**
      * Insert Collection into passed User

@@ -64,17 +64,6 @@
                 </form>
             </div>
 
-            <script type='module'>
-                const fetchData = {
-                    method: 'GET'
-                }
-
-				const res = fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
-                    .then(response => response.json())
-                    .then(data => { console.log(data); }).catch(error => { console.error('There was a problem with the fetch operation:', error.message); });
-                console.log(res);
-            </script>
-
             <!-- Spalte 3: Collection und Freunde Button -->
             <div class="col-md-2">
                 <div class="d-flex justify-content-center">
@@ -195,6 +184,21 @@
             </div>
         </div>
     </div>
+
+    <script type='module'>
+        const fetchData = {
+            method: 'GET'
+        }
+
+        const res = fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
+            .then(response => response.json())
+            .then(data => { console.log(data); }).catch(error => { console.error('There was a problem with the fetch operation:', error.message); });
+        console.log(res);
+
+    
+
+    </script>
+
 </body>
 
 </html>

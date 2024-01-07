@@ -30,8 +30,8 @@ public class DatabaseOut {
         database.insertCollection(collection, collectionRepo);
     }
 
-    public void insertUser(User user) {
-        database.insertUser(user, userRepo);
+    public User insertUser(User user) {
+        return database.insertUser(user, userRepo);
     }
 
     public User requestUserFromDB(String username) {

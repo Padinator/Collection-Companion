@@ -67,8 +67,11 @@ public class RestServerIn {
 
     @PostMapping("/users")
     public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
-        databaseOut.insertUser(new User(username, password, email, new LinkedList<>(), new LinkedList<>()));
-        return ResponseEntity.status(200).body("Inserted successfully user into DB!");
+        User user = databaseOut.insertUser(new User(username, password, email, new LinkedList<>(), new LinkedList<>()));
+        if (user != null)
+            return ResponseEntity.status(200).body("Inserted successfully user into DB!");
+        else 
+            return ResponseEntity.status(403).body("User already exists!");
     }
 
     @PostMapping("/users/collections")

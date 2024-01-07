@@ -53,9 +53,12 @@ public class DatabaseImpl implements Database {
     }
 
     @Override
-    public void insertUser(User user, UserRepo userRepo) {
+    public User insertUser(User user, UserRepo userRepo) {
+        if (selectUser(user.getUsername(), userRepo) != null)
+            return null;
         User u = userRepo.insert(user);
         System.out.println("Inserted new User into DB: " + u);
+        return u;
     }
 
     @Override

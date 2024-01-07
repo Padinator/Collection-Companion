@@ -109,7 +109,8 @@ class UserURLResolver implements GatewayFilter {
         try {
             exchange.getResponse().getHeaders().add("Content-Type", "application/json");
             exchange.getResponse().getHeaders().add("Access-Control-Allow-Origin", "*");
-            exchange.getResponse().getHeaders().add("Access-Control-Allow-Methods", "GET,POST,PATCH,OPTIONS");
+            exchange.getResponse().getHeaders().add("Access-Control-Allow-Methods", "*");
+            exchange.getResponse().getHeaders().add("Access-Control-Allow-Headers", "x-requested-with, x-requested-by");
             System.out.println(exchange.getResponse().getHeaders());
 
             if (request == null || request.getStatusCode().value() == 200) // Route request to database microservice

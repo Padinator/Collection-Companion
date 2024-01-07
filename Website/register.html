@@ -99,8 +99,8 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <button class="btn btn-primary" type="submit"
-                                            onclick="getRegisterValues()">Registrieren</button>
+                                        <a href="#" class="btn btn-primary" type="submit"
+                                            onclick="getRegisterValues()">Registrieren</a>
                                     </div>
                                 </div>
                             </div>
@@ -126,20 +126,20 @@
             urlWithParams.searchParams.append("password", password);
             urlWithParams.searchParams.append("email", email);
 
-            console.log(urlWithParams.href);
+            console.log(String(urlWithParams.href));
 
-            fetch(urlWithParams.href, {
+            fetch(String(urlWithParams.href), {
                 method: "POST",
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'text/plain',
                 },
                 body: JSON.stringify({
 
-                })
-            }).then ((res) => {
-                console.log(res.status);
-            });
+                }),
+            }).then(respone => respone.text())
+                .then((res) => {
+                    console.log(res);
+                }).catch(error => console.log(error));
         }
 
     </script>
