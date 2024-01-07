@@ -42,7 +42,7 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
     }
 
     @Override
-    protected Collection requestGameSpecificAPI(String searchTerm, int appID) {
+    public Collection requestGameSpecificAPI(String searchTerm, int appID) {
         String urlWithSearchTerm = BASE_URL_GET_ALL_GAMES + "?search=" + searchTerm + "&key=" + API_KEY;
         String foundGames = requestAnAPI(urlWithSearchTerm);
         String urlToGame, /* foundGames = "" , */ body = "";
@@ -91,7 +91,7 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
     }
 
     @Override
-    protected Map<String, String> formatCollectionData(String body) {
+    public Map<String, String> formatCollectionData(String body) {
         GameCollectionFormatter formatter = new GameCollectionFormatter();
         Map<String, String> collectionData = new TreeMap<>();
 
@@ -103,14 +103,14 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
 
             // Main image
             collectionData.put(formatter.getPropertyName("main_img"), (String) gameData
-                    .get("https://media.rawg.io/media/screenshots/feb/feb1cdf73bf39e72ce660d3326f3a916.jpg"));
+                    .get("background_image"));
 
             // Short description
-            collectionData.put(formatter.getPropertyName("short_description"),
-                    (String) gameData.get("description_raw"));
+            collectionData.put(formatter.getPropertyName("short_description"), null);
 
             // Detailed description
-            collectionData.put(formatter.getPropertyName("detailed_description"), null);
+            collectionData.put(formatter.getPropertyName("detailed_description"),
+                    (String) gameData.get("description_raw"));
 
             // Required age
             collectionData.put(formatter.getPropertyName("required_age"), null);
@@ -122,6 +122,7 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
             collectionData.put(formatter.getPropertyName("languages"), null);
 
             // Genres
+            System.out.println(gameData.get("genres"));
             String genres = ((ArrayList) gameData.get("genres")).stream()
                     .map(entry -> (String) ((LinkedHashMap) entry).get("name")).toList().toString();
             collectionData.put(formatter.getPropertyName("genres"), genres);

@@ -78,9 +78,9 @@ public interface Collection {
      */
     String toParams();
 
-    /**
+	/**
      * Format a String into a valid JSON String
-     * 
+     *
      * @return Returns a valid JSON String
      */
     String toJSON();

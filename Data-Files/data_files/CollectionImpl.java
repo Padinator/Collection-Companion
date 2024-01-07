@@ -87,11 +87,24 @@ public class CollectionImpl implements Collection {
         return params.toString();
     }
 
-    @Override
-    public String toJSON() {
-        
-        return null;
-    }
+	@Override
+	public String toJSON() {
+		StringBuilder resultJSON = new StringBuilder("{ \"id\": \"").append(id).append("\", ");
+
+		for (Map.Entry<String, String> propValuePair : data.entrySet()) {
+			String property = "\"" + propValuePair.getKey() + "\"";
+			String value = propValuePair.getValue();
+
+			if (value.startsWith("["))
+				value = "[\"" + String.join("\", \"", value.substring(1, value.length() - 1).split(", ")) + "\"]";
+			else
+				value = "\"" + value + "\"";
+
+			resultJSON.append(property).append(": ").append(value).append(", ");
+		}
+
+		return resultJSON.toString().substring(0, resultJSON.length() - 2) + " }";
+	}
 
     private static class FormatDate {
 

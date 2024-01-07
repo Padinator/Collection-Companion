@@ -19,7 +19,7 @@ docker build -t test123 --progress=plain --no-cache .
 jar -cf collections.jar ports data_files
 
 # Compile Main-file/-class:
-javac -cp "gson-2.10.1.jar;lombok.jar;collections.jar;" Main.java
+javac -cp "gson-2.10.1.jar;lombok.jar;collections.jar;mongo_jars/*;" Main.java
 
 # Call/Test Main class/file:
 java Main
