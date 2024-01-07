@@ -2,6 +2,8 @@ package de.collectioncompanion.WebCrawler.ports.inbound;
 
 import ports.Collection;
 
+import java.util.List;
+
 public interface RestOut {
 
     /**
@@ -10,7 +12,7 @@ public interface RestOut {
      * @param searchTerm The search term to create a collection
      * @return Returns the response as String
      */
-    Collection crawlGame(String searchTerm);
+    List<Collection> crawlGame(String searchTerm);
 
     /**
      * Searches for the search term for creating a collection for a movie
@@ -18,7 +20,7 @@ public interface RestOut {
      * @param searchTerm The search term to create a collection
      * @return Returns the response as String
      */
-    Collection crawlMovie(String searchTerm);
+    List<Collection> crawlMovie(String searchTerm);
 
     /**
      * Searches for the search term for creating a collection for a series
@@ -26,7 +28,7 @@ public interface RestOut {
      * @param searchTerm The search term to create a collection
      * @return Returns the response as String
      */
-    Collection crawlSeries(String searchTerm);
+    List<Collection> crawlSeries(String searchTerm);
 
     /**
      * Searches for the search term for creating a collection for a comic
@@ -34,13 +36,13 @@ public interface RestOut {
      * @param searchTerm The search term to create a collection
      * @return Returns the response as String
      */
-    Collection crawlComic(String searchTerm);
+    List<Collection> crawlComic(String searchTerm);
 
     /**
      * Response composer microservice
      *
      * @param collection The found collection will be sent to the composer microservice
      */
-    void response(long id, Collection collection);
+    void response(long id, List<Collection> collection);
 
 }

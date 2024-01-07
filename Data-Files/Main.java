@@ -11,6 +11,12 @@ public class Main {
 		CollectionRequest cr;
 		CollectionDTO cdto;
 		CollectionRequestDTO crdto;
+		CollectionListDTO cldto;
+
+		// Leventhstein distances
+		System.out.println(Levenshtein.calculateDistance("a", "b"));
+
+		// Does not work!?!?!?
 		System.out.println(GameCollectionFormatter.AdditionlAttributes.DEVELOPERS);
 		CollectionFormatter gcfm = new GameCollectionFormatter();
 	}

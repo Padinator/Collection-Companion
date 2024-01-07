@@ -1,6 +1,7 @@
 package ports;
 
 import ports.Collection;
+import data_files.Levenshtein;
 
 public interface CollectionFormatter {
 
@@ -13,23 +14,25 @@ public interface CollectionFormatter {
     String getPropertyName(String property);
 
     /**
-     * Formats the passed collection, so it has the correct format.
+     * Checks, if the passed collection has the correct format
      *
      * @param collection The collection to check
-     * @return Returns the formatted collection, if the passed collection can be formatted, else null
+     * @return true, if the passed collection has the correct format, else false
      */
-    Collection checkCollectionFormat(Collection collection);
+    boolean checkCollectionFormat(Collection collection);
 
 	/**
-     * Compares two strings (game names) with equals method of class String -> later comparing with tolerance depending
-     * on string lengths
+     * Compares two strings (game names) with "Levenshtein Distance". If the Levenshtein Distance is
+	 * lower than the allowed distance (count of missspells of a word), then game2 could be game1, else not.
      *
      * @param game1 Name of first game to check
      * @param game2 Name of second game to check
      * @return Returns true, if the game names are equal or mostly equal
      */
 	static boolean compareGameNames(String game1, String game2) {
-		return game1.equals(game2);
+		int distance = Levenshtein.calculateDistance(game1, game2);
+		int allowedDistance = Levenshtein.calculateAcceptableMistakes(game1);
+		return distance <= allowedDistance;
     }
 
 }
