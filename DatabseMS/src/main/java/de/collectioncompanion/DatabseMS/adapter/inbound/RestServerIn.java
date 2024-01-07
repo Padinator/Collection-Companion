@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ports.Collection;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -65,8 +66,8 @@ public class RestServerIn {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email, List<String> collectionId, List<String> userFriendsId) {
-        databaseOut.insertUser(new User(username, password, email, collectionId, userFriendsId));
+    public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
+        databaseOut.insertUser(new User(username, password, email, new LinkedList<>(), new LinkedList<>()));
         return ResponseEntity.status(200).body("Inserted successfully user into DB!");
     }
 

@@ -82,9 +82,10 @@ class UserURLResolver implements GatewayFilter {
 
         Map<String, String> queryParams = exchange.getRequest().getQueryParams().toSingleValueMap();
         StringBuilder params = new StringBuilder("?"); // parameters of the query
-        String category = queryParams.get("category"), searchTerm = queryParams.get("searchTerm");
+        // String category = queryParams.get("category"), searchTerm =
+        // queryParams.get("searchTerm");
         // boolean webcrwalerRequest = true; // For gRPC (later)
-        ResponseEntity<String> request;
+        ResponseEntity<String> request = null;
 
         // Convert parameters into one variable
         for (Map.Entry<String, String> e : queryParams.entrySet())
@@ -99,8 +100,10 @@ class UserURLResolver implements GatewayFilter {
         // Ask DB-MS to request again
         // Do call: webcrwalerRequest = localDatabaseMS.hasValidCollection(category,
         // searchTerm);
-        request = restServerOut.doGetRequest(DATABASE_MS, params.toString());
-        System.out.println("Status code of requesting DB-MS: " + request.getStatusCode());
+        if (exchange.getRequest().getPath().value().equals("/collection")) {
+            request = restServerOut.doGetRequest(DATABASE_MS, params.toString());
+            System.out.println("Status code of requesting DB-MS: " + request.getStatusCode());
+        }
 
         // Route request
         try {
@@ -109,7 +112,7 @@ class UserURLResolver implements GatewayFilter {
             exchange.getResponse().getHeaders().add("Access-Control-Allow-Methods", "GET,POST,PATCH,OPTIONS");
             System.out.println(exchange.getResponse().getHeaders());
 
-            if (request.getStatusCode().value() == 200) // Route request to database microservice
+            if (request == null || request.getStatusCode().value() == 200) // Route request to database microservice
                 exchange.getAttributes().put(ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR,
                         new URI(DATABASE_MS + params.toString().replaceAll(" ", "%20")));
             else { // Ask Result-MS for result of call to Task-MS
