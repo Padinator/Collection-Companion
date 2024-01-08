@@ -43,7 +43,7 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
         try {
             ArrayList results = (ArrayList) new ObjectMapper().readValue(foundGames, LinkedHashMap.class).get("results");
 
-            for (int i = 0; i < MAX_RESULTING_ENTRIES; ++i)
+            for (int i = 0; i < results.size() && i < MAX_RESULTING_ENTRIES; ++i)
                 if (compareGameNames(String.valueOf(((LinkedHashMap) results.get(i)).get("name")), searchTerm))
                     appIDs.add(Integer.parseInt(String.valueOf(((LinkedHashMap) results.get(i)).get("id")))); // Find ID of the game
         } catch (JsonProcessingException e) {

@@ -21,6 +21,8 @@ public class RestServerIn {
     @GetMapping
     public ResponseEntity<String> getCollection(@RequestParam long id) {
         ResultWaiterThread resultWaiterThread = new ResultWaiterThread(id);
+        String result;
+        int returnCode = 200;
 
         try {
             resultWaiterThread.join();
@@ -28,10 +30,13 @@ public class RestServerIn {
             throw new RuntimeException(e);
         }
 
-        System.out.println("Requested collection is: " + resultWaiterThread.getCollections().toString());
+        result = resultWaiterThread.getCollections().stream().map(Collection::toJSON).toList().toString();
+        System.out.println("Requested collections as JSON are: " + result);
 
-        return ResponseEntity.status(200).body(resultWaiterThread.getCollections()
-                .stream().map(Collection::toJSON).toList().toString());
+        if (resultWaiterThread.getCollections().isEmpty())
+            returnCode = 404;
+
+        return ResponseEntity.status(returnCode).body(result);
     }
 
 }
