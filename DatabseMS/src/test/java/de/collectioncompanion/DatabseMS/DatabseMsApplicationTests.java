@@ -30,12 +30,12 @@ class DatabseMsApplicationTests {
             if (collectionIds.isEmpty())
                 collectionIDsString = "[]";
             else
-                collectionIDsString = "[ \"" + String.join("\", \"", collectionIds) + "\" ]";
+                collectionIDsString = "[ \'" + String.join("\', \'", collectionIds) + "\' ]";
 
             for (String category : categories)
                 for (String visibility : visibilities)
-                    sammlungen.put("{ \"name\": \"" + sammlungName + "\", \"visibility\": \"" + visibility
-                                    + "\", \"category\": \"" + category + "\", \"collectionID\": " + collectionIDsString + " }",
+                    sammlungen.put("{ \'name\': \'" + sammlungName + "\', \'visibility\': \'" + visibility
+                                    + "\', \'category\': \'" + category + "\', \'collectionID\': " + collectionIDsString + " }",
                             new Sammlung(sammlungName, visibility, category, new LinkedList<>(collectionIds)));
 
             return sammlungen;
