@@ -23,12 +23,12 @@
     }
     //http://localhost:8080/collection?category=game&searchTerm=Hollow knight Silk Song
     //Passengers Of Execution
-    const res = fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
+    /*const res = fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
         .then(response => response.json())
         .then(data => { console.log(data); }).catch(error => { console.error('There was a problem with the fetch operation:', error.message); });
-    console.log(res);
+    console.log(res);*/
 
-    let category = '';
+    let category = 'Kategorien';
 
     document.querySelectorAll('#category-select .dropdown-item').forEach(function(item) {
         item.addEventListener('click', function() {
@@ -60,6 +60,7 @@
             console.log(document.getElementById('search').value);
             let search = document.getElementById('search').value;
             history.replaceState({}, '', window.location.pathname + '?category=' + encodeURIComponent(category) + '&searchTerm=' + encodeURIComponent(search));
+            
             console.log('Current URL:', window.location.href); // Log the current URL
 
             let URL = window.location.href;
@@ -69,7 +70,7 @@
             let result = fetch(URL, fetchData)
                 .then(response => response.json())
                 .then(data => { 
-                    console.log(data); 
+                    console.log(data);
                 })
                 .catch(error => { 
                     console.error('There was a problem with the fetch operation:', error.message); 
