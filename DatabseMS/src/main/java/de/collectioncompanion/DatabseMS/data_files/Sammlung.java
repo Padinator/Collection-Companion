@@ -21,7 +21,10 @@ public class Sammlung {
         sb.append("\"visibility\": ").append("\"" + visibility + "\", ");
         sb.append("\"category\": ").append("\"" + category + "\", ");
 
-        sb.append("\"collectionID\": [\"").append(String.join("\", \"", collectionIds)).append("\"]");
+        if (collectionIds.isEmpty())
+            sb.append("\"collectionID\": []");
+        else
+            sb.append("\"collectionID\": [ \"").append(String.join("\", \"", collectionIds)).append("\" ]");
 
         return sb.append(" }").toString();
     }
