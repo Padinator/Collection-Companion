@@ -132,7 +132,9 @@
                     alert("No User was found");
                 } else {
                     // go on to the next page
-                    window.location.href = "http://localhost:8090/mainpage.html";
+                    let nextPageUrl = new URL("http://localhost:8090/mainpage.html");
+                    nextPageUrl.searchParams.append("username", username);
+                    window.location.href = nextPageUrl.href;
                     console.log("User was found!");
                 }
             });

@@ -102,37 +102,9 @@
                     <hr class="my-2">
                 </h3>
 
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel: </h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2"
-                        id="cc-edit-collection-button" data-bs-toggle="modal"
-                        data-bs-target="#sammlungBearbeiten">Bearbeiten</button>
-                </div>
+                <!-- Das ist ein Sammlungs Eintrag -->
+                <div id="sammlungContainer" class="mt-3"></div>
 
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Bearbeiten</button>
-                </div>
-
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Bearbeiten</button>
-                </div>
-
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Bearbeiten</button>
-                </div>
-
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Bearbeiten</button>
-                </div>
-
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Bearbeiten</button>
-                </div>
             </div>
         </div>
 
@@ -212,9 +184,9 @@
                                 <div class="col-sm-9">
                                     <select class="form-select" id="sichtbarkeit">
                                         <option selected disabled>Bitte Sichtbarkeit auswählen</option>
-                                        <option value="private">Private</option>
+                                        <option value="privat">Private</option>
                                         <option value="friends">Freunde</option>
-                                        <option value="public">Öffentlicht</option>
+                                        <option value="public">Öffentlich</option>
                                     </select>
                                 </div>
                             </div>
@@ -260,20 +232,76 @@
 
     <script>
 
+        document.getElementById('cc-create-collection-button').addEventListener('click', function (event) {
+            document.getElementById('sammlungName').value = '';
+            document.getElementById('sichtbarkeit').selectedIndex = 0;
+            document.getElementById('kategorie').selectedIndex = 0;
+
+        });
+
         document.getElementById('cc-create-collection-submit-button').addEventListener('click', function (event) {
             event.preventDefault();
 
-            let sammlungName = document.getElementById('sammlungName').value;
-            let sichtbarkeit = document.getElementById('sichtbarkeit').value;
-            let kategorie = document.getElementById('kategorie').value;
+            let name = document.getElementById('sammlungName').value;
+            let visibility = document.getElementById('sichtbarkeit').value;
+            let category = document.getElementById('kategorie').value;
 
-            console.log(document.getElementById("sichtbarkeit"));
-            console.log(document.getElementById("kategorie"));
+            let urlParams = new URLSearchParams(window.location.search);
+            let username = urlParams.get('username');
 
-            console.log('Sammlungsname: ', sammlungName);
-            console.log('Kategorie: ', kategorie);
-            console.log('Sichtbarkeit: ', sichtbarkeit);
+            console.log('Sammlungsname: ', name);
+            console.log('Sichtbarkeit: ', visibility);
+            console.log('Kategorie: ', category);
+            console.log("Username: ", username);
+
+            let collectionUrl = new URL("http://localhost:8080/collection/users/sammlung");
+
+            collectionUrl.searchParams.append("username", username);
+            collectionUrl.searchParams.append("name", name);
+            collectionUrl.searchParams.append("visibility", visibility);
+            collectionUrl.searchParams.append("category", category);
+
+            console.log(collectionUrl.href);
+
+            fetch(collectionUrl.href, {
+                method: "POST",
+            }).then((respone) => {
+                console.log(respone);
+
+                if (respone.status == "200") {
+                    let sammlungEintrag = document.createElement('div');
+                    sammlungEintrag.className = 'p-2 border mb-3 rounded position-relative';
+
+                    let titelElement = document.createElement('h5');
+                    titelElement.className = 'text-left';
+                    titelElement.textContent = 'Titel: ' + name;
+                    sammlungEintrag.appendChild(titelElement);
+
+                    let bearbeitenButton = document.createElement('button');
+                    bearbeitenButton.className = 'btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2';
+                    bearbeitenButton.id = 'cc-edit-collection-button';
+                    bearbeitenButton.textContent = 'Bearbeiten';
+                    bearbeitenButton.setAttribute('data-bs-toggle', 'modal');
+                    bearbeitenButton.setAttribute('data-bs-target', '#sammlungBearbeiten');
+                    sammlungEintrag.appendChild(bearbeitenButton);
+
+                    let sammlungContainer = document.getElementById('sammlungContainer');
+                    sammlungContainer.appendChild(sammlungEintrag);
+
+                    bearbeitenButton.addEventListener('click', function (event) {
+                        bearbeitenButtonClickHandler(event, visibility);
+                    });
+
+                    console.log("Eintrag wurde erstellt!");
+                }
+            }).catch((error) => console.log(error));
         });
+
+        function bearbeitenButtonClickHandler(event, visibility) {
+            let sichtbarkeitElement = document.getElementById('sichtbarkeit-bearbeiten');
+            sichtbarkeitElement.value = visibility;
+            console.log("Übergebene Visibility:", visibility);
+        }
 
     </script>
 

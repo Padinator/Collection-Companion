@@ -30,8 +30,8 @@
 
     let category = '';
 
-    document.querySelectorAll('#category-select .dropdown-item').forEach(function(item) {
-        item.addEventListener('click', function() {
+    document.querySelectorAll('#category-select .dropdown-item').forEach(function (item) {
+        item.addEventListener('click', function () {
             document.getElementById('category-text').textContent = this.textContent;
             document.getElementById('category-text').value = this.textContent;
             if (this.textContent == 'Spiele') {
@@ -50,39 +50,50 @@
 
     console.log("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution");
 
-    document.getElementById('cc-search-button').addEventListener('click', function(e) {
-    // Check if a category is selected
-    if (category === 'Kategorien') {
-        alert('Bitte suchen Sie sich eine Kategorie aus.');
-        e.preventDefault();
-    } else {
-        if (document.getElementById('search').value != '') {
-            console.log(document.getElementById('search').value);
-            let search = document.getElementById('search').value;
-            history.replaceState({}, '', window.location.pathname + '?category=' + encodeURIComponent(category) + '&searchTerm=' + encodeURIComponent(search));
-            console.log('Current URL:', window.location.href); // Log the current URL
-
-            let URL = window.location.href;
-            URL = URL.replace("localhost:8090/mainpage.html", "localhost:8080/collection");
-            console.log(URL);
-
-            let result = fetch(URL, fetchData)
-                .then(response => response.json())
-                .then(data => { 
-                    console.log(data); 
-                })
-                .catch(error => { 
-                    console.error('There was a problem with the fetch operation:', error.message); 
-                    console.log("Error, don't know why here is the URL: " + URL);
-                });
-
-            console.log(result);
+    document.getElementById('cc-search-button').addEventListener('click', function (e) {
+        // Check if a category is selected
+        if (category === 'Kategorien') {
+            alert('Bitte suchen Sie sich eine Kategorie aus.');
             e.preventDefault();
-        } else
-            alert('Bitte geben Sie eine suche ein.');
-    }
+        } else {
+            if (document.getElementById('search').value != '') {
+                console.log(document.getElementById('search').value);
+                let search = document.getElementById('search').value;
+                history.replaceState({}, '', window.location.pathname + '?category=' + encodeURIComponent(category) + '&searchTerm=' + encodeURIComponent(search));
+                console.log('Current URL:', window.location.href); // Log the current URL
 
-});
+                let URL = window.location.href;
+                URL = URL.replace("localhost:8090/mainpage.html", "localhost:8080/collection");
+                console.log(URL);
+
+                let result = fetch(URL, fetchData)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error.message);
+                        console.log("Error, don't know why here is the URL: " + URL);
+                    });
+
+                console.log(result);
+                e.preventDefault();
+            } else
+                alert('Bitte geben Sie eine suche ein.');
+        }
+    });
+
+    document.getElementById("cc-collection-button").addEventListener('click', function (event) {
+        let urlParams = new URLSearchParams(window.location.search);
+        let username = urlParams.get('username');
+
+        let collectionUrl = new URL("http://localhost:8090/collection.html");
+        collectionUrl.searchParams.append("username", username);
+
+        console.log(collectionUrl.href);
+
+        window.location.href = collectionUrl.href;
+    });
 
 </script>
 
@@ -114,8 +125,9 @@
             <div class="col-md-8">
                 <form class="d-flex">
                     <div class="input-group">
-                        <button id="category-text" value="Kategorien" class="btn btn-outline-secondary dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;">
+                        <button id="category-text" value="Kategorien" class="btn btn-outline-secondary dropdown-toggle"
+                            type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            style="height: 40px;">
                             Kategorien
                         </button>
                         <div id="category-select" class="dropdown-menu">
@@ -136,8 +148,7 @@
             <!-- Spalte 3: Collection und Freunde Button -->
             <div class="col-md-2">
                 <div class="d-flex justify-content-center">
-                    <a href="collection.html" class="btn btn-outline-dark mx-auto" id="cc-collection-button"
-                        style="height: 40px;">
+                    <a class="btn btn-outline-dark mx-auto" id="cc-collection-button" style="height: 40px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-bookmark" viewBox="0 0 16 16">
                             <path
