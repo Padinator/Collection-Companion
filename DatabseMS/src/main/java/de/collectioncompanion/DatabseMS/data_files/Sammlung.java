@@ -17,14 +17,14 @@ public class Sammlung {
     public String toJSON() {
         StringBuilder sb = new StringBuilder("{ ");
 
-        sb.append("\'name\': ").append("\'" + name + "\', ");
-        sb.append("\'visibility\': ").append("\'" + visibility + "\', ");
-        sb.append("\'category\': ").append("\'" + category + "\', ");
+        sb.append("\"name\": ").append("\"" + name + "\", ");
+        sb.append("\"visibility\": ").append("\"" + visibility + "\", ");
+        sb.append("\"category\": ").append("\"" + category + "\", ");
 
         if (collectionIds.isEmpty())
-            sb.append("\'collectionID\': []");
+            sb.append("\"collectionID\": []");
         else
-            sb.append("\'collectionID\': [ \'").append(String.join("\', \'", collectionIds)).append("\' ]");
+            sb.append("\"collectionID\": [ \"").append(String.join("\", \"", collectionIds)).append("\" ]");
 
         return sb.append(" }").toString();
     }

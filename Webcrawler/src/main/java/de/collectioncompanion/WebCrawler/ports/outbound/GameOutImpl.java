@@ -104,7 +104,7 @@ public abstract class GameOutImpl implements GameOut {
             String property = entry.getKey(), value = entry.getValue();
 
             if (value != null)
-                value = removeHTMLTags(value).replaceAll("\"|'", "");
+                value = removeHTMLTags(value).replaceAll("\"|'", "").replaceAll("\n", " ");
 
             newData.put(property, value);
         }
