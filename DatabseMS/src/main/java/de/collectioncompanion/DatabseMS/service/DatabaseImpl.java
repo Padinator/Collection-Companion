@@ -26,16 +26,6 @@ public class DatabaseImpl implements Database {
                         && compareGameNames(collection.getValue("title"), searchTerm))
                 .toList();
 
-        System.out.println("\n\nFound:");
-        System.out.println(collectionRepo.findAll() + "\n");
-        System.out.println(collectionRepo.findAll().stream() // Query DB
-                .filter(collection -> collection.getValue("category").equals(category))
-                .toList() + "\n");
-
-        System.out.println(collectionRepo.findAll().stream() // Query DB
-                .filter(collection -> compareGameNames(collection.getValue("title"), searchTerm))
-                .toList() + "\n\n");
-
         System.out.println("Return results:\n" + results);
         return results;
     }
