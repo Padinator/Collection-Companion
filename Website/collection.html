@@ -104,7 +104,8 @@
 
                 <div class="p-2 border mb-3 rounded position-relative">
                     <h5 class="text-left">Titel: </h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2" id="cc-edit-collection-button" data-bs-toggle="modal"
+                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2"
+                        id="cc-edit-collection-button" data-bs-toggle="modal"
                         data-bs-target="#sammlungBearbeiten">Bearbeiten</button>
                 </div>
 
@@ -146,13 +147,13 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3 row">
-                            <label for="kategorie" class="col-sm-3 col-form-label">Sichtbarkeit:</label>
+                            <label for="sichtbarkeit" class="col-sm-3 col-form-label">Sichtbarkeit:</label>
                             <div class="col-sm-9">
-                                <select class="form-select" id="sichtbarkeit">
+                                <select class="form-select" id="sichtbarkeit-bearbeiten">
                                     <option selected disabled>Bitte Sichtbarkeit auswählen</option>
-                                    <option value="spiele">Privat</option>
-                                    <option value="filme">Freunde</option>
-                                    <option value="serien">Öffentlich</option>
+                                    <option value="privat">Privat</option>
+                                    <option value="friends">Freunde</option>
+                                    <option value="public">Öffentlich</option>
                                 </select>
                             </div>
                         </div>
@@ -160,7 +161,8 @@
                         <ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Titel 1
-                                <button type="button" class="btn btn-outline-danger btn-sm" id="cc-delete-entry-in-collection-button">X</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm"
+                                    id="cc-delete-entry-in-collection-button">X</button>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Titel 2
@@ -169,7 +171,8 @@
                         </ul>
                         <form>
                             <div class="d-flex justify-content-center mt-2">
-                                <button type="submit" class="btn btn-primary" id="cc-submit-collection-button">Speichern</button>
+                                <button type="submit" class="btn btn-primary"
+                                    id="cc-submit-collection-button">Speichern</button>
                             </div>
                         </form>
                     </div>
@@ -180,8 +183,8 @@
 
         <!-- Button fuer Sammlung erstellen -->
         <div class="col-md-2 mt-4 mx-auto">
-            <button class="btn btn-primary mx-auto d-inline-block" id="cc-create-collection-button" data-bs-toggle="modal"
-                data-bs-target="#sammlungErstellenModal">
+            <button class="btn btn-primary mx-auto d-inline-block" id="cc-create-collection-button"
+                data-bs-toggle="modal" data-bs-target="#sammlungErstellenModal">
                 Sammlung Erstellen
             </button>
         </div>
@@ -205,13 +208,13 @@
                             </div>
 
                             <div class="mb-3 row">
-                                <label for="kategorie" class="col-sm-3 col-form-label">Sichtbarkeit:</label>
+                                <label for="sichtbarkeit" class="col-sm-3 col-form-label">Sichtbarkeit:</label>
                                 <div class="col-sm-9">
                                     <select class="form-select" id="sichtbarkeit">
                                         <option selected disabled>Bitte Sichtbarkeit auswählen</option>
-                                        <option value="spiele">Privat</option>
-                                        <option value="filme">Freunde</option>
-                                        <option value="serien">Öffentlich</option>
+                                        <option value="private">Private</option>
+                                        <option value="friends">Freunde</option>
+                                        <option value="public">Öffentlicht</option>
                                     </select>
                                 </div>
                             </div>
@@ -221,14 +224,15 @@
                                 <div class="col-sm-9">
                                     <select class="form-select" id="kategorie">
                                         <option selected disabled>Bitte Kategorie auswählen</option>
-                                        <option value="spiele">Spiele</option>
-                                        <option value="filme">Filme</option>
-                                        <option value="serien">Serien</option>
+                                        <option value="game">Spiele</option>
+                                        <option value="movie">Filme</option>
+                                        <option value="serie">Serien</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary" id="cc-create-collection-submit-button">Speichern</button>
+                                <button type="submit" class="btn btn-primary"
+                                    id="cc-create-collection-submit-button">Speichern</button>
                             </div>
                         </form>
                     </div>
@@ -253,6 +257,26 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+        document.getElementById('cc-create-collection-submit-button').addEventListener('click', function (event) {
+            event.preventDefault();
+
+            let sammlungName = document.getElementById('sammlungName').value;
+            let sichtbarkeit = document.getElementById('sichtbarkeit').value;
+            let kategorie = document.getElementById('kategorie').value;
+
+            console.log(document.getElementById("sichtbarkeit"));
+            console.log(document.getElementById("kategorie"));
+
+            console.log('Sammlungsname: ', sammlungName);
+            console.log('Kategorie: ', kategorie);
+            console.log('Sichtbarkeit: ', sichtbarkeit);
+        });
+
+    </script>
+
 </body>
 
 </html>
