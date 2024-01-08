@@ -6,6 +6,7 @@ import ports.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -82,11 +83,29 @@ public abstract class GameOutImpl implements GameOut {
      * @param input Input to remove HTML tags from
      * @return Return the passed input without HTML tags
      */
-    protected String removeHTMLTags(String input) {
+    public static String removeHTMLTags(String input) {
         String regex = "<.*?>";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         return matcher.replaceAll("");
+    }
+
+    /**
+     * Removes all HTML tags and " from each entry of passed TreeMap
+     *
+     * @param data with all property value pairs
+     * @return the formatted collection data
+     */
+    public static Map<String, String> formatCollectionData(Map<String, String> data) {
+        TreeMap<String, String> newData = new TreeMap<>();
+
+        for (Map.Entry<String, String> entry : data.entrySet()) {
+            String property = entry.getKey(), value = entry.getValue();
+            value = removeHTMLTags(value).replaceAll("\"", "");
+            newData.put(property, value);
+        }
+
+        return newData;
     }
 
 }
