@@ -22,10 +22,9 @@ public class SteamAPIImpl extends GameOutImpl implements SteamAPI {
 
     @Override
     public TreeMap<Integer, String> getAllGames() {
-        /* // Fetch data form api
+        // Fetch data form api
 		String body = requestAnAPI(BASE_URL_GET_ALL_GAMES); // Use this instead of file below
 		System.out.println(body);
-         */
 
         // Save data as object
         File allSteamGamesTxt = new File(new File("").getAbsolutePath() + "/AllSteamGames.txt");
@@ -34,8 +33,8 @@ public class SteamAPIImpl extends GameOutImpl implements SteamAPI {
         try {
             // Replace "reader.readLine()" with "body"
             //BufferedReader reader = new BufferedReader(new FileReader(allSteamGamesTxt));
-            String apps = "{\"applist\":{\"apps\":[{\"appid\":1551830,\"name\":\"Passengers Of Execution\"}]}}";
-            Map tmp = new ObjectMapper().readValue(/* reader.readLine() */ apps, Map.class); // Get list of apps
+            // String apps = "{\"applist\":{\"apps\":[{\"appid\":1551830,\"name\":\"Passengers Of Execution\"}]}}";
+            Map tmp = new ObjectMapper().readValue(/* reader.readLine() */ /* apps */ body, Map.class); // Get list of apps
 
             ((List) ((LinkedHashMap) tmp.get("applist")).get("apps")).forEach(game -> {
                 if (game instanceof LinkedHashMap gameEntry) {

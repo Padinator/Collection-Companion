@@ -35,17 +35,12 @@ public class GameCollectionFormatter implements CollectionFormatter {
     }
 
     @Override
-    public Collection checkCollectionFormat(Collection collection) {
-        Collection resultCollection = new CollectionImpl();
-
-        for (String property : properties.values()) {
+    public boolean checkCollectionFormat(Collection collection) {
+        for (String property : properties.values())
             if (!collection.containsKey(property)) // Return null, if a property is missing
-                return null;
+                return false;
 
-            resultCollection.putEntry(property, collection.getValue(property));
-        }
-
-        return resultCollection;
+        return true;
     }
 
 }

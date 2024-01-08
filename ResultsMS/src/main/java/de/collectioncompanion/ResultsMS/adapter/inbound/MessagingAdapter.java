@@ -1,6 +1,6 @@
 package de.collectioncompanion.ResultsMS.adapter.inbound;
 
-import data_files.CollectionDTO;
+import data_files.CollectionListDTO;
 import de.collectioncompanion.ResultsMS.adapter.outbound.DatabaseServerOut;
 import de.collectioncompanion.ResultsMS.data_files.CollectionList;
 import de.collectioncompanion.ResultsMS.ports.inbound.UpdatesNotificationPort;
@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import ports.Collection;
 
+import java.util.List;
+
 
 @Controller
 public class MessagingAdapter {
@@ -16,8 +18,8 @@ public class MessagingAdapter {
     /* @Autowired */
     private final UpdatesNotificationPort updatesNotificationPort = new UpdatesNotificationPort() {
         @Override
-        public void notifyUpdate(long id, Collection collection) {
-            System.out.println("Dequeued collection with id " + id + " from rabbitmq:\n" + collection);
+        public void notifyUpdate(long id, List<Collection> collections) {
+            System.out.println("Dequeued collection with id " + id + " from rabbitmq:\n" + collections);
         }
     };
 
@@ -33,14 +35,13 @@ public class MessagingAdapter {
     public void receive(String receiveJson) {
         if (!receiveJson.contains("searchTerm")) {
             System.out.println(receiveJson);
-            CollectionDTO collectionDTO = CollectionDTO.fromJson(receiveJson);
-            Collection collection = collectionDTO.collection();
-            long id = collectionDTO.id();
+            CollectionListDTO collectionListDTO = CollectionListDTO.fromJson(receiveJson);
+            List<Collection> collections = (List) collectionListDTO.collection();
+            long id = collectionListDTO.id();
 
-            updatesNotificationPort.notifyUpdate(id, collection); // Notify dequeuing a collection from rabbitmq
-            String dbCollectionId = databaseServerOut.addResultingCollectionToDB(collection).getBody(); // Add collection into DB and get ID of inserted collection
-            collection.setId(dbCollectionId);
-            CollectionList.pushCollection(id, collection); // Push result into an own java class queue
+            updatesNotificationPort.notifyUpdate(id, collections); // Notify dequeuing a collection from rabbitmq
+            CollectionList.pushCollection(id, collections); // Push result into an own java class queue
+            databaseServerOut.addResultingCollectionToDB(collections); // Add request into DB
         }
     }
 

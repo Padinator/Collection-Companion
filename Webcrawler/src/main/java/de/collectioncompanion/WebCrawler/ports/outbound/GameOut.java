@@ -2,6 +2,7 @@ package de.collectioncompanion.WebCrawler.ports.outbound;
 
 import ports.Collection;
 
+import java.util.List;
 import java.util.TreeMap;
 
 /**
@@ -17,11 +18,11 @@ public interface GameOut {
     TreeMap<Integer, String> getAllGames();
 
     /**
-     * Searches for a collection with passed search term -> Steam-API call
+     * Searches for collections with passed search term -> Steam-API call
      *
      * @param searchTerm The search term to look for a collection
      * @return The requested collection
      */
-    Collection findInformationToCollection(String searchTerm);
+    List<Collection> findCollections(String searchTerm);
 
 }

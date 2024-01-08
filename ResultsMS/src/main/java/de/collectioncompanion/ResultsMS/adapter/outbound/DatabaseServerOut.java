@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ports.Collection;
 
+import java.util.List;
+
 @Service
 public class DatabaseServerOut {
 
@@ -26,10 +28,14 @@ public class DatabaseServerOut {
      */
     public static final String STARTING = "/collection";
 
-    public ResponseEntity<String> addResultingCollectionToDB(Collection collection) {
+    public ResponseEntity<String> addResultingCollectionToDB(List<Collection> collections) {
         final String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + STARTING;
         //final String DATABASE_MS = "http://localhost:8081/collection";
-        return restOut.doPostCollection(DATABASE_MS, collection);
+
+        for (Collection collection : collections)
+            restOut.doPostCollection(DATABASE_MS, collection);
+
+        return ResponseEntity.status(200).body("Inserted " + collections.size() + " search results into DB!");
     }
 
 }

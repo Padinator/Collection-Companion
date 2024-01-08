@@ -9,10 +9,7 @@ import de.collectioncompanion.WebCrawler.ports.outbound.RAWGioOut;
 import org.springframework.stereotype.Service;
 import ports.Collection;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import static ports.CollectionFormatter.compareGameNames;
 
@@ -24,6 +21,11 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
     private final static String API_KEY = "4124a8f6f9be4b5a8f33ac3e965d227c"; // ?key=
 
     /**
+     * Maximum count of returned/used games in a response to rawg.io
+     */
+    private final static int MAX_RESULTING_ENTRIES = 5;
+
+    /**
      * Finds and returns a collection matching the search term or an empty collection, if no collection matching the
      * search term was found. The search term is assumed to be correct -> rawg.io has a "fuzziness search"
      *
@@ -31,21 +33,11 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
      * @return Return the collection matching the search term or an empty collection
      */
     @Override
-    public Collection findInformationToCollection(String searchTerm) {
-        return requestGameSpecificAPI(searchTerm, -1);
-    }
-
-    @Override
-    public TreeMap<Integer, String> getAllGames() {
-        throw new UnsupportedOperationException("Rawg.io does not support getting all games -> requires requesting "
-                + "all 800000 games with ~1000 requests per page so 800 pages");
-    }
-
-    @Override
-    public Collection requestGameSpecificAPI(String searchTerm, int appID) {
+    public List<Collection> findCollections(String searchTerm) {
         String urlWithSearchTerm = BASE_URL_GET_ALL_GAMES + "?search=" + searchTerm + "&key=" + API_KEY;
         String foundGames = requestAnAPI(urlWithSearchTerm);
         String urlToGame, /* foundGames = "" , */ body = "";
+        List<Integer> appIDs = new LinkedList<>();
 
         /*
         // Get all games from file (remove later)
@@ -63,18 +55,28 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
         try {
             ArrayList results = (ArrayList) new ObjectMapper().readValue(foundGames, LinkedHashMap.class).get("results");
 
-            for (Object result : results)
-                if (compareGameNames(String.valueOf(((LinkedHashMap) result).get("name")), searchTerm)) {
-                    appID = Integer.parseInt(String.valueOf(((LinkedHashMap) result).get("id"))); // Find ID of the game
-                    break;
-                }
+            for (int i = 0; i < MAX_RESULTING_ENTRIES; ++i)
+                if (compareGameNames(String.valueOf(((LinkedHashMap) results.get(i)).get("name")), searchTerm))
+                    appIDs.add(Integer.parseInt(String.valueOf(((LinkedHashMap) results.get(i)).get("id")))); // Find ID of the game
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
+        return appIDs.stream().map(appID -> requestGameSpecificAPI(searchTerm, appID)).toList(); // Find all collections
+    }
+
+    @Override
+    public TreeMap<Integer, String> getAllGames() {
+        throw new UnsupportedOperationException("Rawg.io does not support getting all games -> requires requesting "
+                + "all 800000 games with ~1000 requests per page so 800 pages");
+    }
+
+    @Override
+    public Collection requestGameSpecificAPI(String searchTerm, int appID) {
         // Request game with its ID
-        urlToGame = BASE_URL_GET_ONE_GAME + appID + "?key=" + API_KEY;
-        body = requestAnAPI(urlToGame);
+        String urlToGame = BASE_URL_GET_ONE_GAME + appID + "?key=" + API_KEY;
+        System.out.println(urlToGame);
+        String body = requestAnAPI(urlToGame);
 
         /*
         File game = new File(new File("").getAbsolutePath() + "/rawgio_game1_details.txt");
@@ -122,7 +124,6 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
             collectionData.put(formatter.getPropertyName("languages"), null);
 
             // Genres
-            System.out.println(gameData.get("genres"));
             String genres = ((ArrayList) gameData.get("genres")).stream()
                     .map(entry -> (String) ((LinkedHashMap) entry).get("name")).toList().toString();
             collectionData.put(formatter.getPropertyName("genres"), genres);

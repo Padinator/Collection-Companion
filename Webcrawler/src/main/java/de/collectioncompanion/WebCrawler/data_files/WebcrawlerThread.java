@@ -1,9 +1,12 @@
 package de.collectioncompanion.WebCrawler.data_files;
 
+import data_files.GameCollectionFormatter;
 import de.collectioncompanion.WebCrawler.adapter.outbound.RestServerOut;
 import de.collectioncompanion.WebCrawler.ports.inbound.RestOut;
 import ports.Collection;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 public class WebcrawlerThread extends Thread {
@@ -82,14 +85,14 @@ public class WebcrawlerThread extends Thread {
     @Override
     public void run() {
         try {
-            Collection result;
+            List<Collection> results, resultsToSend = new LinkedList<>();
 
             // Acquire all resources
             countOfWebcrawlers.acquire();
             raiseCounterForActiveWebcrawlerSearches();
 
             // Find collection and response composer microservice
-            result = switch (category) {
+            results = switch (category) {
                 case "game" -> restOut.crawlGame(searchTerm); // Search in games
                 case "movie" -> restOut.crawlMovie(searchTerm); // Search in movies
                 case "series" -> restOut.crawlSeries(searchTerm); // Search in series
@@ -97,12 +100,18 @@ public class WebcrawlerThread extends Thread {
             };
 
             // Add default values, which are always necessary
-            result.putEntry("category", category); // Add the category of the collection to the collection
-            result.putEntry("time_stamp", String.valueOf(System.currentTimeMillis())); // Add time stamp
-            System.out.println("Created the collection: " + result);
+            for (Collection result : results) {
+                result.putEntry("category", category); // Add the category of the collection to the collection
+                result.putEntry("time_stamp", String.valueOf(System.currentTimeMillis())); // Add time stamp
+                System.out.println("Created the collection: " + result);
+
+                // Check, if a collection has the correct format
+                if (new GameCollectionFormatter().checkCollectionFormat(result))
+                    resultsToSend.add(result);
+            }
 
             // Response composer microservice
-            restServerOut.postResponse(id, result);
+            restServerOut.postResponse(id, resultsToSend);
 
             // Release all resources
             lowerCounterForActiveWebcrawlerSearches();

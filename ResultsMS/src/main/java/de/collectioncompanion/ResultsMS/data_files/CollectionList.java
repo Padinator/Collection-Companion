@@ -3,6 +3,7 @@ package de.collectioncompanion.ResultsMS.data_files;
 
 import ports.Collection;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -14,28 +15,28 @@ public class CollectionList {
     /**
      * [<ID1, Collection1>, ...]
      */
-    private final static Map<Long, Collection> collections = new TreeMap<>();
+    private final static Map<Long, List<Collection>> collections = new TreeMap<>();
 
     /**
-     * Pushes synchronized a collection into the list
+     * Pushes collections into the list as synchronized operation
      *
      * @param id The ID of the collection
-     * @param collection The collection itself
+     * @param collections The collections to push
      */
-    public static void pushCollection(long id, Collection collection) {
-        synchronized (collections) {
-            collections.put(id, collection);
-            collections.notifyAll(); // Notify all threads that a new entry is available
+    public static void pushCollection(long id, List<Collection> collections) {
+        synchronized (CollectionList.collections) {
+            CollectionList.collections.put(id, collections);
+            CollectionList.collections.notifyAll(); // Notify all threads that a new entry is available
         }
     }
 
     /**
-     * Returns synchronized the collection with the ID id, else null will be returned
+     * Returns the collection with the ID id, else null will be returned as synchronized operation
      *
      * @param id ID of the collection
      * @return Returns null, if no collection with the ID id exists, else removes and returns the requested collection
      */
-    public static Collection popCollection(long id) {
+    public static List<Collection> popCollection(long id) {
         synchronized(collections) {
             while (!hasCollectionWithID(id))
                 try {
@@ -50,7 +51,7 @@ public class CollectionList {
     }
 
     /**
-     * Check unsynchronized, if a collection with an ID is in the queue
+     * Checks, if a collection with an ID is in the queue as unsynchronized operation
      *
      * @param id The ID of the collection
      * @return Returns true, if a collection with the ID id is in the list

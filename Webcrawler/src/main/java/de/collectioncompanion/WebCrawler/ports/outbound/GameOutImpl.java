@@ -1,11 +1,11 @@
 package de.collectioncompanion.WebCrawler.ports.outbound;
 
-import data_files.CollectionImpl;
 import org.springframework.web.client.RestTemplate;
 import ports.Collection;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,13 +21,14 @@ public abstract class GameOutImpl implements GameOut {
      * @return Return the collection matching the search term or an empty collection
      */
     @Override
-    public Collection findInformationToCollection(String searchTerm) {
-        int appID = findConcernedGame(searchTerm);
+    public List<Collection> findCollections(String searchTerm) {
+        List<Integer> appIDs = findConcernedGame(searchTerm);
 
-        if (appID == -1) // Cannot find a collection with passed search term
-            return new CollectionImpl(new TreeMap<>());
+        if (appIDs.size() == 0) // Cannot find a collection with passed search term
+            return new LinkedList<>();
 
-        return requestGameSpecificAPI(searchTerm, appID); // The collection exists
+
+        return appIDs.stream().map(appID -> requestGameSpecificAPI(searchTerm, appID)).toList(); // Find all collections
     }
 
     /**
@@ -65,12 +66,14 @@ public abstract class GameOutImpl implements GameOut {
      * @param searchTerm Term to search for a game
      * @return Return the appID to a game
      */
-    protected int findConcernedGame(String searchTerm) {
+    protected List<Integer> findConcernedGame(String searchTerm) {
+        List<Integer> appIDs = new LinkedList<>();
+
         for (Map.Entry<Integer, String> game : getAllGames().entrySet())
             if (compareGameNames(game.getValue(), searchTerm))
-                return game.getKey();
+                appIDs.add(game.getKey());
 
-        return -1;
+        return appIDs;
     }
 
     /**
