@@ -45,12 +45,13 @@ public abstract class GameOutImpl implements GameOut {
      *
      * @param searchTerm The term to search for a collection -> it can only be correct, because of caller
      *                   "findInformationToCollection"
-     * @param appID The ID of game in the API
+     * @param appID      The ID of game in the API
      * @return Return the collection matching the search term
      */
     protected abstract Collection requestGameSpecificAPI(String searchTerm, int appID);
 
     // Helper methods
+
     /**
      * Requests steam API with passed URL and returns the body of the HTTP-request
      *
@@ -101,7 +102,10 @@ public abstract class GameOutImpl implements GameOut {
 
         for (Map.Entry<String, String> entry : data.entrySet()) {
             String property = entry.getKey(), value = entry.getValue();
-            value = removeHTMLTags(value).replaceAll("\"", "");
+
+            if (value != null)
+                value = removeHTMLTags(value).replaceAll("\"|'", "");
+
             newData.put(property, value);
         }
 
