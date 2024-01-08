@@ -138,7 +138,6 @@ class WebCrawlerApplicationTests {
                                 new AbstractMap.SimpleEntry<>("short_description", "null"),
                                 new AbstractMap.SimpleEntry<>("detailed_description", detailedDescription),
                                 new AbstractMap.SimpleEntry<>("required_age", "null"),
-                                new AbstractMap.SimpleEntry<>("price", "null"),
                                 new AbstractMap.SimpleEntry<>("languages", "null"),
                                 new AbstractMap.SimpleEntry<>("genres", "[Adventure, Casual]"),
                                 new AbstractMap.SimpleEntry<>("available_platforms", "[null]"),

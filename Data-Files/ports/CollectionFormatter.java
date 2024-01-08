@@ -14,6 +14,14 @@ public interface CollectionFormatter {
     String getPropertyName(String property);
 
     /**
+     * Returns to a passed key/property the property name
+     *
+     * @param property The property to get the name from
+     * @return The name of the property, if the property exists, else null
+     */
+    String getOptionalPropertyName(String property);
+
+    /**
      * Checks, if the passed collection has the correct format
      *
      * @param collection The collection to check

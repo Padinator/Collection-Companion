@@ -4,6 +4,8 @@ import ports.Collection;
 import ports.CollectionFormatter;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GameCollectionFormatter implements CollectionFormatter {
 
@@ -11,27 +13,38 @@ public class GameCollectionFormatter implements CollectionFormatter {
         DEVELOPERS;
     }
 
-    private static final TreeMap<String, String> properties = new TreeMap<>();
+    private static final TreeMap<String, String> properties = new TreeMap<>(
+		Stream.of(
+			new AbstractMap.SimpleEntry<>("title", "title"),
+			new AbstractMap.SimpleEntry<>("main_img", "main_img"),
+			new AbstractMap.SimpleEntry<>("short_description", "short_description"),
+			new AbstractMap.SimpleEntry<>("detailed_description", "detailed_description"),
+			new AbstractMap.SimpleEntry<>("required_age", "required_age"),
+			new AbstractMap.SimpleEntry<>("languages", "languages"), // e.g.: [language_1, language_2, ...]
+			new AbstractMap.SimpleEntry<>("genres", "genres"), // e.g.: [genre_1, genre_2, ...]
+			new AbstractMap.SimpleEntry<>("available_platforms", "available_platforms"), // e.g.: [platform_1, platform_2, ...]
+			new AbstractMap.SimpleEntry<>("necessary_processor", "necessary_processor"),
+			new AbstractMap.SimpleEntry<>("necessary_ram", "necessary_ram"),
+			new AbstractMap.SimpleEntry<>("necessary_memory", "necessary_memory"),
+			new AbstractMap.SimpleEntry<>("necessary_desktop_resolution", "necessary_desktop_resolution"))
+		.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+	);
 
-    public GameCollectionFormatter() {
-        properties.put("title", "title");
-        properties.put("main_img", "main_img");
-        properties.put("short_description", "short_description");
-        properties.put("detailed_description", "detailed_description");
-        properties.put("required_age", "required_age");
-        properties.put("price", "price");
-        properties.put("languages", "languages"); // e.g.: [language_1, language_2, ...]
-        properties.put("genres", "genres"); // e.g.: [genre_1, genre_2, ...]
-        properties.put("available_platforms", "available_platforms"); // e.g.: [platform_1, platform_2, ...]
-        properties.put("necessary_processor", "necessary_processor");
-        properties.put("necessary_ram", "necessary_ram");
-        properties.put("necessary_memory", "necessary_memory");
-        properties.put("necessary_desktop_resolution", "necessary_desktop_resolution");
-    }
+    private static final TreeMap<String, String> optionalProperties = new TreeMap<>(
+		Stream.of(
+			new AbstractMap.SimpleEntry<>("price", "PRICE"),
+			new AbstractMap.SimpleEntry<>("developers", "DEVELOPERS"))
+		.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+	);
 
     @Override
     public String getPropertyName(String key) {
         return properties.get(key);
+    }
+	
+    @Override
+    public String getOptionalPropertyName(String key) {
+        return optionalProperties.get(key);
     }
 
     @Override

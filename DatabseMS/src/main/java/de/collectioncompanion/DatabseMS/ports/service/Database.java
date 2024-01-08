@@ -21,8 +21,9 @@ public interface Database {
      * 
      * @param collection to Insert
      * @param collectionRepo object for accessing DB
+     * @return true if collection could be inserted else false
      */
-    void insertCollection(Collection collection, CollectionRepo collectionRepo);
+    boolean insertCollection(Collection collection, CollectionRepo collectionRepo);
 
     /**
      * Find to passed username the user
@@ -49,8 +50,9 @@ public interface Database {
      * @param collection to insert into User
      * @param userRepo object for accessing DB
      * @param collectionRepo object for accessing DB
+     * @return true if collection could be inserted to user else false
      */
-    void insertCollectionToUser(String username, CollectionImpl collection, UserRepo userRepo, CollectionRepo collectionRepo);
+    boolean insertCollectionToUser(String username, int sammlungNummer, CollectionImpl collection, UserRepo userRepo, CollectionRepo collectionRepo);
 
     /**
      * Add Friend To User
@@ -58,6 +60,18 @@ public interface Database {
      * @param username to add passed Friend
      * @param usernameFriend to add in usernames list
      * @param userRepo object for accessing DB
+     * @return true if friend could be added to user else false
      */
-    void insertFriendToUser(String username, String usernameFriend, UserRepo userRepo);
+    boolean insertFriendToUser(String username, String usernameFriend, UserRepo userRepo);
+
+    /**
+     * Add new Sammlung To User
+     * @param username  to insert sammlung
+     * @param name  of sammlung
+     * @param visibility of sammlung
+     * @param category of sammlung
+     * @param userRepo object for accessing DB
+     * @return true if sammlung could be added to user else false
+     */
+    boolean insertSammlungToUser(String username, String name, String visibility, String category, UserRepo userRepo);
 }

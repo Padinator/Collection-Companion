@@ -1,6 +1,7 @@
 package de.collectioncompanion.DatabseMS.service;
 
 import data_files.CollectionImpl;
+import de.collectioncompanion.DatabseMS.data_files.Sammlung;
 import de.collectioncompanion.DatabseMS.data_files.User;
 import de.collectioncompanion.DatabseMS.ports.service.Database;
 import de.collectioncompanion.DatabseMS.ports.service.CollectionRepo;
@@ -8,6 +9,7 @@ import de.collectioncompanion.DatabseMS.ports.service.UserRepo;
 import org.springframework.stereotype.Service;
 import ports.Collection;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.TreeMap;
@@ -41,15 +43,11 @@ public class DatabaseImpl implements Database {
     }
 
     @Override
-    public void insertCollection(Collection collection, CollectionRepo collectionRepo) {
-        // Insert all data into DB
-        // collection.putEntry("title", "Passengers Of Execution");
-        // collection.putEntry("category", "game");
-        // collection.putEntry("time_stamp", "1734567890109");
+    public boolean insertCollection(Collection collection, CollectionRepo collectionRepo) {
         System.out.println("Collection to insert: " + collection);
         Collection c = collectionRepo.insert(collection);
         System.out.println("Inserted: " + c);
-        System.out.println("Complete content:\n" + collectionRepo.findAll());
+        return true;
     }
 
     @Override
@@ -72,23 +70,35 @@ public class DatabaseImpl implements Database {
     }
 
     @Override
-    public void insertCollectionToUser(String username, CollectionImpl collection, UserRepo userRepo,
+    public boolean insertCollectionToUser(String username, int sammlungNummer, CollectionImpl collection,
+            UserRepo userRepo,
             CollectionRepo collectionRepo) {
         Optional<User> optionalUser = userRepo.findById(username);
 
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            List<String> collectionId = user.getCollectionId();
+        if (optionalUser.isEmpty())
+            return false;
 
-            if (!collectionId.contains(collection.getId())) {
-                collectionId.add(collection.getId());
-                userRepo.save(user);
-            }
+        User user = optionalUser.get();
+        List<Sammlung> sammlungen = user.getSammlungen();
+
+        if (sammlungen.size() <= sammlungNummer)
+            return false;
+        else {
+            Sammlung sammlung = sammlungen.get(sammlungNummer - 1);
+
+            if (sammlung.getCollectionIds().contains(collection.getId()))
+                return false;
+
+            sammlung.getCollectionIds().add(collection.getId());
+            userRepo.save(user);
         }
+
+        return true;
+
     }
 
     @Override
-    public void insertFriendToUser(String username, String usernameFriend, UserRepo userRepo) {
+    public boolean insertFriendToUser(String username, String usernameFriend, UserRepo userRepo) {
         Optional<User> user1 = userRepo.findById(username), user2 = userRepo.findById(usernameFriend);
 
         if (user1.isPresent() && user2.isPresent()) {
@@ -98,8 +108,24 @@ public class DatabaseImpl implements Database {
             if (!friendsId.contains(usernameFriend)) {
                 user.getUserFriendsId().add(usernameFriend);
                 userRepo.save(user);
+                return true;
             }
         }
+        return false;
+    }
+
+    @Override
+    public boolean insertSammlungToUser(String username, String name, String visibility, String category,
+            UserRepo userRepo) {
+        Optional<User> optionalUser = userRepo.findById(username);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.getSammlungen().add(new Sammlung(name, visibility, category, new LinkedList<>()));
+            userRepo.save(user);
+            return true;
+        }
+        return false;
     }
 
 }

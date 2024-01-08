@@ -50,7 +50,7 @@ public class RestServerIn {
     @PostMapping
     public ResponseEntity<String> addNewCollection(@RequestBody CollectionImpl collection) {
         System.out.println("Received collection to insert: " + collection);
-        databaseOut.insertCollection(collection);
+        databaseOut.addCollection(collection);
         return ResponseEntity.status(200).body(collection.getId());
     }
 
@@ -67,22 +67,30 @@ public class RestServerIn {
 
     @PostMapping("/users")
     public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
-        User user = databaseOut.insertUser(new User(username, password, email, new LinkedList<>(), new LinkedList<>()));
+        User user = databaseOut.addUser(new User(username, password, email, new LinkedList<>(), new LinkedList<>()));
         if (user != null)
             return ResponseEntity.status(200).body("Inserted successfully user into DB!");
         else 
             return ResponseEntity.status(403).body("User already exists!");
     }
 
-    @PostMapping("/users/collections")
-    public ResponseEntity<String> addCollectionToUser(@RequestBody String username, @RequestBody CollectionImpl collection) {
-        databaseOut.insertCollectionToUser(username, collection);
-        return ResponseEntity.status(200).body("Added successfully collection to user in DB!");
+    @PostMapping("/users/sammlung")
+    public ResponseEntity<String> addSammlungToUser(@RequestParam String username, @RequestParam String name, @RequestParam String visibility, @RequestParam String category) {
+        databaseOut.addSammlungToUser(username, name, visibility, category);
+        return ResponseEntity.status(200).body("Added successfully Sammlung to User!");
+    }
+
+    @PostMapping("/users/sammlung/collections")
+    public ResponseEntity<String> addCollectionToUsersSammlung(@RequestParam String username, @RequestParam int sammlungNummer, @RequestBody CollectionImpl collection) {
+        if (databaseOut.addCollectionToUsersSammlung(username, sammlungNummer, collection))
+            return ResponseEntity.status(200).body("Added successfully collection to user in DB!");
+        return ResponseEntity.status(403).body("Could not add Collection to Users Sammlung!");
     }
 
     @PostMapping("/users/friends")
     public ResponseEntity<String> addFriendToUser(@RequestParam String username, @RequestParam String usernameFriend) {
-        databaseOut.addFriendToUser(username, usernameFriend);
-        return ResponseEntity.status(200).body("Added successfully Friend to User in DB!");
+        if (databaseOut.addFriendToUser(username, usernameFriend))
+            return ResponseEntity.status(200).body("Added successfully Friend to User in DB!");
+        return ResponseEntity.status(403).body("Could not add Friend to User!");
     }
 }
