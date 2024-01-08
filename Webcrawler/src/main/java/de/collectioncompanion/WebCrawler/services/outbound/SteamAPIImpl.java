@@ -23,8 +23,7 @@ public class SteamAPIImpl extends GameOutImpl implements SteamAPI {
     @Override
     public TreeMap<Integer, String> getAllGames() {
         // Fetch data form api
-		String body = requestAnAPI(BASE_URL_GET_ALL_GAMES); // Use this instead of file below
-		System.out.println(body);
+        String body = requestAnAPI(BASE_URL_GET_ALL_GAMES); // Use this instead of file below
 
         // Save data as object
         File allSteamGamesTxt = new File(new File("").getAbsolutePath() + "/AllSteamGames.txt");
@@ -106,10 +105,6 @@ public class SteamAPIImpl extends GameOutImpl implements SteamAPI {
             // Required age
             collectionData.put(formatter.getPropertyName("required_age"), String.valueOf(gameData.get("required_age")));
 
-            // Price
-            collectionData.put(formatter.getPropertyName("price"),
-                    (String) ((LinkedHashMap) gameData.get("price_overview")).get("final_formatted"));
-
             // Supported languages
             String languages = Arrays.toString(((String) gameData.get("supported_languages")).split(", "));
             collectionData.put(formatter.getPropertyName("languages"), languages);
@@ -142,6 +137,14 @@ public class SteamAPIImpl extends GameOutImpl implements SteamAPI {
             // Desktop resolution
             String necessaryDesktop_resolution = removeHTMLTags(pcRequirements[5].replaceAll(".*: ", ""));
             collectionData.put(formatter.getPropertyName("necessary_desktop_resolution"), necessaryDesktop_resolution);
+
+            /*
+             * Additional information
+             */
+            // Price
+            if (gameData.get("price_overview") != null)
+                collectionData.put(formatter.getOptionalPropertyName("price"),
+                        (String) ((LinkedHashMap) gameData.get("price_overview")).get("final_formatted"));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
