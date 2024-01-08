@@ -10,6 +10,8 @@ import de.collectioncompanion.DatabseMS.ports.service.CollectionRepo;
 import de.collectioncompanion.DatabseMS.ports.service.UserRepo;
 import ports.Collection;
 
+import java.util.List;
+
 @Service
 public class DatabaseOut {
 
@@ -22,8 +24,8 @@ public class DatabaseOut {
     @Autowired
     public UserRepo userRepo;
 
-    public Collection requestCollectionFromDB(String category, String searchTerm) {
-        return database.selectCollection(category, searchTerm, collectionRepo); // Query DB
+    public List<Collection> requestCollectionsFromDB(String category, String searchTerm) {
+        return database.selectCollections(category, searchTerm, collectionRepo); // Query DB
     }
 
     public boolean addCollection(Collection collection) {

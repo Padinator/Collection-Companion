@@ -4,6 +4,8 @@ import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.data_files.User;
 import ports.Collection;
 
+import java.util.List;
+
 public interface Database {
 
     /**
@@ -12,9 +14,9 @@ public interface Database {
      * @param category of requested data
      * @param searchTerm of requested data
      * @param collectionRepo object for accessing DB
-     * @return result as String
+     * @return results as List of Collection's
      */
-    Collection selectCollection(String category, String searchTerm, CollectionRepo collectionRepo);
+    List<Collection> selectCollections(String category, String searchTerm, CollectionRepo collectionRepo);
 
     /**
      * Insert new Collection into DB

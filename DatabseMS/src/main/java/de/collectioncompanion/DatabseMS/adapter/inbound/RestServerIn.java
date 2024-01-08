@@ -23,22 +23,16 @@ public class RestServerIn {
      *
      * @param category   The category of the collection
      * @param searchTerm The search term of the request
-     * @return Return a response as response-object
+     * @return the resulting collections as response-JSON-string
      */
     @GetMapping
     public ResponseEntity<String> getCollection(@RequestParam String category, @RequestParam String searchTerm) {
-        Collection result = databaseOut.requestCollectionFromDB(category, searchTerm);
-        System.out.println(result.toJSON());
+        List<Collection> results = databaseOut.requestCollectionsFromDB(category, searchTerm);
 
-        System.out.println("Result is empty: " + result.isEmpty());
-
-        if (!result.isEmpty())
-            System.out.println("Result is valid: " + result.isValid());
-
-        if (!result.isEmpty() && result.isValid()) // Found a valid collection
-            return ResponseEntity.status(200).body(result.toJSON());
-        else // Found no collection or an outdated collection
-            return ResponseEntity.status(204).body(result.toString());
+        if (results.isEmpty()) // Found no collection
+            return ResponseEntity.status(204).body(results.stream().map(Collection::toJSON).toList().toString());
+        else // Found a valid collection
+            return ResponseEntity.status(200).body(results.stream().map(Collection::toJSON).toList().toString());
     }
 
     /**

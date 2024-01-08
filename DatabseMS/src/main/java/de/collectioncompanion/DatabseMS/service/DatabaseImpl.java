@@ -19,7 +19,8 @@ import static ports.CollectionFormatter.compareGameNames;
 @Service
 public class DatabaseImpl implements Database {
 
-    public Collection selectCollection(String category, String searchTerm, CollectionRepo collectionRepo) {
+    @Override
+    public List<Collection> selectCollections(String category, String searchTerm, CollectionRepo collectionRepo) {
         List<Collection> results = collectionRepo.findAll().stream() // Query DB
                 .filter(collection -> collection.getValue("category").equals(category)
                         && compareGameNames(collection.getValue("title"), searchTerm))
@@ -35,11 +36,8 @@ public class DatabaseImpl implements Database {
                 .filter(collection -> compareGameNames(collection.getValue("title"), searchTerm))
                 .toList() + "\n\n");
 
-        if (results.size() == 0)
-            return new CollectionImpl(new TreeMap<>());
-
-        System.out.println("Return: " + results.get(0));
-        return results.get(0);
+        System.out.println("Return results:\n" + results);
+        return results;
     }
 
     @Override
