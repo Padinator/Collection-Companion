@@ -17,6 +17,75 @@
     <title>Collection Companion</title>
 </head>
 
+<script type='module'>
+    const fetchData = {
+        method: 'GET'
+    }
+    //http://localhost:8080/collection?category=game&searchTerm=Hollow knight Silk Song
+    //Passengers Of Execution
+    const res = fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
+        .then(response => response.json())
+        .then(data => { console.log(data); }).catch(error => { console.error('There was a problem with the fetch operation:', error.message); });
+    console.log(res);
+
+    let category = '';
+
+    document.querySelectorAll('#category-select .dropdown-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+            document.getElementById('category-text').textContent = this.textContent;
+            document.getElementById('category-text').value = this.textContent;
+            if (this.textContent == 'Spiele') {
+                history.pushState({}, '', window.location.pathname + '?category=game');
+                category = 'game';
+            } else if (this.textContent == 'Filme') {
+                history.pushState({}, '', window.location.pathname + '?category=movie');
+                category = 'movie';
+            } else if (this.textContent == 'Serien') {
+                history.pushState({}, '', window.location.pathname + '?category=series');
+                category = 'series';
+            }
+            console.log(document.getElementById('category-text').value);
+        });
+    });
+
+    console.log("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution");
+
+    document.getElementById('cc-search-button').addEventListener('click', function(e) {
+    // Check if a category is selected
+    if (category === 'Kategorien') {
+        alert('Bitte suchen Sie sich eine Kategorie aus.');
+        e.preventDefault();
+    } else {
+        if (document.getElementById('search').value != '') {
+            console.log(document.getElementById('search').value);
+            let search = document.getElementById('search').value;
+            history.replaceState({}, '', window.location.pathname + '?category=' + encodeURIComponent(category) + '&searchTerm=' + encodeURIComponent(search));
+            console.log('Current URL:', window.location.href); // Log the current URL
+
+            let URL = window.location.href;
+            URL = URL.replace("localhost:8090/mainpage.html", "localhost:8080/collection");
+            console.log(URL);
+
+            let result = fetch(URL, fetchData)
+                .then(response => response.json())
+                .then(data => { 
+                    console.log(data); 
+                })
+                .catch(error => { 
+                    console.error('There was a problem with the fetch operation:', error.message); 
+                    console.log("Error, don't know why here is the URL: " + URL);
+                });
+
+            console.log(result);
+            e.preventDefault();
+        } else
+            alert('Bitte geben Sie eine suche ein.');
+    }
+
+});
+
+</script>
+
 <body>
     <h1 class="display-6 text-center m-2">Collection Companion</h1>
 
@@ -45,18 +114,18 @@
             <div class="col-md-8">
                 <form class="d-flex">
                     <div class="input-group">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                        <button id="category-text" value="Kategorien" class="btn btn-outline-secondary dropdown-toggle" type="button"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;">
                             Kategorien
                         </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Spiele</a>
-                            <a class="dropdown-item" href="#">Filme</a>
-                            <a class="dropdown-item" href="#">Serien</a>
+                        <div id="category-select" class="dropdown-menu">
+                            <a class="dropdown-item">Spiele</a>
+                            <a class="dropdown-item">Filme</a>
+                            <a class="dropdown-item">Serien</a>
                         </div>
-                        <input class="form-control" type="search" placeholder="Suche" aria-label="Search"
+                        <input id="search" class="form-control" type="search" placeholder="Suche" aria-label="Search"
                             style="height: 40px;">
-                        <button class="btn btn-primary ms-auto" id="cc-search-button" type="submit"
+                        <button id="cc-search-button" class="btn btn-primary ms-auto" type="button"
                             style="height: 40px;">
                             Suche
                         </button>
@@ -184,18 +253,6 @@
             </div>
         </div>
     </div>
-
-    <script type='module'>
-        const fetchData = {
-            method: 'GET'
-        }
-
-        const res = fetch("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution", fetchData)
-            .then(response => response.json())
-            .then(data => { console.log(data); }).catch(error => { console.error('There was a problem with the fetch operation:', error.message); });
-        console.log(res);
-    </script>
-
 </body>
 
 </html>
