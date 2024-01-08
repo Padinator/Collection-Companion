@@ -18,7 +18,9 @@ public class User {
 
     private String password, email;
 
-    private List<String> collectionId, userFriendsId;
+    private List<String> userFriendsId;
+
+    private List<Sammlung> sammlungen;
 
     public String toJSON() {
         StringBuilder sb = new StringBuilder("{ ");
@@ -27,7 +29,8 @@ public class User {
         sb.append("\"password\": ").append("\"" + password + "\", ");
         sb.append("\"email\": ").append("\"" + email + "\", ");
 
-        sb.append("\"collectionID\": [\"").append(String.join("\", \"", collectionId)).append("\"]");
+        sb.append("\"sammlungen\": [\"").append(String.join("\", \"",
+                sammlungen.stream().map(sammlung -> sammlung.toJSON()).toList())).append("\"]");
         sb.append("\"userFriendsID\": [\"").append(String.join("\", \"", userFriendsId)).append("\"]");
 
         return sb.append(" }").toString();
@@ -35,7 +38,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "Username: " + username + ", Password: " + ", E-Mail: " + email + ", Sammlung: " + collectionId
+        return "Username: " + username + ", Password: " + ", E-Mail: " + email + ", Sammlung: " + sammlungen
                 + ", Freunde: " + userFriendsId;
     }
 }

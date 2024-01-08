@@ -26,11 +26,11 @@ public class DatabaseOut {
         return database.selectCollection(category, searchTerm, collectionRepo); // Query DB
     }
 
-    public void insertCollection(Collection collection) {
-        database.insertCollection(collection, collectionRepo);
+    public boolean addCollection(Collection collection) {
+        return database.insertCollection(collection, collectionRepo);
     }
 
-    public User insertUser(User user) {
+    public User addUser(User user) {
         return database.insertUser(user, userRepo);
     }
 
@@ -38,12 +38,16 @@ public class DatabaseOut {
         return database.selectUser(username, userRepo);
     }
 
-    public void insertCollectionToUser(String username, CollectionImpl collection) {
-        database.insertCollectionToUser(username, collection, userRepo, collectionRepo);
+    public boolean addCollectionToUsersSammlung(String username, int sammlungNummer, CollectionImpl collection) {
+        return database.insertCollectionToUser(username, sammlungNummer, collection, userRepo, collectionRepo);
     }
 
-    public void addFriendToUser(String username, String usernameFriend) {
-        database.insertFriendToUser(username, usernameFriend, userRepo);
+    public boolean addFriendToUser(String username, String usernameFriend) {
+        return database.insertFriendToUser(username, usernameFriend, userRepo);
+    }
+
+    public boolean addSammlungToUser(String username, String name, String visibility, String category) {
+        return database.insertSammlungToUser(username, name, visibility, category, userRepo);
     }
 
 }
