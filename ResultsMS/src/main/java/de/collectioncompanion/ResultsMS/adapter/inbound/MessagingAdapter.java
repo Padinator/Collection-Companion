@@ -41,7 +41,7 @@ public class MessagingAdapter {
 
             updatesNotificationPort.notifyUpdate(id, collections); // Notify dequeuing a collection from rabbitmq
             CollectionList.pushCollection(id, collections); // Push result into an own java class queue
-            databaseServerOut.addResultingCollectionToDB(collections); // Add request into DB
+            databaseServerOut.addResultingCollectionsToDB(collections); // Add request into DB
         }
     }
 
