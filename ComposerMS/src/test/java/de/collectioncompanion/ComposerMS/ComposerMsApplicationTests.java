@@ -79,7 +79,7 @@ class ComposerMsApplicationTests {
          */
         @Test
         void testToJSON1() {
-            assert emptyCollection.toJSON().equals("{ \"id\": \"null\" }");
+            assert emptyCollection.toJSON().equals("{ \'id\': \'null\' }");
         }
 
         /**
@@ -87,7 +87,7 @@ class ComposerMsApplicationTests {
          */
         @Test
         void testToJSON2() {
-            String resultJSON = "{ \"id\": \"null\", \"name\": \"456\", \"test123\": \"123\", \"title\": \"789\" }";
+            String resultJSON = "{ \'id\': \'null\', \'name\': \'456\', \'test123\': \'123\', \'title\': \'789\' }";
             System.out.println(resultJSON);
             System.out.println(filledCollection.toJSON());
             assert filledCollection.toJSON().equals(resultJSON);
