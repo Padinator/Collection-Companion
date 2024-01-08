@@ -25,13 +25,13 @@ public class User {
     public String toJSON() {
         StringBuilder sb = new StringBuilder("{ ");
 
-        sb.append("\"username\": ").append("\"" + username + "\", ");
-        sb.append("\"password\": ").append("\"" + password + "\", ");
-        sb.append("\"email\": ").append("\"" + email + "\", ");
+        sb.append("\'username\': ").append("\'" + username + "\', ");
+        sb.append("\'password\': ").append("\'" + password + "\', ");
+        sb.append("\'email\': ").append("\'" + email + "\', ");
 
-        sb.append("\"sammlungen\": [\"").append(String.join("\", \"",
-                sammlungen.stream().map(sammlung -> sammlung.toJSON()).toList())).append("\"]");
-        sb.append("\"userFriendsID\": [\"").append(String.join("\", \"", userFriendsId)).append("\"]");
+        sb.append("\'sammlungen\': [\'").append(String.join("\', \'",
+                sammlungen.stream().map(sammlung -> sammlung.toJSON()).toList())).append("\']");
+        sb.append("\'userFriendsID\': [\'").append(String.join("\', \'", userFriendsId)).append("\']");
 
         return sb.append(" }").toString();
     }
