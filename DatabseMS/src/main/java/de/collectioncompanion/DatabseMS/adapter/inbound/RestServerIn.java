@@ -29,8 +29,10 @@ public class RestServerIn {
     public ResponseEntity<String> getCollection(@RequestParam String category, @RequestParam String searchTerm) {
         List<Collection> results = databaseOut.requestCollectionsFromDB(category, searchTerm);
 
+        System.out.println("\n\nResults as JSON:\n" + results.stream().map(Collection::toJSON).toList());
+
         if (results.isEmpty()) // Found no collection
-            return ResponseEntity.status(204).body(results.stream().map(Collection::toJSON).toList().toString());
+            return ResponseEntity.status(204).body("No collections found in DB!");
         else // Found a valid collection
             return ResponseEntity.status(200).body(results.stream().map(Collection::toJSON).toList().toString());
     }
