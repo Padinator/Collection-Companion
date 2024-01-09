@@ -9,7 +9,7 @@ import java.util.List;
 public interface Database {
 
     /**
-     * Return requested results or an empty string, if data must be renewed
+     * Returns requested results or an empty string, if data must be renewed
      *
      * @param category of requested data
      * @param searchTerm of requested data
@@ -19,7 +19,7 @@ public interface Database {
     List<Collection> selectCollections(String category, String searchTerm, CollectionRepo collectionRepo);
 
     /**
-     * Insert new Collection into DB
+     * Inserts new Collection into DB
      * 
      * @param collection to Insert
      * @param collectionRepo object for accessing DB
@@ -28,7 +28,7 @@ public interface Database {
     boolean insertCollection(Collection collection, CollectionRepo collectionRepo);
 
     /**
-     * Find to passed username the user
+     * Finds to passed username the user
      * 
      * @param username of User
      * @param userRepo object for accessing DB
@@ -37,7 +37,7 @@ public interface Database {
     User selectUser(String username, UserRepo userRepo);
 
     /**
-     * Insert User into DB
+     * Inserts User into DB
      * 
      * @param user to Insert
      * @param userRepo object for accessing DB
@@ -46,7 +46,7 @@ public interface Database {
     User insertUser(User user, UserRepo userRepo);
 
     /**
-     * Insert Collection into passed User
+     * Inserts Collection into passed User
      * 
      * @param username to insert Collection into
      * @param collection to insert into User
@@ -57,9 +57,9 @@ public interface Database {
     boolean insertCollectionToUser(String username, int sammlungNummer, CollectionImpl collection, UserRepo userRepo, CollectionRepo collectionRepo);
 
     /**
-     * Add Friend To User
+     * Adds Friend To User
      * 
-     * @param username to add passed Friend
+     * @param username to add passed Friend into
      * @param usernameFriend to add in usernames list
      * @param userRepo object for accessing DB
      * @return true if friend could be added to user else false
@@ -67,7 +67,7 @@ public interface Database {
     boolean insertFriendToUser(String username, String usernameFriend, UserRepo userRepo);
 
     /**
-     * Add new Sammlung To User
+     * Adds new Sammlung To User
      * @param username  to insert sammlung
      * @param name  of sammlung
      * @param visibility of sammlung
@@ -76,4 +76,15 @@ public interface Database {
      * @return true if sammlung could be added to user else false
      */
     boolean insertSammlungToUser(String username, String name, String visibility, String category, UserRepo userRepo);
+
+    /**
+     * Updates a Sammlung with the number sammlungNummer in a users list of Sammlungen with passed Collection
+     *
+     * @param username name of User
+     * @param sammlungNummer number of Sammlung in DB
+     * @param newVisibility of Sammlung
+     * @param userRepo object for accessing DB
+     * @return true, if updating list of Sammlungen was done successfully
+     */
+    boolean updateCollectionToUsersSammlung(String username, int sammlungNummer, String newVisibility, UserRepo userRepo);
 }

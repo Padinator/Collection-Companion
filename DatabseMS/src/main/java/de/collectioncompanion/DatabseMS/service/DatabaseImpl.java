@@ -116,4 +116,22 @@ public class DatabaseImpl implements Database {
         return false;
     }
 
+    @Override
+    public boolean updateCollectionToUsersSammlung(String username, int sammlungNummer, String newVisibility,
+                                                   UserRepo userRepo) {
+        Optional<User> optionalUser = userRepo.findById(username);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            if (user.getSammlungen().size() < sammlungNummer) {
+                user.getSammlungen().get(sammlungNummer - 1).setVisibility(newVisibility);
+                userRepo.save(user);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

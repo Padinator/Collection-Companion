@@ -58,6 +58,7 @@
         } else {
             if (document.getElementById('search').value != '') {
                 console.log(document.getElementById('search').value);
+
                 let search = document.getElementById('search').value;
                 history.replaceState({}, '', window.location.pathname + '?category=' + encodeURIComponent(category) + '&searchTerm=' + encodeURIComponent(search));
                 console.log('Current URL:', window.location.href); // Log the current URL
@@ -66,10 +67,118 @@
                 URL = URL.replace("localhost:8090/mainpage.html", "localhost:8080/collection");
                 console.log(URL);
 
+				function setSammlungHinzufuegenContent(data) {
+					console.log(data);
+
+					let sammlungsDiv = document.getElementById('sammlungsinhalt');
+					let headerTitle = document.getElementById('sammlungErstellenModalLabel');
+					let displayingData = {};
+
+					sammlungsDiv.innerHTML = ''; // Reset content
+
+					for (const [key, value] of Object.entries(data)) {
+						let resultStr = "";
+
+						if (key === 'id' || key === 'time_stamp') // Value is ID => ignore
+							continue;
+						if (key === 'title') {
+							headerTitle.innerText = value;
+							continue;
+						} else if (key === 'detailed_description') // Value is a detailed description => limit chars
+							resultStr = value.substring(0, 200) + " ...";
+						else if (key === 'short_description') // Value is a short description => limit chars
+							resultStr = value.substring(0, 100) + " ...";
+						else if (Array.isArray(value)) { // Value is an array -> bring in one line separated string
+							resultStr = value.join(', ');
+						} else // Value is a single value
+							resultStr = value;
+
+						// Set attributes
+						let title = document.createElement('p');
+						let content = key === 'main_img' ? document.createElement('img') : document.createElement('p'); // p => text; img => main image
+						let resultKey = key.toLowerCase().replaceAll('_', ' ');
+						resultStr = resultStr.toLowerCase().replaceAll('_', ' ');
+
+						resultKey = resultKey.charAt(0).toUpperCase() + resultKey.slice(1);
+						resultStr = resultStr.charAt(0).toUpperCase() + resultStr.slice(1);
+
+						title.innerText = resultKey + ":";
+						title.setAttribute('style', 'float: left; width: 50%');
+						
+						if (key === "main_img")
+							content.setAttribute('src', value);
+						else
+							content.innerText = resultStr;
+						content.setAttribute('style', 'float: left; width: 50%');
+
+						// Add to parent
+						sammlungsDiv.appendChild(title);
+						sammlungsDiv.appendChild(content);
+					}
+
+					// Set Dropdown for "Sammlung hinzufuegen"
+					let sammlungsDropdown = document.getElementById('kategorie');
+					let firstOption = document.createElement('option');
+
+					// Remove last/old options
+					sammlungsDropdown.innerHTML = "";
+
+					// First option is only for displaying what to do
+					firstOption.selected = true;
+					firstOption.disabled = true;
+					firstOption.innerText = "Wähle eine Sammlung!";
+					sammlungsDropdown.appendChild(firstOption);
+
+					// Append other options
+					let usersSammlungen = [ { name: "Sammlung 1" }, { name: "Sammlung 2" }, { name: "Sammlung 3" } ];
+
+					usersSammlungen.forEach(sammlung => {
+						let sammlungElem = document.createElement('option');
+						sammlungElem.innerText = sammlung.name;
+						sammlungsDropdown.appendChild(sammlungElem);
+					});
+				}
+
+				function createEntry(data, number) {
+					let entry = document.createElement('div');
+					let divContent = document.createElement('div');
+					let titleElem = document.createElement('h5');
+					let descriptionElem = document.createElement('p');
+					let button = document.createElement('button');
+
+					// Set attributes and "innerText"
+					entry.className = 'p-2 border mb-3 rounded position-relative';
+					titleElem.classname = 'text-left';
+					titleElem.innerText = data["title"];
+					descriptionElem.innerText = data["short_description"];
+					button.classname = 'btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2';
+					button.id = 'cc-add-collection-button-' + number;
+					button.setAttribute('data-bs-toggle', 'modal');
+					button.setAttribute('data-bs-target', '#sammlungHinzufuegen');
+					button.addEventListener('click', setSammlungHinzufuegenContent(data));
+					button.innerText = "Hinzufügen";
+
+					// Append content elements to content div
+					divContent.appendChild(titleElem);
+					divContent.appendChild(descriptionElem);
+
+					// Append "innerHTML" objects to entry
+					entry.appendChild(divContent);
+					entry.appendChild(button);
+
+					return entry;
+				}
+
                 let result = fetch(URL, fetchData)
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
+                        let searchResultsDiv = document.getElementById('cc-search-result-entries');
+						searchResultsDiv.innerHTML = ''; // Remove all child nodes
+
+						for (let i = 0; i < data.length; ++i)
+							searchResultsDiv.appendChild(createEntry(data[i], i));
+
+						console.log(data);
                     })
                     .catch(error => {
                         console.error('There was a problem with the fetch operation:', error.message);
@@ -179,38 +288,15 @@
 
         <!-- Webseiten Inhalt -->
         <div class="row mt-5">
-            <div class="col-md-8 d-flex flex-column mx-auto border rounded" style="height: 50vh; overflow-y: auto;">
+            <div id="cc-search-result-entries" class="col-md-8 d-flex flex-column mx-auto border rounded" style="height: 50vh; overflow-y: auto;">
                 <h3 class="text-center mt-2">Suchergebnisse
                     <hr class="my-2">
                 </h3>
 
                 <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel: </h5>
+                    <h5 class="text-left">Titel</h5>
                     <p>Beschreibung: ...</p>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2"
-                        id="cc-add-collection-button-one" data-bs-toggle="modal"
-                        data-bs-target="#sammlungHinzufuegen">Hinzufügen</button>
-                </div>
-
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel: </h5>
-                    <p>Beschreibung: ...</p>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2" data-bs-toggle="modal"
-                        data-bs-target="#sammlungHinzufuegen">Hinzufügen</button>
-                </div>
-
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel: </h5>
-                    <p>Beschreibung: ...</p>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2" data-bs-toggle="modal"
-                        data-bs-target="#sammlungHinzufuegen">Hinzufügen</button>
-                </div>
-
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel: </h5>
-                    <p>Beschreibung: ...</p>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2" data-bs-toggle="modal"
-                        data-bs-target="#sammlungHinzufuegen">Hinzufügen</button>
+                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2" disabled>Hinzufügen</button>
                 </div>
             </div>
         </div>
@@ -226,13 +312,17 @@
                     </div>
                     <div class="modal-body">
                         <form>
+							<!-- Sammlungsinhalt anzeigen -->
+							<div id="sammlungsinhalt">Sammlungsinhalt</div>
+
+							<!-- Sammlung auswaehlen -->
                             <div class="mb-3 row">
                                 <label for="kategorie" class="col-sm-3 col-form-label">Sammlung:</label>
                                 <div class="col-sm-9">
                                     <select class="form-select" id="kategorie" aria-label="Kategorie auswählen">
                                         <option selected disabled>Bitte Sammlung auswählen</option>
                                         <option value="spiele">Die Besten Horrospiele</option>
-                                        <option value="filme">Must have Videspiele</option>
+                                        <option value="filme">Must have Videospiele</option>
                                         <option value="serien">Kinderfilme</option>
                                     </select>
                                 </div>

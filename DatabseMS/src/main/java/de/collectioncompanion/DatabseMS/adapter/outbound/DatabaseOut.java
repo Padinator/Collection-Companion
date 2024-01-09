@@ -52,4 +52,7 @@ public class DatabaseOut {
         return database.insertSammlungToUser(username, name, visibility, category, userRepo);
     }
 
+    public boolean updateSammlungOfUser(String username, int sammlungNummer, String newVisibility) {
+        return database.updateCollectionToUsersSammlung(username, sammlungNummer, newVisibility, userRepo);
+    }
 }

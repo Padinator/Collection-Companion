@@ -58,7 +58,7 @@ public class RestServerIn {
             return ResponseEntity.status(404).body("No user was found!");
 
         user.setPassword("");
-        return ResponseEntity.status(200).body(user.toString());
+        return ResponseEntity.status(200).body(user.toJSON());
     }
 
     @PostMapping("/users")
@@ -73,6 +73,12 @@ public class RestServerIn {
     @PostMapping("/users/sammlung")
     public ResponseEntity<String> addSammlungToUser(@RequestParam String username, @RequestParam String name, @RequestParam String visibility, @RequestParam String category) {
         databaseOut.addSammlungToUser(username, name, visibility, category);
+        return ResponseEntity.status(200).body("Added successfully Sammlung to User!");
+    }
+
+    @PatchMapping("/users/sammlung")
+    public ResponseEntity<String> updateSammlungOfUser(@RequestParam String username, @RequestParam int sammlungNummer, @RequestParam String newVisibility) {
+        databaseOut.updateSammlungOfUser(username, sammlungNummer, newVisibility);
         return ResponseEntity.status(200).body("Added successfully Sammlung to User!");
     }
 

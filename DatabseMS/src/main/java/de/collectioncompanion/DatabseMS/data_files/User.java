@@ -29,9 +29,16 @@ public class User {
         sb.append("\"password\": ").append("\"" + password + "\", ");
         sb.append("\"email\": ").append("\"" + email + "\", ");
 
-        sb.append("\"sammlungen\": [\"").append(String.join("\", \"",
-                sammlungen.stream().map(sammlung -> sammlung.toJSON()).toList())).append("\"]");
-        sb.append("\"userFriendsID\": [\"").append(String.join("\", \"", userFriendsId)).append("\"]");
+        if (sammlungen.isEmpty())
+            sb.append("\"sammlungen\": [], ");
+        else
+            sb.append("\"sammlungen\": [ ").append(String.join(", ",
+                    sammlungen.stream().map(sammlung -> sammlung.toJSON()).toList())).append(" ], ");
+
+        if (userFriendsId.isEmpty())
+            sb.append("\"userFriendsID\": []");
+        else
+            sb.append("\"userFriendsID\": [ \"").append(String.join("\", \"", userFriendsId)).append("\" ]");
 
         return sb.append(" }").toString();
     }

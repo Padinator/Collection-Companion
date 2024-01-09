@@ -232,13 +232,34 @@
 
     <script>
 
+		// Load each time reloading the page all Sammlungen
+		window.onload = (event) => {
+			let userURL = new URL("http://localhost:8080/collection/users");
+			let urlParams = new URLSearchParams(window.location.search);
+            let username = urlParams.get('username');
+
+			userURL.searchParams.append("username", username);
+			console.log(userURL.href)
+
+			fetch(userURL.href, { method: "GET" })
+			.then(response => response.json())
+			.then(data => {
+				let sammlungContainer = document.getElementById('sammlungContainer');
+
+				// Iterate over all Sammlungen an create entries
+				for (let i = 0; i < data['sammlungen'].length; ++i)
+					sammlungContainer.appendChild(createSammlungsEintrag(i + 1, data["sammlungen"][i]["name"], data["sammlungen"][i]["visibility"]));
+			})
+			.catch((error) => console.log(error));
+		};
+
         document.getElementById('cc-create-collection-button').addEventListener('click', function (event) {
             document.getElementById('sammlungName').value = '';
             document.getElementById('sichtbarkeit').selectedIndex = 0;
             document.getElementById('kategorie').selectedIndex = 0;
-
         });
 
+		// Add event for submitting a new Sammlung
         document.getElementById('cc-create-collection-submit-button').addEventListener('click', function (event) {
             event.preventDefault();
 
@@ -265,42 +286,77 @@
 
             fetch(collectionUrl.href, {
                 method: "POST",
-            }).then((respone) => {
+				headers: {
+                    'Content-Type': 'text/plain',
+                }
+            })
+			.then(respone => {
+                console.log(respone.text());
                 console.log(respone);
 
                 if (respone.status == "200") {
-                    let sammlungEintrag = document.createElement('div');
-                    sammlungEintrag.className = 'p-2 border mb-3 rounded position-relative';
-
-                    let titelElement = document.createElement('h5');
-                    titelElement.className = 'text-left';
-                    titelElement.textContent = 'Titel: ' + name;
-                    sammlungEintrag.appendChild(titelElement);
-
-                    let bearbeitenButton = document.createElement('button');
-                    bearbeitenButton.className = 'btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2';
-                    bearbeitenButton.id = 'cc-edit-collection-button';
-                    bearbeitenButton.textContent = 'Bearbeiten';
-                    bearbeitenButton.setAttribute('data-bs-toggle', 'modal');
-                    bearbeitenButton.setAttribute('data-bs-target', '#sammlungBearbeiten');
-                    sammlungEintrag.appendChild(bearbeitenButton);
-
                     let sammlungContainer = document.getElementById('sammlungContainer');
-                    sammlungContainer.appendChild(sammlungEintrag);
-
-                    bearbeitenButton.addEventListener('click', function (event) {
-                        bearbeitenButtonClickHandler(event, visibility);
-                    });
-
+					sammlungContainer.appendChild(sammlungContainer.children.length, createSammlungsEintrag(name, visibility))
                     console.log("Eintrag wurde erstellt!");
                 }
             }).catch((error) => console.log(error));
         });
 
+		function createSammlungsEintrag(number, sammlungsTitel, visibility) {
+			let sammlungEintrag = document.createElement('div');
+			sammlungEintrag.className = 'p-2 border mb-3 rounded position-relative';
+
+			let titelElement = document.createElement('h5');
+			titelElement.className = 'text-left';
+			titelElement.textContent = sammlungsTitel;
+			sammlungEintrag.appendChild(titelElement);
+
+			let bearbeitenButton = document.createElement('button');
+			bearbeitenButton.className = 'btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2';
+			bearbeitenButton.id = 'cc-edit-collection-button-' + number;
+			bearbeitenButton.textContent = 'Bearbeiten';
+			bearbeitenButton.setAttribute('data-bs-toggle', 'modal');
+			bearbeitenButton.setAttribute('data-bs-target', '#sammlungBearbeiten');
+			sammlungEintrag.appendChild(bearbeitenButton);
+
+			bearbeitenButton.addEventListener('click', function (event) {
+				bearbeitenButtonClickHandler(event, visibility);
+			});
+
+			return sammlungEintrag;
+		}
+
         function bearbeitenButtonClickHandler(event, visibility) {
             let sichtbarkeitElement = document.getElementById('sichtbarkeit-bearbeiten');
             sichtbarkeitElement.value = visibility;
             console.log("Übergebene Visibility:", visibility);
+			console.log(event.target);
+			let sammlungNummer = event.target.id.replace("/.*-/g", "");
+
+			// Add event for editing a Sammlung
+			document.getElementById('cc-submit-collection-button').addEventListener('click', function(event) {
+			event.preventDefault();
+
+			let sammlungUrl = new URL("http://localhost:8080/collection/users/sammlung");
+            let urlParams = new URLSearchParams(window.location.search);
+			let username = urlParams.get('username');
+			let newVisibility = document.getElementById('sichtbarkeit-bearbeiten').value;
+
+			sammlungUrl.searchParams.append("username", username);
+			sammlungUrl.searchParams.append("sammlungNummer", sammlungNummer);
+			sammlungUrl.searchParams.append("newVisibility", newVisibility);
+			console.log(sammlungUrl.href);
+
+			fetch(sammlungUrl.href, {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'text/plain',
+				}
+			})
+			.then(response => response.text())
+			.then(response => console.log(response))
+			.catch((error) => console.log(error));
+		});
         }
 
     </script>
