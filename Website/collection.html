@@ -14,6 +14,8 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
+    <script type="text/javascript" src="PassUsername.js" defer></script>
+
     <title>Collection Companion</title>
 </head>
 
@@ -26,13 +28,13 @@
             <!-- Spalte 1: Home und Profil Button -->
             <div class="col-md-2">
                 <div class="d-flex justify-content-center">
-                    <a href="mainpage.html" class="btn btn-outline-dark mx-auto" style="height: 40px;"><svg
+                    <a class="btn btn-outline-dark mx-auto" id="cc-mainpage-button" style="height: 40px;"><svg
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-house" viewBox="0 0 16 16">
                             <path
                                 d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z" />
                         </svg></a>
-                    <a href="account.html" class="btn btn-outline-dark mx-auto" style="height: 40px;"><svg
+                    <a class="btn btn-outline-dark mx-auto" id="cc-account-button" style="height: 40px;"><svg
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-person-circle" viewBox="0 0 16 16">
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
@@ -67,7 +69,7 @@
             <!-- Spalte 3: Collection und Freunde Button -->
             <div class="col-md-2">
                 <div class="d-flex justify-content-center">
-                    <a href="collection.html" class="btn btn-outline-dark mx-auto" style="height: 40px;"><svg
+                    <a class="btn btn-outline-dark mx-auto" id="cc-collection-button" style="height: 40px;"><svg
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-bookmark" viewBox="0 0 16 16">
                             <path
@@ -85,9 +87,9 @@
                             Freunde
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="freundeDropdown">
-                            <li><a class="dropdown-item" href="#">Freund 1</a></li>
-                            <li><a class="dropdown-item" href="#">Freund 2</a></li>
-                            <li><a class="dropdown-item" href="#">Freund 3</a></li>
+                            <li><a class="dropdown-item" id="cc-friends-link">Freund 1</a></li>
+                            <li><a class="dropdown-item">Freund 2</a></li>
+                            <li><a class="dropdown-item">Freund 3</a></li>
                         </ul>
                     </div>
                 </div>
@@ -232,26 +234,26 @@
 
     <script>
 
-		// Load each time reloading the page all Sammlungen
-		window.onload = (event) => {
-			let userURL = new URL("http://localhost:8080/collection/users");
-			let urlParams = new URLSearchParams(window.location.search);
+        // Load each time reloading the page all Sammlungen
+        window.onload = (event) => {
+            let userURL = new URL("http://localhost:8080/collection/users");
+            let urlParams = new URLSearchParams(window.location.search);
             let username = urlParams.get('username');
 
-			userURL.searchParams.append("username", username);
-			console.log(userURL.href)
+            userURL.searchParams.append("username", username);
+            console.log(userURL.href)
 
-			fetch(userURL.href, { method: "GET" })
-			.then(response => response.json())
-			.then(data => {
-				let sammlungContainer = document.getElementById('sammlungContainer');
+            fetch(userURL.href, { method: "GET" })
+                .then(response => response.json())
+                .then(data => {
+                    let sammlungContainer = document.getElementById('sammlungContainer');
 
-				// Iterate over all Sammlungen an create entries
-				for (let i = 0; i < data['sammlungen'].length; ++i)
-					sammlungContainer.appendChild(createSammlungsEintrag(i + 1, data["sammlungen"][i]["name"], data["sammlungen"][i]["visibility"]));
-			})
-			.catch((error) => console.log(error));
-		};
+                    // Iterate over all Sammlungen an create entries
+                    for (let i = 0; i < data['sammlungen'].length; ++i)
+                        sammlungContainer.appendChild(createSammlungsEintrag(i + 1, data["sammlungen"][i]["name"], data["sammlungen"][i]["visibility"]));
+                })
+                .catch((error) => console.log(error));
+        };
 
         document.getElementById('cc-create-collection-button').addEventListener('click', function (event) {
             document.getElementById('sammlungName').value = '';
@@ -259,7 +261,7 @@
             document.getElementById('kategorie').selectedIndex = 0;
         });
 
-		// Add event for submitting a new Sammlung
+        // Add event for submitting a new Sammlung
         document.getElementById('cc-create-collection-submit-button').addEventListener('click', function (event) {
             event.preventDefault();
 
@@ -306,58 +308,81 @@
 			let sammlungEintrag = document.createElement('div');
 			sammlungEintrag.className = 'p-2 border mb-3 rounded position-relative';
 
-			let titelElement = document.createElement('h5');
-			titelElement.className = 'text-left';
-			titelElement.textContent = sammlungsTitel;
-			sammlungEintrag.appendChild(titelElement);
+            let titelElement = document.createElement('h5');
+            titelElement.className = 'text-left';
+            titelElement.textContent = sammlungsTitel;
+            sammlungEintrag.appendChild(titelElement);
 
-			let bearbeitenButton = document.createElement('button');
-			bearbeitenButton.className = 'btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2';
-			bearbeitenButton.id = 'cc-edit-collection-button-' + number;
-			bearbeitenButton.textContent = 'Bearbeiten';
-			bearbeitenButton.setAttribute('data-bs-toggle', 'modal');
-			bearbeitenButton.setAttribute('data-bs-target', '#sammlungBearbeiten');
-			sammlungEintrag.appendChild(bearbeitenButton);
+            let bearbeitenButton = document.createElement('button');
+            bearbeitenButton.className = 'btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2';
+            bearbeitenButton.id = 'cc-edit-collection-button-' + number;
+            bearbeitenButton.textContent = 'Bearbeiten';
+            bearbeitenButton.setAttribute('data-bs-toggle', 'modal');
+            bearbeitenButton.setAttribute('data-bs-target', '#sammlungBearbeiten');
+            sammlungEintrag.appendChild(bearbeitenButton);
 
-			bearbeitenButton.addEventListener('click', function (event) {
-				bearbeitenButtonClickHandler(event, visibility);
-			});
+            bearbeitenButton.addEventListener('click', function (event) {
+                bearbeitenButtonClickHandler(event, visibility);
+            });
 
-			return sammlungEintrag;
-		}
+            return sammlungEintrag;
+        }
 
         function bearbeitenButtonClickHandler(event, visibility) {
             let sichtbarkeitElement = document.getElementById('sichtbarkeit-bearbeiten');
             sichtbarkeitElement.value = visibility;
             console.log("Übergebene Visibility:", visibility);
-			console.log(event.target);
-			let sammlungNummer = event.target.id.replace("/.*-/g", "");
+            console.log(event.target);
+            let sammlungNummer = event.target.id.replace("/.*-/g", "");
 
-			// Add event for editing a Sammlung
-			document.getElementById('cc-submit-collection-button').addEventListener('click', function(event) {
-			event.preventDefault();
+            // Add event for editing a Sammlung
+            document.getElementById('cc-submit-collection-button').addEventListener('click', function (event) {
+                event.preventDefault();
 
-			let sammlungUrl = new URL("http://localhost:8080/collection/users/sammlung");
-            let urlParams = new URLSearchParams(window.location.search);
-			let username = urlParams.get('username');
-			let newVisibility = document.getElementById('sichtbarkeit-bearbeiten').value;
+                let sammlungUrl = new URL("http://localhost:8080/collection/users/sammlung");
+                let urlParams = new URLSearchParams(window.location.search);
+                let username = urlParams.get('username');
+                let newVisibility = document.getElementById('sichtbarkeit-bearbeiten').value;
 
-			sammlungUrl.searchParams.append("username", username);
-			sammlungUrl.searchParams.append("sammlungNummer", sammlungNummer);
-			sammlungUrl.searchParams.append("newVisibility", newVisibility);
-			console.log(sammlungUrl.href);
+                sammlungUrl.searchParams.append("username", username);
+                sammlungUrl.searchParams.append("sammlungNummer", sammlungNummer);
+                sammlungUrl.searchParams.append("newVisibility", newVisibility);
+                console.log(sammlungUrl.href);
 
-			fetch(sammlungUrl.href, {
-				method: 'PATCH',
-				headers: {
-					'Content-Type': 'text/plain',
-				}
-			})
-			.then(response => response.text())
-			.then(response => console.log(response))
-			.catch((error) => console.log(error));
-		});
+                fetch(sammlungUrl.href, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    }
+                })
+                    .then(response => response.text())
+                    .then(response => console.log(response))
+                    .catch((error) => console.log(error));
+            });
         }
+
+        // Load first all DOM Elements
+        document.addEventListener("DOMContentLoaded", function () {
+            let urlParams = new URLSearchParams(window.location.search);
+            let username = urlParams.get('username');
+
+            document.getElementById("cc-mainpage-button").addEventListener('click', function (event) {
+                console.log(username);
+                passUsername(username, 'mainpage');
+            });
+
+            document.getElementById("cc-account-button").addEventListener('click', function (event) {
+                passUsername(username, 'account');
+            });
+
+            document.getElementById("cc-collection-button").addEventListener('click', function (event) {
+                passUsername(username, 'collection');
+            });
+
+            document.getElementById("cc-friends-link").addEventListener('click', function (event) {
+                passUsername(username, 'friends');
+            });
+        });
 
     </script>
 
