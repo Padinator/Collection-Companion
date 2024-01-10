@@ -171,6 +171,7 @@
                     return entry;
                 }
 
+				// Fetch API-Gateway for search results
                 let result = fetch(URL, fetchData)
                     .then(response => response.json())
                     .then(data => {

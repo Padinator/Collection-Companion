@@ -18,6 +18,9 @@ public class RestServerIn {
     @Autowired
     private DatabaseOut databaseOut;
 
+    /*
+     * "Search result"-requests only for table "search results = collection"
+     */
     /**
      * Accepts get requests with exactly two parameters named like parameters below
      *
@@ -46,10 +49,14 @@ public class RestServerIn {
     @PostMapping
     public ResponseEntity<String> addNewCollection(@RequestBody CollectionImpl collection) {
         System.out.println("Received collection to insert: " + collection);
-        databaseOut.addCollection(collection);
-        return ResponseEntity.status(200).body(collection.getId());
+        if (databaseOut.addCollection(collection))
+            return ResponseEntity.status(200).body(collection.getId());
+        return ResponseEntity.status(200).body("-1");
     }
 
+    /*
+     * "User"-requests
+     */
     @GetMapping("/users")
     public ResponseEntity<String> getUser(@RequestParam String username) {
         User user = databaseOut.requestUserFromDB(username);
@@ -66,22 +73,31 @@ public class RestServerIn {
         User user = databaseOut.addUser(new User(username, password, email, new LinkedList<>(), new LinkedList<>()));
         if (user != null)
             return ResponseEntity.status(200).body("Inserted successfully user into DB!");
-        else 
+        else
             return ResponseEntity.status(403).body("User already exists!");
     }
 
+    /*
+     * "Sammlung" requests
+     */
     @PostMapping("/users/sammlung")
     public ResponseEntity<String> addSammlungToUser(@RequestParam String username, @RequestParam String name, @RequestParam String visibility, @RequestParam String category) {
-        databaseOut.addSammlungToUser(username, name, visibility, category);
-        return ResponseEntity.status(200).body("Added successfully Sammlung to User!");
+        if (databaseOut.addSammlungToUser(username, name, visibility, category))
+            return ResponseEntity.status(200).body("Added successfully Sammlung to User!");
+        return ResponseEntity.status(200).body("Could not add Sammlung to User!");
+
     }
 
     @PatchMapping("/users/sammlung")
     public ResponseEntity<String> updateSammlungOfUser(@RequestParam String username, @RequestParam int sammlungNummer, @RequestParam String newVisibility) {
-        databaseOut.updateSammlungOfUser(username, sammlungNummer, newVisibility);
-        return ResponseEntity.status(200).body("Added successfully Sammlung to User!");
+        if (databaseOut.updateSammlungOfUser(username, sammlungNummer, newVisibility))
+            return ResponseEntity.status(200).body("Updated successfully Sammlung of User!");
+        return ResponseEntity.status(200).body("Could not update Sammlung of User!");
     }
 
+    /*
+     * "Collection/Search result"-requests in table "User"
+     */
     @PostMapping("/users/sammlung/collections")
     public ResponseEntity<String> addCollectionToUsersSammlung(@RequestParam String username, @RequestParam int sammlungNummer, @RequestBody CollectionImpl collection) {
         if (databaseOut.addCollectionToUsersSammlung(username, sammlungNummer, collection))
@@ -89,6 +105,9 @@ public class RestServerIn {
         return ResponseEntity.status(403).body("Could not add Collection to Users Sammlung!");
     }
 
+    /*
+     * "User friends"-requests
+     */
     @PostMapping("/users/friends")
     public ResponseEntity<String> addFriendToUser(@RequestParam String username, @RequestParam String usernameFriend) {
         if (databaseOut.addFriendToUser(username, usernameFriend))

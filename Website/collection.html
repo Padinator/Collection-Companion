@@ -288,17 +288,19 @@
 
             fetch(collectionUrl.href, {
                 method: "POST",
+				mode: 'no-cors',
 				headers: {
                     'Content-Type': 'text/plain',
                 }
             })
+			.then(response => response)
 			.then(respone => {
                 console.log(respone.text());
                 console.log(respone);
 
                 if (respone.status == "200") {
                     let sammlungContainer = document.getElementById('sammlungContainer');
-					sammlungContainer.appendChild(sammlungContainer.children.length, createSammlungsEintrag(name, visibility))
+					sammlungContainer.appendChild(createSammlungsEintrag(sammlungContainer.children.length, name, visibility))
                     console.log("Eintrag wurde erstellt!");
                 }
             }).catch((error) => console.log(error));
@@ -330,10 +332,11 @@
 
         function bearbeitenButtonClickHandler(event, visibility) {
             let sichtbarkeitElement = document.getElementById('sichtbarkeit-bearbeiten');
-            sichtbarkeitElement.value = visibility;
+            let sammlungNummer = event.target.id.split("-").at(-1);
+
+			sichtbarkeitElement.value = visibility;
             console.log("Übergebene Visibility:", visibility);
-            console.log(event.target);
-            let sammlungNummer = event.target.id.replace("/.*-/g", "");
+			console.log(sammlungNummer);
 
             // Add event for editing a Sammlung
             document.getElementById('cc-submit-collection-button').addEventListener('click', function (event) {
@@ -352,8 +355,12 @@
                 fetch(sammlungUrl.href, {
                     method: 'PATCH',
                     headers: {
-                        'Content-Type': 'text/plain',
-                    }
+						'Accept': 'application/json',
+						'Content-Type': 'text/plain',
+						//'Content-Type': 'application/json',
+						'Content-Length': '0'
+					},
+					body: JSON.stringify({})
                 })
                     .then(response => response.text())
                     .then(response => console.log(response))

@@ -11,10 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -22,7 +19,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import static de.collectioncompanion.APIGateway.ApiGatewayApplication.*;
 import static org.springframework.cloud.gateway.filter.RouteToRequestUrlFilter.ROUTE_TO_URL_FILTER_ORDER;
 
 @Configuration
@@ -110,7 +106,7 @@ class UserURLResolver implements GatewayFilter {
             exchange.getResponse().getHeaders().add("Content-Type", "application/json");
             exchange.getResponse().getHeaders().add("Access-Control-Allow-Origin", "*");
             exchange.getResponse().getHeaders().add("Access-Control-Allow-Methods", "*");
-            exchange.getResponse().getHeaders().add("Access-Control-Allow-Headers", "x-requested-with, x-requested-by");
+            exchange.getResponse().getHeaders().add("Access-Control-Allow-Headers", "*");
             System.out.println(exchange.getResponse().getHeaders());
 
             if (request == null || request.getStatusCode().value() == 200) // Route request to database microservice

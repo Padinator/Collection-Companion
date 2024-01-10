@@ -63,25 +63,22 @@ public class DatabaseImpl implements Database {
             CollectionRepo collectionRepo) {
         Optional<User> optionalUser = userRepo.findById(username);
 
-        if (optionalUser.isEmpty())
-            return false;
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            List<Sammlung> sammlungen = user.getSammlungen();
 
-        User user = optionalUser.get();
-        List<Sammlung> sammlungen = user.getSammlungen();
+            if (sammlungNummer <= sammlungen.size()) {
+                Sammlung sammlung = sammlungen.get(sammlungNummer - 1);
 
-        if (sammlungen.size() <= sammlungNummer)
-            return false;
-        else {
-            Sammlung sammlung = sammlungen.get(sammlungNummer - 1);
-
-            if (sammlung.getCollectionIds().contains(collection.getId()))
-                return false;
-
-            sammlung.getCollectionIds().add(collection.getId());
-            userRepo.save(user);
+                if (sammlung.getCollectionIds().contains(collection.getId())) { // If Collection does not exist in Sammlung
+                    sammlung.getCollectionIds().add(collection.getId());
+                    userRepo.save(user);
+                    return true;
+                }
+            }
         }
 
-        return true;
+        return false;
 
     }
 
@@ -123,9 +120,11 @@ public class DatabaseImpl implements Database {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
+            List<Sammlung> sammlungen = user.getSammlungen();
 
-            if (user.getSammlungen().size() < sammlungNummer) {
-                user.getSammlungen().get(sammlungNummer - 1).setVisibility(newVisibility);
+            if (sammlungNummer <= sammlungen.size()) {
+                sammlungen.get(sammlungNummer - 1).setVisibility(newVisibility);
+                System.out.println(user.toJSON());
                 userRepo.save(user);
                 return true;
             }
