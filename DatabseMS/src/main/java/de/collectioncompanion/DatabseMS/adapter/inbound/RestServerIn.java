@@ -21,6 +21,7 @@ public class RestServerIn {
     /*
      * "Search result"-requests only for table "search results = collection"
      */
+
     /**
      * Accepts get requests with exactly two parameters named like parameters below
      *
@@ -73,8 +74,15 @@ public class RestServerIn {
         User user = databaseOut.addUser(new User(username, password, email, new LinkedList<>(), new LinkedList<>()));
         if (user != null)
             return ResponseEntity.status(200).body("Inserted successfully user into DB!");
-        else
-            return ResponseEntity.status(403).body("User already exists!");
+        return ResponseEntity.status(403).body("User already exists!");
+    }
+
+    @PatchMapping("/users")
+    public ResponseEntity<String> updateUser(@RequestParam String oldUsername, @RequestParam String newUsername, @RequestParam String newPassword, @RequestParam String newEmail) {
+        User user = databaseOut.updateUser(oldUsername, newUsername, newPassword, newEmail);
+        if (user != null)
+            return ResponseEntity.status(200).body("Updating successfully user into DB!");
+        return ResponseEntity.status(403).body("Could not update user!");
     }
 
     /*

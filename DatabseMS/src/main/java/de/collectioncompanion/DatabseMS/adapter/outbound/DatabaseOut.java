@@ -24,6 +24,9 @@ public class DatabaseOut {
     @Autowired
     public UserRepo userRepo;
 
+    /*
+     * "Search result"-requests only for table "search results = collection"
+     */
     public List<Collection> requestCollectionsFromDB(String category, String searchTerm) {
         return database.selectCollections(category, searchTerm, collectionRepo); // Query DB
     }
@@ -32,27 +35,44 @@ public class DatabaseOut {
         return database.insertCollection(collection, collectionRepo);
     }
 
-    public User addUser(User user) {
-        return database.insertUser(user, userRepo);
-    }
-
+    /*
+     * "User"-requests
+     */
     public User requestUserFromDB(String username) {
         return database.selectUser(username, userRepo);
     }
 
-    public boolean addCollectionToUsersSammlung(String username, int sammlungNummer, CollectionImpl collection) {
-        return database.insertCollectionToUser(username, sammlungNummer, collection, userRepo, collectionRepo);
+    public User addUser(User user) {
+        return database.insertUser(user, userRepo);
     }
 
-    public boolean addFriendToUser(String username, String usernameFriend) {
-        return database.insertFriendToUser(username, usernameFriend, userRepo);
+    public User updateUser(String oldUsername, String newUsername, String newPassword, String newEmail) {
+        return database.updateUser(oldUsername, newUsername, newPassword, newEmail, userRepo);
     }
 
+    /*
+     * "Sammlung" requests
+     */
     public boolean addSammlungToUser(String username, String name, String visibility, String category) {
         return database.insertSammlungToUser(username, name, visibility, category, userRepo);
     }
 
     public boolean updateSammlungOfUser(String username, int sammlungNummer, String newVisibility) {
-        return database.updateCollectionToUsersSammlung(username, sammlungNummer, newVisibility, userRepo);
+        return database.updateSammlungOfUser(username, sammlungNummer, newVisibility, userRepo);
     }
+
+    /*
+     * "User friends"-requests
+     */
+    public boolean addFriendToUser(String username, String usernameFriend) {
+        return database.insertFriendToUser(username, usernameFriend, userRepo);
+    }
+
+    /*
+     * "Collection/Search result"-requests in table "User"
+     */
+    public boolean addCollectionToUsersSammlung(String username, int sammlungNummer, CollectionImpl collection) {
+        return database.insertCollectionToUser(username, sammlungNummer, collection, userRepo, collectionRepo);
+    }
+
 }
