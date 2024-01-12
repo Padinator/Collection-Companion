@@ -50,7 +50,13 @@
         });
     });
 
-    console.log("http://localhost:8080/collection?category=game&searchTerm=Passengers%20Of%20Execution");
+        // Add "enter"-action to input field for searching results
+        document.getElementById("search").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Cancel the default action, if needed
+                document.getElementById("cc-search-button").click(); // Trigger the button element with a click
+            }
+        });
 
     document.getElementById('cc-search-button').addEventListener('click', function (e) {
         // Check if a category is selected
