@@ -22,7 +22,18 @@ import java.util.Map;
 import static org.springframework.cloud.gateway.filter.RouteToRequestUrlFilter.ROUTE_TO_URL_FILTER_ORDER;
 
 @Configuration
-public class APIGatewayConfig {
+public class APIGatewayConfig /* implements WebMvcConfigurer */ {
+
+    /*
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/collection/**")
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*");
+    }
+    */
+
     @Autowired
     private Environment environment;
 
