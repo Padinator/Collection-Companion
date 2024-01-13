@@ -70,6 +70,7 @@ public class DatabaseImpl implements Database {
 
         if (optionalNewUser.isEmpty() && optionalOldUser.isPresent()) { // Old user exists and new user not
             User oldUser = optionalOldUser.get();
+            userRepo.delete(oldUser); // Delete old user
             oldUser.setUsername(newUsername);
             oldUser.setPassword(newPassword);
             oldUser.setEmail(newEmail);

@@ -4,16 +4,33 @@ import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.adapter.outbound.DatabaseOut;
 import de.collectioncompanion.DatabseMS.data_files.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import ports.Collection;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/collection")
 public class RestServerIn {
+
+    @EventListener
+    public void handleContextRefresh(ContextRefreshedEvent event) {
+        ApplicationContext applicationContext = event.getApplicationContext();
+        RequestMappingHandlerMapping requestMappingHandlerMapping = applicationContext
+                .getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class);
+        Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping
+                .getHandlerMethods();
+        map.forEach((key, value) -> System.out.println("key: " + key  + ", value: " + value));
+    }
 
     @Autowired
     private DatabaseOut databaseOut;
