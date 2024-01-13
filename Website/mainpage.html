@@ -138,7 +138,20 @@
                     sammlungsDropdown.appendChild(firstOption);
 
                     // Append other options
-                    let usersSammlungen = [{ name: "Sammlung 1" }, { name: "Sammlung 2" }, { name: "Sammlung 3" }];
+                    let usersSammlungen = [{ name: "Sammlung 1", collectionIds: [ "659ce829c0d7a4699d703153" ] },
+                        { name: "Sammlung 2", collectionIds: [] }, { name: "Sammlung 3", collectionIds: [] }];
+                    let usersSammlungenDict = {};
+
+                    for (let i = 0; i < usersSammlungen.length; ++i)
+                        if (usersSammlungen[i]["collectionIds"])
+                            usersSammlungenDict[i] = usersSammlungen[i];
+
+                    console.log(usersSammlungen.length);
+                    console.log("usersSammlungen: " + usersSammlungen);
+                    console.log("usersSammlungenDict: " + usersSammlungenDict);
+                    for (const [key, value] of Object.entries(usersSammlungenDict)) {
+                        console.log(key, value);
+                    }
 
                     usersSammlungen.forEach(sammlung => {
                         let sammlungElem = document.createElement('option');
@@ -147,6 +160,9 @@
                     });
                 }
 
+                /**
+                 * Creates an entry for a search result
+                 */
                 function createEntry(data, number) {
                     let entry = document.createElement('div');
                     let divContent = document.createElement('div');
@@ -163,7 +179,7 @@
                     button.id = 'cc-add-collection-button-' + number;
                     button.setAttribute('data-bs-toggle', 'modal');
                     button.setAttribute('data-bs-target', '#sammlungHinzufuegen');
-                    button.addEventListener('click', setSammlungHinzufuegenContent(data));
+                    button.addEventListener('click', event => setSammlungHinzufuegenContent(data));
                     button.innerText = "Hinzufügen";
 
                     // Append content elements to content div
