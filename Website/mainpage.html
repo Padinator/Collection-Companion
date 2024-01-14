@@ -50,13 +50,13 @@
         });
     });
 
-        // Add "enter"-action to input field for searching results
-        document.getElementById("search").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault(); // Cancel the default action, if needed
-                document.getElementById("cc-search-button").click(); // Trigger the button element with a click
-            }
-        });
+    // Add "enter"-action to input field for searching results
+    document.getElementById("search").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Cancel the default action, if needed
+            document.getElementById("cc-search-button").click(); // Trigger the button element with a click
+        }
+    });
 
     document.getElementById('cc-search-button').addEventListener('click', function (e) {
         // Check if a category is selected
@@ -138,8 +138,8 @@
                     sammlungsDropdown.appendChild(firstOption);
 
                     // Append other options
-                    let usersSammlungen = [{ name: "Sammlung 1", collectionIds: [ "659ce829c0d7a4699d703153" ] },
-                        { name: "Sammlung 2", collectionIds: [] }, { name: "Sammlung 3", collectionIds: [] }];
+                    let usersSammlungen = [{ name: "Sammlung 1", collectionIds: ["659ce829c0d7a4699d703153"] },
+                    { name: "Sammlung 2", collectionIds: [] }, { name: "Sammlung 3", collectionIds: [] }];
                     let usersSammlungenDict = {};
 
                     for (let i = 0; i < usersSammlungen.length; ++i)
@@ -193,7 +193,7 @@
                     return entry;
                 }
 
-				// Fetch API-Gateway for search results
+                // Fetch API-Gateway for search results
                 let result = fetch(URL, fetchData)
                     .then(response => response.json())
                     .then(data => {
@@ -238,8 +238,30 @@
         document.getElementById("cc-friends-link").addEventListener('click', function (event) {
             passUsername(username, 'friends');
         });
-    });
 
+        document.getElementById("cc-search-friend-button").addEventListener('click', function (event) {
+            const freundList = document.getElementById('freundListe');
+            freundList.innerHTML = "";
+
+            const friends = ["Tom", "Patrick", "Dominik"];
+
+            friends.forEach(friend => {
+                const listelement = document.createElement("li");
+                listelement.className = "list-group-item d-flex justify-content-between align-items-center";
+                listelement.textContent = friend;
+
+                const addButton = document.createElement("button");
+                addButton.className = "btn btn-success btn-sm";
+                addButton.textContent = "Hinzufügen";
+                addButton.onclick = function () {
+                    alert("Freund '" + friend + "' wurde hinzugefügt!");
+                };
+
+                listelement.appendChild(addButton);
+                freundList.appendChild(listelement);
+            });
+        });
+    });
 </script>
 
 <body>
@@ -313,6 +335,8 @@
                             Freunde
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="freundeDropdown">
+                            <li><a class="dropdown-item" data-bs-toggle="modal"
+                                    data-bs-target="#freundeSuchenModal">Freund Hinzufügen</a></li>
                             <li><a class="dropdown-item" id="cc-friends-link">Freund 1</a></li>
                             <li><a class="dropdown-item">Freund 2</a></li>
                             <li><a class="dropdown-item">Freund 3</a></li>
@@ -338,6 +362,36 @@
                 </div>
             </div>
         </div>
+
+        <!-- Pop Up Fenster um nach Freunden zu suchen und diese Hinzuzufügen -->
+        <div class="modal fade" id="freundeSuchenModal" tabindex="-1" aria-labelledby="freundeSuchenLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="freuneSuchenLabel">Freunde Suchen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="freundSuchenInput" class="form-label">Freund suchen:</label>
+                                <input type="text" class="form-control" id="freundSuchenInput"
+                                    placeholder="Gib den Freund ein">
+                            </div>
+                            <ul class="list-group" id="freundListe">
+
+                            </ul>
+                            <div class="d-flex justify-content-center mt-2">
+                                <button type="button" class="btn btn-primary"
+                                    id="cc-search-friend-button">Suchen</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Pop-Up Fenster fuer Sammlung hinzufuegen -->
         <div class="modal fade" id="sammlungHinzufuegen" tabindex="-1" aria-labelledby="sammlungHinzufuegenLabel"
