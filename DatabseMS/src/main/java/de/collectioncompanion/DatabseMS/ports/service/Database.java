@@ -107,11 +107,11 @@ public interface Database {
      * Inserts Collection into passed User
      *
      * @param username to insert Collection into
-     * @param collection to insert into User
+     * @param collectionID to insert into User
      * @param userRepo object for accessing DB
      * @param collectionRepo object for accessing DB
      * @return true if collection could be inserted to user else false
      */
-    boolean insertCollectionToUser(String username, int sammlungNummer, CollectionImpl collection, UserRepo userRepo, CollectionRepo collectionRepo);
+    boolean insertCollectionToUser(String username, int sammlungNummer, String collectionID, UserRepo userRepo, CollectionRepo collectionRepo);
 
 }

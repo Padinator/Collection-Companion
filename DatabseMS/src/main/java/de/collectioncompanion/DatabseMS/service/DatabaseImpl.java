@@ -142,19 +142,20 @@ public class DatabaseImpl implements Database {
      * "Collection/Search result"-requests in table "User"
      */
     @Override
-    public boolean insertCollectionToUser(String username, int sammlungNummer, CollectionImpl collection,
+    public boolean insertCollectionToUser(String username, int sammlungNummer, String collectionID,
                                           UserRepo userRepo, CollectionRepo collectionRepo) {
         Optional<User> optionalUser = userRepo.findById(username);
+        Optional<Collection> optionalCollection = collectionRepo.findById(collectionID);
 
-        if (optionalUser.isPresent()) {
+        if (optionalUser.isPresent() && optionalCollection.isPresent()) { // User and Collection must exist
             User user = optionalUser.get();
             List<Sammlung> sammlungen = user.getSammlungen();
 
-            if (sammlungNummer <= sammlungen.size()) {
+            if (0 < sammlungNummer && sammlungNummer <= sammlungen.size()) { // Sammlung must exist
                 Sammlung sammlung = sammlungen.get(sammlungNummer - 1);
 
-                if (sammlung.getCollectionIds().contains(collection.getId())) { // If Collection does not exist in Sammlung
-                    sammlung.getCollectionIds().add(collection.getId());
+                if (!sammlung.getCollectionIds().contains(collectionID)) { // If Collection does not exist in current Sammlung
+                    sammlung.getCollectionIds().add(collectionID);
                     userRepo.save(user);
                     return true;
                 }

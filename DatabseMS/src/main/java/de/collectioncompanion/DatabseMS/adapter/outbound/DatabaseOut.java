@@ -71,8 +71,8 @@ public class DatabaseOut {
     /*
      * "Collection/Search result"-requests in table "User"
      */
-    public boolean addCollectionToUsersSammlung(String username, int sammlungNummer, CollectionImpl collection) {
-        return database.insertCollectionToUser(username, sammlungNummer, collection, userRepo, collectionRepo);
+    public boolean addCollectionToUsersSammlung(String username, int sammlungNummer, String collectionID) {
+        return database.insertCollectionToUser(username, sammlungNummer, collectionID, userRepo, collectionRepo);
     }
 
 }

@@ -36,14 +36,19 @@
         item.addEventListener('click', function () {
             document.getElementById('category-text').textContent = this.textContent;
             document.getElementById('category-text').value = this.textContent;
+			let search = window.location.search.replace("?", "");
+			search = search.replace("category=game", "");
+			search = search.replace("category=movie", "");
+			search = search.replace("category=series", "");
+
             if (this.textContent == 'Spiele') {
-                history.pushState({}, '', window.location.pathname + '?category=game');
+                history.pushState({}, '', window.location.pathname + '?category=game&' + search);
                 category = 'game';
             } else if (this.textContent == 'Filme') {
-                history.pushState({}, '', window.location.pathname + '?category=movie');
+                history.pushState({}, '', window.location.pathname + '?category=movie&' + search);
                 category = 'movie';
             } else if (this.textContent == 'Serien') {
-                history.pushState({}, '', window.location.pathname + '?category=series');
+                history.pushState({}, '', window.location.pathname + '?category=series&' + search);
                 category = 'series';
             }
             console.log(document.getElementById('category-text').value);
@@ -65,10 +70,12 @@
             e.preventDefault();
         } else {
             if (document.getElementById('search').value != '') {
-                console.log(document.getElementById('search').value);
+                console.log("Search term: " + document.getElementById('search').value);
 
-                let search = document.getElementById('search').value;
-                history.replaceState({}, '', window.location.pathname + '?category=' + encodeURIComponent(category) + '&searchTerm=' + encodeURIComponent(search));
+                let urlParams = new URLSearchParams(window.location.search);
+                const username = urlParams.get('username');
+                let searchTerm = document.getElementById('search').value;
+                history.replaceState({}, '', window.location.pathname + '?category=' + encodeURIComponent(category) + '&searchTerm=' + encodeURIComponent(searchTerm) + "&username=" + username);
                 console.log('Current URL:', window.location.href); // Log the current URL
 
                 let URL = window.location.href;
@@ -137,27 +144,51 @@
                     firstOption.innerText = "Wähle eine Sammlung!";
                     sammlungsDropdown.appendChild(firstOption);
 
-                    // Append other options
-                    let usersSammlungen = [{ name: "Sammlung 1", collectionIds: [ "659ce829c0d7a4699d703153" ] },
-                        { name: "Sammlung 2", collectionIds: [] }, { name: "Sammlung 3", collectionIds: [] }];
-                    let usersSammlungenDict = {};
+					// Fetch all sammlungen of current user
+					let userURL = "http://localhost:8080/collection/users";
+					let urlParams = new URLSearchParams(window.location.search);
+					let username = urlParams.get('username');
+					userURL += "?username=" + username;
 
-                    for (let i = 0; i < usersSammlungen.length; ++i)
-                        if (usersSammlungen[i]["collectionIds"])
-                            usersSammlungenDict[i] = usersSammlungen[i];
+					fetch(userURL, { method: 'GET' })
+					.then(response => response.json())
+                    .then(userData => {
+						console.log("user data:");
+						console.log(userData);
+						let usersSammlungen = userData["sammlungen"];
 
-                    console.log(usersSammlungen.length);
-                    console.log("usersSammlungen: " + usersSammlungen);
-                    console.log("usersSammlungenDict: " + usersSammlungenDict);
-                    for (const [key, value] of Object.entries(usersSammlungenDict)) {
-                        console.log(key, value);
-                    }
+						// Shwo all sammlungen not containing this collection/search result
+						let sammlungURL = "http://localhost:8080/collection/users/sammlung/collections";
+						sammlungURL += "?username=" + username;
+						usersSammlungen = usersSammlungen.filter(sammlung => !sammlung["collectionID"].includes(data["id"]));
 
-                    usersSammlungen.forEach(sammlung => {
-                        let sammlungElem = document.createElement('option');
-                        sammlungElem.innerText = sammlung.name;
-                        sammlungsDropdown.appendChild(sammlungElem);
-                    });
+						// Display all Sammlungen of current user not containing the search result/collection
+						usersSammlungen.forEach(sammlung => {
+							let sammlungElem = document.createElement('option');
+							sammlungElem.innerText = sammlung.name;
+							sammlungsDropdown.appendChild(sammlungElem);
+						});
+
+						// Send "add request" to add search result/collection into DB
+						document.getElementById("cc-add-collection-button-two").addEventListener("click", event => {
+							event.preventDefault(); // Prevent popup from disappearing
+
+							let collecionURL = "http://localhost:8080/collection/users/sammlung/collections";
+							const sammlungNummer = document.getElementById("kategorie").selectedIndex;
+							console.log("sammlungNummer: " + sammlungNummer);
+							collecionURL += "?username=" + username + "&sammlungNummer=" + sammlungNummer + "&collectionID=" + data["id"];
+							console.log(collecionURL);
+
+							fetch(collecionURL, {
+								method: "POST",
+								headers: {
+									"Content-Type": "text/plain"
+								},
+								body: JSON.stringify({})
+							});
+						});
+					})
+                    .catch((error) => console.log(error));
                 }
 
                 /**

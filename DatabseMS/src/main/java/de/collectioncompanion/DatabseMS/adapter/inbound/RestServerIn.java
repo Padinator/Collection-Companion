@@ -94,7 +94,7 @@ public class RestServerIn {
         return ResponseEntity.status(403).body("User already exists!");
     }
 
-    @PatchMapping("/users")
+    @PutMapping("/users")
     public ResponseEntity<String> updateUser(@RequestParam String oldUsername, @RequestParam String newUsername, @RequestParam String newPassword, @RequestParam String newEmail) {
         User user = databaseOut.updateUser(oldUsername, newUsername, newPassword, newEmail);
         if (user != null)
@@ -124,8 +124,8 @@ public class RestServerIn {
      * "Collection/Search result"-requests in table "User"
      */
     @PostMapping("/users/sammlung/collections")
-    public ResponseEntity<String> addCollectionToUsersSammlung(@RequestParam String username, @RequestParam int sammlungNummer, @RequestBody CollectionImpl collection) {
-        if (databaseOut.addCollectionToUsersSammlung(username, sammlungNummer, collection))
+    public ResponseEntity<String> addCollectionToUsersSammlung(@RequestParam String username, @RequestParam int sammlungNummer, @RequestParam String collectionID) {
+        if (databaseOut.addCollectionToUsersSammlung(username, sammlungNummer, collectionID))
             return ResponseEntity.status(200).body("Added successfully collection to user in DB!");
         return ResponseEntity.status(403).body("Could not add Collection to Users Sammlung!");
     }
