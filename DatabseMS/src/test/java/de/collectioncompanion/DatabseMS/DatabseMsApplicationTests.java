@@ -52,71 +52,86 @@ class DatabseMsApplicationTests {
 
         private final String username = "admin", pwd = "pwd123", email = "no@mail.de";
         private final List<String> userFriendIds = List.of("testuser", "max", "serrr123");
+        private final List<String> userFriendRequestsId = List.of("unknown", "tom");
 
         /**
-         * Tests "toJSON()" method with a user with Sammlungen but without friends
+         * Tests "toJSON()" method with a user with Sammlungen but without friends and without friend requests
          */
         @Test
         void testToJSON1() {
             Map<String, Sammlung> sammlungen = generateAllPossibleSammlungen("test collection", categories,
                     visibilities, new LinkedList<>());
-            List<String> expectedSammlungenStr = new LinkedList<>(sammlungen.keySet());
             List<Sammlung> expectedSammlungen = new LinkedList<>(sammlungen.values());
             String expectedUser = "{ \"username\": \"" + username + "\", \"password\": \"" + pwd + "\", \"email\": \"" + email + "\", \"sammlungen\": [ "
-                    + String.join(", ", expectedSammlungen.stream().map(sammlung -> sammlung.toJSON()).toList())
-                    + " ], \"userFriendsID\": [] }";
+                    + String.join(", ", expectedSammlungen.stream().map(Sammlung::toJSON).toList())
+                    + " ], \"userFriendsID\": [], \"userFriendRequestsId\": [] }";
 
-            User user = new User(username, pwd, email, new LinkedList<>(), expectedSammlungen);
+            User user = new User(username, pwd, email, new LinkedList<>(), new LinkedList<>(), expectedSammlungen);
             assert user.toJSON().equals(expectedUser) : "\nResult:\n" + user.toJSON() + "\n\nExpected:\n" + expectedUser;
         }
 
         /**
-         * Tests "toJSON()" method with a user with Sammlungen and friends
+         * Tests "toJSON()" method with a user with Sammlungen and friends and without friend requests
          */
         @Test
         void testToJSON2() {
             Map<String, Sammlung> sammlungen = generateAllPossibleSammlungen("test collection", categories,
                     visibilities, new LinkedList<>());
-            List<String> expectedSammlungenStr = new LinkedList<>(sammlungen.keySet());
             List<Sammlung> expectedSammlungen = new LinkedList<>(sammlungen.values());
             String expectedUser = "{ \"username\": \"" + username + "\", \"password\": \"" + pwd + "\", \"email\": \"" + email + "\", \"sammlungen\": [ "
-                    + String.join(", ", expectedSammlungen.stream().map(sammlung -> sammlung.toJSON()).toList())
-                    + " ], \"userFriendsID\": [ \"" + String.join("\", \"", userFriendIds) + "\" ] }";
+                    + String.join(", ", expectedSammlungen.stream().map(Sammlung::toJSON).toList())
+                    + " ], \"userFriendsID\": [ \"" + String.join("\", \"", userFriendIds)
+                    + "\" ], \"userFriendRequestsId\": [] }";
 
-            User user = new User(username, pwd, email, userFriendIds, expectedSammlungen);
+            User user = new User(username, pwd, email, userFriendIds, new LinkedList<>(), expectedSammlungen);
             assert user.toJSON().equals(expectedUser) : "\nResult:\n" + user.toJSON() + "\n\nExpected:\n" + expectedUser;
         }
 
         /**
-         * Tests "toJSON()" method with a user without Sammlungen and without friends
+         * Tests "toJSON()" method with a user without Sammlungen and without friends and without friend requests
          */
         @Test
         void testToJSON3() {
             Map<String, Sammlung> sammlungen = generateAllPossibleSammlungen("test collection", categories,
                     visibilities, new LinkedList<>());
-            List<String> expectedSammlungenStr = new LinkedList<>(sammlungen.keySet());
-            List<Sammlung> expectedSammlungen = new LinkedList<>(sammlungen.values());
             String expectedUser = "{ \"username\": \"" + username + "\", \"password\": \"" + pwd + "\", \"email\": \""
-                    + email + "\", \"sammlungen\": [], \"userFriendsID\": [] }";
+                    + email + "\", \"sammlungen\": [], \"userFriendsID\": [], \"userFriendRequestsId\": [] }";
 
-            User user = new User(username, pwd, email, new LinkedList<>(), new LinkedList<>());
+            User user = new User(username, pwd, email, new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
             assert user.toJSON().equals(expectedUser) : "\nResult:\n" + user.toJSON() + "\n\nExpected:\n" + expectedUser;
         }
 
         /**
-         * Tests "toJSON()" method with a user without Sammlungen but with friends
+         * Tests "toJSON()" method with a user without Sammlungen but with friends and without friend requests
          */
         @Test
         void testToJSON4() {
             Map<String, Sammlung> sammlungen = generateAllPossibleSammlungen("test collection", categories,
                     visibilities, new LinkedList<>());
-            List<String> expectedSammlungenStr = new LinkedList<>(sammlungen.keySet());
-            List<Sammlung> expectedSammlungen = new LinkedList<>(sammlungen.values());
             String expectedUser = "{ \"username\": \"" + username + "\", \"password\": \"" + pwd + "\", \"email\": \""
                     + email + "\", \"sammlungen\": [], \"userFriendsID\": [ \""
-                    + String.join("\", \"", userFriendIds) + "\" ] }";
+                    + String.join("\", \"", userFriendIds) + "\" ], \"userFriendRequestsId\": [] }";
 
-            User user = new User(username, pwd, email, userFriendIds, new LinkedList<>());
+            User user = new User(username, pwd, email, userFriendIds, new LinkedList<>(), new LinkedList<>());
+            assert user.toJSON().equals(expectedUser) : "\nResult:\n" + user.toJSON() + "\n\nExpected:\n" + expectedUser;
+        }
+
+        /**
+         * Tests "toJSON()" method with a user with Sammlungen but with friends and with friend requests
+         */
+        @Test
+        void testToJSON5() {
+            Map<String, Sammlung> sammlungen = generateAllPossibleSammlungen("test collection", categories,
+                    visibilities, new LinkedList<>());
+            List<Sammlung> expectedSammlungen = new LinkedList<>(sammlungen.values());
+            String expectedUser = "{ \"username\": \"" + username + "\", \"password\": \"" + pwd + "\", \"email\": \""
+                    + email + "\", \"sammlungen\": [ "
+                    + String.join(", ", expectedSammlungen.stream().map(Sammlung::toJSON).toList())
+                    + " ], \"userFriendsID\": [ \""
+                    + String.join("\", \"", userFriendIds) + "\" ], \"userFriendRequestsId\": [ \""
+                    + String.join("\", \"", userFriendRequestsId)  + "\" ] }";
+
+            User user = new User(username, pwd, email, userFriendIds, userFriendRequestsId, expectedSammlungen);
             assert user.toJSON().equals(expectedUser) : "\nResult:\n" + user.toJSON() + "\n\nExpected:\n" + expectedUser;
         }
 

@@ -1,6 +1,5 @@
 package de.collectioncompanion.DatabseMS.ports.service;
 
-import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.data_files.User;
 import ports.Collection;
 
@@ -114,4 +113,13 @@ public interface Database {
      */
     boolean insertCollectionToUser(String username, int sammlungNummer, String collectionID, UserRepo userRepo, CollectionRepo collectionRepo);
 
+    /**
+     * Searches for users to request as friends. Return list of possible friends that are no friends yet
+     *
+     * @param currentUser which should be not displayed to request himself as friend
+     * @param friendSearchTerm to search for other users
+     * @param userRepo object for accessing DB
+     * @return a List of user IDs for request them as friends
+     */
+    List<String> getUsers(String currentUser, String friendSearchTerm, UserRepo userRepo);
 }

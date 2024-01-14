@@ -1,13 +1,11 @@
 package de.collectioncompanion.DatabseMS.adapter.outbound;
 
+import de.collectioncompanion.DatabseMS.data_files.User;
+import de.collectioncompanion.DatabseMS.ports.service.CollectionRepo;
+import de.collectioncompanion.DatabseMS.ports.service.Database;
+import de.collectioncompanion.DatabseMS.ports.service.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import data_files.CollectionImpl;
-import de.collectioncompanion.DatabseMS.data_files.User;
-import de.collectioncompanion.DatabseMS.ports.service.Database;
-import de.collectioncompanion.DatabseMS.ports.service.CollectionRepo;
-import de.collectioncompanion.DatabseMS.ports.service.UserRepo;
 import ports.Collection;
 
 import java.util.List;
@@ -48,6 +46,10 @@ public class DatabaseOut {
 
     public User updateUser(String oldUsername, String newUsername, String newPassword, String newEmail) {
         return database.updateUser(oldUsername, newUsername, newPassword, newEmail, userRepo);
+    }
+
+    public List<String> searchForUsers(String currentUser, String friendSearchTerm) {
+        return database.getUsers(currentUser, friendSearchTerm, userRepo);
     }
 
     /*

@@ -88,7 +88,7 @@ public class RestServerIn {
 
     @PostMapping("/users")
     public ResponseEntity<String> addNewUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
-        User user = databaseOut.addUser(new User(username, password, email, new LinkedList<>(), new LinkedList<>()));
+        User user = databaseOut.addUser(new User(username, password, email, new LinkedList<>(), new LinkedList<>(), new LinkedList<>()));
         if (user != null)
             return ResponseEntity.status(200).body("Inserted successfully user into DB!");
         return ResponseEntity.status(403).body("User already exists!");
@@ -100,6 +100,11 @@ public class RestServerIn {
         if (user != null)
             return ResponseEntity.status(200).body("Updating successfully user into DB!");
         return ResponseEntity.status(403).body("Could not update user!");
+    }
+
+    @GetMapping("/all-users")
+    public ResponseEntity<List<String>> searchForUsers(@RequestParam String currentUser, @RequestParam String friendSearchTerm) {
+        return ResponseEntity.status(200).body(databaseOut.searchForUsers(currentUser, friendSearchTerm));
     }
 
     /*

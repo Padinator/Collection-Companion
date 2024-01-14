@@ -1,10 +1,9 @@
 package de.collectioncompanion.DatabseMS.service;
 
-import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.data_files.Sammlung;
 import de.collectioncompanion.DatabseMS.data_files.User;
-import de.collectioncompanion.DatabseMS.ports.service.Database;
 import de.collectioncompanion.DatabseMS.ports.service.CollectionRepo;
+import de.collectioncompanion.DatabseMS.ports.service.Database;
 import de.collectioncompanion.DatabseMS.ports.service.UserRepo;
 import org.springframework.stereotype.Service;
 import ports.Collection;
@@ -12,7 +11,6 @@ import ports.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.TreeMap;
 
 import static ports.CollectionFormatter.compareGameNames;
 
@@ -78,6 +76,21 @@ public class DatabaseImpl implements Database {
         }
 
         return null;
+    }
+
+    @Override
+    public List<String> getUsers(String currentUser, String friendSearchTerm, UserRepo userRepo) {
+        Optional<User> optionalCurrentUser = userRepo.findById(currentUser);
+
+        if (optionalCurrentUser.isPresent()) {
+            return userRepo.findAll()
+                    .stream()
+                    .filter(user -> !user.getUsername().equals(currentUser) && user.compareUsernames(friendSearchTerm))
+                    .map(User::getUsername)
+                    .toList();
+        }
+
+        return new LinkedList<>();
     }
 
     /*
