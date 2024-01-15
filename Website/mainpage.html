@@ -356,7 +356,7 @@
 			.then(userData => {
 				let friendRequests = userData["userFriendRequestsId"];
 				let friends = userData["userFriendsID"];
-				
+
 				console.log("Friend-Requests: " + friendRequests);
 				console.log("Friends: " + friends);
 
@@ -403,7 +403,7 @@
 		}
 
 		/*
-		 * Create dropdown element for a friend request
+		 * Create dropdown element for a friend
 		 */
 		 function createDropdownElementFriendRequest(usernameFriend) {
 			let friendRequestElem = document.createElement("li");
@@ -420,16 +420,19 @@
 			buttonAccept.innerText = "✔";
 			buttonDecline.setAttribute("class", "btn btn-danger btn-sm");
 			buttonDecline.innerText = "✘";
-			buttonAccept.addEventListener((event) => {
-			const friendRequestURL = new URL("http://localhost:8080/collection/users/friends");
+			buttonAccept.addEventListener("click", (event) => {
+				const friendRequestURL = new URL("http://localhost:8080/collection/users/friends");
 
-			friendRequestURL.searchParams.append("username", username);
-			friendRequestURL.searchParams.append("usernameFriend", usernameFriend);
+				friendRequestURL.searchParams.append("username", username);
+				friendRequestURL.searchParams.append("usernameFriend", usernameFriend);
 
-			fetch(friendRequestURL, { method: 'POST',
-									  headers: { 'Content-Type': 'text/plain' }})
-			.then(response => response.text())
-			.catch((error) => console.log(error));
+				fetch(friendRequestURL, { method: 'POST',
+										  headers: { 'Content-Type': 'text/plain' }})
+				.then(response => response.text())
+				.catch((error) => console.log(error));
+			});
+			buttonDecline.addEventListener("click", (event) => {
+				
 			});
 
 			// Add elements to their parent
@@ -461,6 +464,8 @@
 			return friendElem;
 		 }
     });
+
+
 </script>
 
 <body>
