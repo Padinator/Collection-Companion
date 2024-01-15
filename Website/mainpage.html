@@ -432,7 +432,14 @@
 				.catch((error) => console.log(error));
 			});
 			buttonDecline.addEventListener("click", (event) => {
-				
+				const friendRequestURL = new URL("http://localhost:8080/collection/users/friend-requests");
+
+				friendRequestURL.searchParams.append("username", username);
+				friendRequestURL.searchParams.append("usernameFriend", usernameFriend);
+
+				fetch(friendRequestURL, { method: 'DELETE' })
+				.then(response => response.text())
+				.catch((error) => console.log(error));
 			});
 
 			// Add elements to their parent

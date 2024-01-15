@@ -144,6 +144,13 @@ public class RestServerIn {
         return ResponseEntity.status(403).body("Could not add friend request to User!");
     }
 
+    @DeleteMapping("/users/friend-requests")
+    public ResponseEntity<String> declineFriendRequestToUser(@RequestParam String username, @RequestParam String usernameFriend) {
+        if (databaseOut.declineFriendRequestToUser(username, usernameFriend))
+            return ResponseEntity.status(200).body("Deleted successfully friend request to User in DB!");
+        return ResponseEntity.status(403).body("Could not delete friend request to User!");
+    }
+
     /*
      * "Collection/Search result"-requests in table "User"
      */

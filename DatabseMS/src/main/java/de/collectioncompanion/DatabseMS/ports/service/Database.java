@@ -119,6 +119,16 @@ public interface Database {
      */
     boolean insertFriendRequestToUser(String username, String usernameFriend, UserRepo userRepo);
 
+    /**
+     * Deletes friend request of user to friend user
+     *
+     * @param username initiator of the friend request deletion
+     * @param usernameFriend to add passed username as friend request into
+     * @param userRepo object for accessing DB
+     * @return true if friend request could be deleted to friend user else false
+     */
+    boolean declineFriendRequestToUser(String username, String usernameFriend, UserRepo userRepo);
+
     /*
      * "Collection/Search result"-requests in table "User"
      */

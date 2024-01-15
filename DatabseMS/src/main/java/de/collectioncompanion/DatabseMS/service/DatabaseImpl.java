@@ -195,6 +195,23 @@ public class DatabaseImpl implements Database {
         return false;
     }
 
+    @Override
+    public boolean declineFriendRequestToUser(String username, String usernameFriend, UserRepo userRepo) {
+        Optional<User> optionalUser = userRepo.findById(username);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            if (user.getUserFriendRequestsId().contains(usernameFriend)) {
+                user.getUserFriendRequestsId().removeIf(uname -> uname.equals(usernameFriend));
+                userRepo.save(user);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /*
      * "Collection/Search result"-requests in table "User"
      */

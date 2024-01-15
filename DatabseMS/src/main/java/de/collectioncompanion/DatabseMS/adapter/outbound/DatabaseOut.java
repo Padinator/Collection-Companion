@@ -74,6 +74,10 @@ public class DatabaseOut {
         return database.insertFriendRequestToUser(username, usernameFriend, userRepo);
     }
 
+    public boolean declineFriendRequestToUser(String username, String usernameFriend) {
+        return database.declineFriendRequestToUser(username, usernameFriend, userRepo);
+    }
+
     /*
      * "Collection/Search result"-requests in table "User"
      */
