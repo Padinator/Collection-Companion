@@ -61,6 +61,16 @@ public interface Database {
      */
     User updateUser(String oldUsername, String newUsername, String newPassword, String newEmail, UserRepo userRepo);
 
+    /**
+     * Searches for users to request as friends. Return list of possible friends that are no friends yet
+     *
+     * @param currentUser which should be not displayed to request himself as friend
+     * @param friendSearchTerm to search for other users
+     * @param userRepo object for accessing DB
+     * @return a List of user IDs for request them as friends
+     */
+    List<String> getUsers(String currentUser, String friendSearchTerm, UserRepo userRepo);
+
     /*
      * "Sammlung" requests
      */
@@ -90,14 +100,24 @@ public interface Database {
      * "User friends"-requests
      */
     /**
-     * Adds Friend To User
+     * Adds friend to User
      *
-     * @param username to add passed Friend into
+     * @param username to add passed friend into
      * @param usernameFriend to add in usernames list
      * @param userRepo object for accessing DB
      * @return true if friend could be added to user else false
      */
     boolean insertFriendToUser(String username, String usernameFriend, UserRepo userRepo);
+
+    /**
+     * Adds friend request of user to friend user
+     *
+     * @param username initiator of the friend request
+     * @param usernameFriend to add passed username as friend request into
+     * @param userRepo object for accessing DB
+     * @return true if friend request could be added to friend user else false
+     */
+    boolean insertFriendRequestToUser(String username, String usernameFriend, UserRepo userRepo);
 
     /*
      * "Collection/Search result"-requests in table "User"
@@ -113,13 +133,4 @@ public interface Database {
      */
     boolean insertCollectionToUser(String username, int sammlungNummer, String collectionID, UserRepo userRepo, CollectionRepo collectionRepo);
 
-    /**
-     * Searches for users to request as friends. Return list of possible friends that are no friends yet
-     *
-     * @param currentUser which should be not displayed to request himself as friend
-     * @param friendSearchTerm to search for other users
-     * @param userRepo object for accessing DB
-     * @return a List of user IDs for request them as friends
-     */
-    List<String> getUsers(String currentUser, String friendSearchTerm, UserRepo userRepo);
 }

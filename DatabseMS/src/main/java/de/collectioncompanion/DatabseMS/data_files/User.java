@@ -54,7 +54,7 @@ public class User {
     @Override
     public String toString() {
         return "Username: " + username + ", Password: " + ", E-Mail: " + email + ", Sammlung: " + sammlungen
-                + ", Freunde: " + userFriendsId + "Freundschaftsanfragen: " + userFriendRequestsId;
+                + ", Freunde: " + userFriendsId + ", Freundschaftsanfragen: " + userFriendRequestsId;
     }
 
     /**

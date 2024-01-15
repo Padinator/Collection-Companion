@@ -83,9 +83,13 @@ public class DatabaseImpl implements Database {
         Optional<User> optionalCurrentUser = userRepo.findById(currentUser);
 
         if (optionalCurrentUser.isPresent()) {
+            User currentUsr = optionalCurrentUser.get();
             return userRepo.findAll()
                     .stream()
-                    .filter(user -> !user.getUsername().equals(currentUser) && user.compareUsernames(friendSearchTerm))
+                    .filter(user -> !user.getUsername().equals(currentUser) // User != current User
+                            && !currentUsr.getUserFriendsId().contains(user.getUsername()) // User and current User may not be friends
+                            && !user.getUserFriendRequestsId().contains(currentUser) // User may not have a friend request from current user
+                            && user.compareUsernames(friendSearchTerm)) // User must be partly similar to friendSearchTerm
                     .map(User::getUsername)
                     .toList();
         }
@@ -135,17 +139,57 @@ public class DatabaseImpl implements Database {
      */
     @Override
     public boolean insertFriendToUser(String username, String usernameFriend, UserRepo userRepo) {
-        Optional<User> user1 = userRepo.findById(username), user2 = userRepo.findById(usernameFriend);
+        Optional<User> optUser1 = userRepo.findById(username), optUser2 = userRepo.findById(usernameFriend);
 
-        if (user1.isPresent() && user2.isPresent()) {
-            User user = user1.get();
-            List<String> friendsId = user.getUserFriendsId();
+        if (optUser1.isPresent() && optUser2.isPresent()) {
+            User user1 = optUser1.get();
+            User user2 = optUser2.get();
 
-            if (!friendsId.contains(usernameFriend)) {
-                user.getUserFriendsId().add(usernameFriend);
-                userRepo.save(user);
+            List<String> friendsId1 = user1.getUserFriendsId();
+            List<String> friendsId2 = user2.getUserFriendsId();
+            List<String> friendRequestsId1 = user1.getUserFriendRequestsId();
+            List<String> friendRequestsId2 = user2.getUserFriendRequestsId();
+
+            if (!friendsId1.contains(usernameFriend) && !friendsId2.contains(username) // Both users may not be friends
+                    && (friendRequestsId1.contains(usernameFriend) || friendRequestsId2.contains(username))) { // user1 must have a friend request of user2 or the other way round
+                // Add friends
+                user1.getUserFriendsId().add(usernameFriend);
+                user2.getUserFriendsId().add(username);
+
+                // Remove friend requests
+                friendRequestsId1.removeIf(friendRequest -> friendRequest.equals(usernameFriend));
+                friendRequestsId2.removeIf(friendRequest -> friendRequest.equals(username));
+
+                // Save results
+                userRepo.save(user1);
+                userRepo.save(user2);
+                System.out.println("New user1 friends: " + user1);
+                System.out.println("New user2 friends: " + user2);
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean insertFriendRequestToUser(String username, String usernameFriend, UserRepo userRepo) {
+        Optional<User> optUser1 = userRepo.findById(username), optUser2 = userRepo.findById(usernameFriend);
+
+        if (optUser1.isPresent() && optUser2.isPresent()) {
+            User user1 = optUser1.get();
+            User user2 = optUser2.get();
+            List<String> friendsId1 = user1.getUserFriendsId();
+            List<String> friendsId2 = user2.getUserFriendsId();
+            List<String> friendRequestsId2 = user2.getUserFriendRequestsId();
+
+            if (!friendsId1.contains(usernameFriend) && !friendsId2.contains(username) // Both users may not be friends
+                    && !friendRequestsId2.contains(username)) { // Friend User may not have a friend request of User
+                friendRequestsId2.add(username);
+                userRepo.save(user2);
+            }
+
+            return true;
         }
 
         return false;

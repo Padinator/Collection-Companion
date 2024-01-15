@@ -70,6 +70,10 @@ public class DatabaseOut {
         return database.insertFriendToUser(username, usernameFriend, userRepo);
     }
 
+    public boolean addFriendRequestToUser(String username, String usernameFriend) {
+        return database.insertFriendRequestToUser(username, usernameFriend, userRepo);
+    }
+
     /*
      * "Collection/Search result"-requests in table "User"
      */

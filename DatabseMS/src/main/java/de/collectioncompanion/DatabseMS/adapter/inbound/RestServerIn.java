@@ -104,7 +104,9 @@ public class RestServerIn {
 
     @GetMapping("/all-users")
     public ResponseEntity<List<String>> searchForUsers(@RequestParam String currentUser, @RequestParam String friendSearchTerm) {
-        return ResponseEntity.status(200).body(databaseOut.searchForUsers(currentUser, friendSearchTerm));
+        List<String> users = databaseOut.searchForUsers(currentUser, friendSearchTerm);
+        System.out.println("Found possible friends: " + users);
+        return ResponseEntity.status(200).body(users);
     }
 
     /*
@@ -126,6 +128,23 @@ public class RestServerIn {
     }
 
     /*
+     * "User friends"-requests
+     */
+    @PostMapping("/users/friends")
+    public ResponseEntity<String> addFriendToUser(@RequestParam String username, @RequestParam String usernameFriend) {
+        if (databaseOut.addFriendToUser(username, usernameFriend))
+            return ResponseEntity.status(200).body("Added successfully friend to User in DB!");
+        return ResponseEntity.status(403).body("Could not add friend to User!");
+    }
+
+    @PostMapping("/users/friend-requests")
+    public ResponseEntity<String> addFriendRequestToUser(@RequestParam String username, @RequestParam String usernameFriend) {
+        if (databaseOut.addFriendRequestToUser(username, usernameFriend))
+            return ResponseEntity.status(200).body("Added successfully friend request to User in DB!");
+        return ResponseEntity.status(403).body("Could not add friend request to User!");
+    }
+
+    /*
      * "Collection/Search result"-requests in table "User"
      */
     @PostMapping("/users/sammlung/collections")
@@ -135,13 +154,4 @@ public class RestServerIn {
         return ResponseEntity.status(403).body("Could not add Collection to Users Sammlung!");
     }
 
-    /*
-     * "User friends"-requests
-     */
-    @PostMapping("/users/friends")
-    public ResponseEntity<String> addFriendToUser(@RequestParam String username, @RequestParam String usernameFriend) {
-        if (databaseOut.addFriendToUser(username, usernameFriend))
-            return ResponseEntity.status(200).body("Added successfully Friend to User in DB!");
-        return ResponseEntity.status(403).body("Could not add Friend to User!");
-    }
 }

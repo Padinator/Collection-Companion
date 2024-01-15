@@ -273,6 +273,11 @@
 		document.getElementById("freundSuchenInput").addEventListener("keypress", event => {
 			if (event.key === "Enter")
 				event.preventDefault(); // Cancel the default action, if needed
+		});
+
+		document.getElementById("freundSuchenInput").addEventListener("keyup", event => {
+			if (event.key === "Enter")
+				event.preventDefault(); // Cancel the default action, if needed
 
 			document.getElementById("cc-search-friend-button").click(); // Trigger the button element with a click
 		});
@@ -299,9 +304,15 @@
 					const addButton = document.createElement("button");
 					addButton.className = "btn btn-success btn-sm";
 					addButton.textContent = "Hinzufügen";
-					addButton.onclick = function () {
+					addButton.addEventListener("click", event => {
+						event.preventDefault();
 						alert("Freund '" + friend + "' wurde hinzugefügt!");
-					};
+						freundList.removeChild(listelement); // Remove potential friend from list after requesting him to be a friend
+
+						// Fetch/Do POST-Request to add friend via API-Gateway
+						doFriendRequest(username, friend)
+						.catch((error) => console.log(error));
+					});
 
 					listelement.appendChild(addButton);
 					freundList.appendChild(listelement);
@@ -318,6 +329,20 @@
 
 			return await fetch(possibleFriendsURL, { method: 'GET' })
 							.then(response => response.json());
+		}
+
+		async function doFriendRequest(currentUser, usernameFriend) {
+			const friendsURL = new URL("http://localhost:8080/collection/users/friend-requests");
+			friendsURL.searchParams.append("username", currentUser);
+			friendsURL.searchParams.append("usernameFriend", usernameFriend);
+			console.log("friendsURL: " + friendsURL);
+
+			return await fetch(friendsURL, {
+									method: 'POST',
+									headers: { 'Content-Type': 'text/plain' },
+									body: JSON.stringify({})
+								})
+							.then(response => response.text());
 		}
     });
 </script>
