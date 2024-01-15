@@ -1,10 +1,11 @@
 package de.collectioncompanion.DatabseMS.data_files;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Getter
@@ -13,6 +14,7 @@ public class Sammlung {
 
     private String name, visibility, category;
     private List<String> collectionIds;
+    private List<Pair<String, Boolean>> evaluations;
 
     public String toJSON() {
         StringBuilder sb = new StringBuilder("{ ");
@@ -22,9 +24,17 @@ public class Sammlung {
         sb.append("\"category\": ").append("\"" + category + "\", ");
 
         if (collectionIds.isEmpty())
-            sb.append("\"collectionID\": []");
+            sb.append("\"collectionID\": [], ");
         else
-            sb.append("\"collectionID\": [ \"").append(String.join("\", \"", collectionIds)).append("\" ]");
+            sb.append("\"collectionID\": [ \"").append(String.join("\", \"", collectionIds)).append("\" ], ");
+
+        if (evaluations.isEmpty())
+            sb.append("\"evaluations\": []");
+        else
+            sb.append("\"evaluations\": [ \"")
+                    .append(String.join("\", \"", evaluations.stream()
+                            .map(evaluation -> "( " + evaluation.getKey() + ", " + evaluation.getValue() + ")").toList()))
+                    .append("\" ]");
 
         return sb.append(" }").toString();
     }

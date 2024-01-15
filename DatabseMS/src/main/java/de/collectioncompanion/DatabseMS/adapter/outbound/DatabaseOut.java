@@ -29,6 +29,10 @@ public class DatabaseOut {
         return database.selectCollections(category, searchTerm, collectionRepo); // Query DB
     }
 
+    public Collection requestCollectionsFromDB(String id) {
+        return database.selectCollection(id, collectionRepo); // Query DB
+    }
+
     public boolean addCollection(Collection collection) {
         return database.insertCollection(collection, collectionRepo);
     }

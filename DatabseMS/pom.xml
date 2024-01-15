@@ -58,6 +58,14 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
+		<!-- Dependency for Pair -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.14.0</version>
+		</dependency>
+
+
 		<!-- Own dependencies -->
 		<!-- Dependency for Collections -->
 		<dependency>

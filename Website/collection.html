@@ -293,24 +293,26 @@
 
         // Load each time reloading the page all Sammlungen
         window.onload = (event) => {
-            let userURL = new URL("http://localhost:8080/collection/users");
-            let urlParams = new URLSearchParams(window.location.search);
-            let username = urlParams.get('username');
-
-            userURL.searchParams.append("username", username);
-            console.log(userURL.href)
-
-            fetch(userURL.href, { method: "GET" })
-                .then(response => response.json())
-                .then(data => {
+			getUserData()
+				.then(data => {
                     let sammlungContainer = document.getElementById('sammlungContainer');
 
                     // Iterate over all Sammlungen an create entries
                     for (let i = 0; i < data['sammlungen'].length; ++i)
                         sammlungContainer.appendChild(createSammlungsEintrag(i + 1, data["sammlungen"][i]["name"], data["sammlungen"][i]["visibility"]));
                 })
-                .catch((error) => console.log(error));
+				.catch((error) => console.log(error));
         };
+
+		async function getUserData() {
+			let userURL = new URL("http://localhost:8080/collection/users");
+			let urlParams = new URLSearchParams(window.location.search);
+			let username = urlParams.get('username');
+			userURL.searchParams.append("username", username);
+			
+			return await fetch(userURL.href, { method: "GET" })
+							.then(response => response.json());
+		}
 
         document.getElementById('cc-create-collection-button').addEventListener('click', function (event) {
             document.getElementById('sammlungName').value = '';

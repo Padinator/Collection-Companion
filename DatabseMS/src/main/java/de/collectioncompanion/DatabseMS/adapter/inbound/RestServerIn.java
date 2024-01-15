@@ -58,6 +58,16 @@ public class RestServerIn {
             return ResponseEntity.status(200).body(results.stream().map(Collection::toJSON).toList().toString());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<String> getCollections(@PathVariable String id) {
+        Collection result = databaseOut.requestCollectionsFromDB(id);
+        System.out.println("\n\nResults as JSON:\n" + result.toJSON());
+
+        if (result == null) // Found no collection
+            return ResponseEntity.status(204).body("No collection found in DB!");
+        return ResponseEntity.status(200).body(result.toJSON());
+    }
+
     /**
      * Inserts a passed collection into DB
      *

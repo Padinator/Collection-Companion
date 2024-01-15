@@ -32,6 +32,13 @@ public class DatabaseImpl implements Database {
     }
 
     @Override
+    public Collection selectCollection(String id, CollectionRepo collectionRepo) {
+        Optional<Collection> result = collectionRepo.findById(id);
+        return result.orElse(null);
+
+    }
+
+    @Override
     public boolean insertCollection(Collection collection, CollectionRepo collectionRepo) {
         System.out.println("Collection to insert: " + collection);
         Collection c = collectionRepo.insert(collection);
@@ -107,7 +114,7 @@ public class DatabaseImpl implements Database {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.getSammlungen().add(new Sammlung(name, visibility, category, new LinkedList<>()));
+            user.getSammlungen().add(new Sammlung(name, visibility, category, new LinkedList<>(), new LinkedList<>()));
             userRepo.save(user);
             return true;
         }

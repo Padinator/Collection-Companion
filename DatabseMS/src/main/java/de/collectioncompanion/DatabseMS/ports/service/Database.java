@@ -21,6 +21,15 @@ public interface Database {
     List<Collection> selectCollections(String category, String searchTerm, CollectionRepo collectionRepo);
 
     /**
+     * Returns requested results or an empty string, if data must be renewed
+     *
+     * @param id of collection
+     * @param collectionRepo object for accessing DB
+     * @return results as Collection
+     */
+    Collection selectCollection(String id, CollectionRepo collectionRepo);
+
+    /**
      * Inserts new Collection into DB
      * 
      * @param collection to Insert
