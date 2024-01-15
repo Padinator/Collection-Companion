@@ -122,7 +122,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="sammlungBearbeitenLabel">Sammlung Bearbeiten</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            id="cc-show-collection-button"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3 row">
@@ -137,17 +138,8 @@
                             </div>
                         </div>
                         <!-- Hier wird die Liste der Titel angezeigt -->
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center" data-bs-toggle="modal" data-bs-target="#showEntryModal">
-                                Titel 1
-                                <button type="button" class="btn btn-outline-danger btn-sm"
-                                    id="cc-delete-entry-in-collection-button">X</button>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center" data-bs-toggle="modal" data-bs-target="#showEntryModal">
-                                Titel 2
-                                <button type="button" class="btn btn-outline-danger btn-sm"
-                                    id="cc-delete-entry-in-collection-button">X</button>
-                            </li>
+                        <ul class="list-group" id="cc-list-of-all-sammlungen">
+
                         </ul>
                         <form>
                             <div class="d-flex justify-content-center mt-2">
@@ -250,38 +242,34 @@
                     <form>
                         <div id="sammlungsinhalt">
                             <p style="float: left; width: 50%">Developers:</p>
-                            <p style="float: left; width: 50%">Mustafa celik</p>
+                            <p id="developers" style="float: left; width: 50%"></p>
                             <p style="float: left; width: 50%">Price:</p>
-                            <p style="float: left; width: 50%">3,99€</p>
+                            <p id="price" style="float: left; width: 50%"></p>
                             <p style="float: left; width: 50%">Available platforms:</p>
-                            <p style="float: left; width: 50%">Os *: microsoft® windows® 7 / 8 / 10 (32-bit/64-bit)</p>
+                            <p id="platforms" style="float: left; width: 50%"></p>
                             <p style="float: left; width: 50%">Category:</p>
-                            <p style="float: left; width: 50%">Game</p>
+                            <p id="category" style="float: left; width: 50%"></p>
                             <p style="float: left; width: 50%">Detailed description:</p>
-                            <p style="float: left; width: 50%">Passengers of execution is an independent game whose main
-                                theme is adventure/puzzle, although it contains many mechanics. it consists of maps that
-                                move along a linear line, designed in a way that you ...</p>
+                            <p id="detailedDescription" style="float: left; width: 50%"></p>
                             <p style="float: left; width: 50%">Genres:</p>
-                            <p style="float: left; width: 50%">Adventure, casual</p>
+                            <p id="gernes" style="float: left; width: 50%"></p>
                             <p style="float: left; width: 50%">Languages:</p>
-                            <p style="float: left; width: 50%">English, turkish</p>
-                            <p style="float: left; width: 50%">Main img:</p><img
-                                src="https://cdn.akamai.steamstatic.com/steam/apps/1551830/header.jpg?t=1695025635"
+                            <p id="languages" style="float: left; width: 50%"></p>
+                            <p style="float: left; width: 50%">Main img:</p><img src="" id="image"
                                 style="float: left; width: 50%" />
                             <p style="float: left; width: 50%">Necessary desktop resolution:</p>
-                            <p style="float: left; width: 50%">Directx: version 9.0</p>
+                            <p id="resolution" style="float: left; width: 50%"></p>
                             <p style="float: left; width: 50%">Necessary memory:</p>
-                            <p style="float: left; width: 50%">Graphics: 1366 x 768 pixels or higher desktop resolution
+                            <p id="memory" style="float: left; width: 50%">
                             </p>
                             <p style="float: left; width: 50%">Necessary processor:</p>
-                            <p style="float: left; width: 50%">Processor: 2.0 ghz or faster processor</p>
+                            <p id="processor" style="float: left; width: 50%"></p>
                             <p style="float: left; width: 50%">Necessary ram:</p>
-                            <p style="float: left; width: 50%">Memory: 4 gb ram</p>
+                            <p id="ram" style="float: left; width: 50%"></p>
                             <p style="float: left; width: 50%">Required age:</p>
-                            <p style="float: left; width: 50%">0</p>
+                            <p id="age" style="float: left; width: 50%"></p>
                             <p style="float: left; width: 50%">Short description:</p>
-                            <p style="float: left; width: 50%">Witness the journey of an officer in the homicide
-                                department from ordinary and invariably quiet life ...</p>
+                            <p id="shortDescription" style="float: left; width: 50%"></p>
                         </div>
                     </form>
                 </div>
@@ -293,26 +281,25 @@
 
         // Load each time reloading the page all Sammlungen
         window.onload = (event) => {
-			getUserData()
-				.then(data => {
+            getUserData()
+                .then(data => {
                     let sammlungContainer = document.getElementById('sammlungContainer');
 
                     // Iterate over all Sammlungen an create entries
                     for (let i = 0; i < data['sammlungen'].length; ++i)
                         sammlungContainer.appendChild(createSammlungsEintrag(i + 1, data["sammlungen"][i]["name"], data["sammlungen"][i]["visibility"]));
                 })
-				.catch((error) => console.log(error));
+                .catch((error) => console.log(error));
         };
 
-		async function getUserData() {
-			let userURL = new URL("http://localhost:8080/collection/users");
-			let urlParams = new URLSearchParams(window.location.search);
-			let username = urlParams.get('username');
-			userURL.searchParams.append("username", username);
-			
-			return await fetch(userURL.href, { method: "GET" })
-							.then(response => response.json());
-		}
+        async function getUserData() {
+            let userURL = new URL("http://localhost:8080/collection/users");
+            let urlParams = new URLSearchParams(window.location.search);
+            let username = urlParams.get('username');
+            userURL.searchParams.append("username", username);
+            return await fetch(userURL.href, { method: "GET" })
+                .then(response => response.json());
+        }
 
         document.getElementById('cc-create-collection-button').addEventListener('click', function (event) {
             document.getElementById('sammlungName').value = '';
@@ -363,7 +350,7 @@
                         console.log("Eintrag wurde erstellt!");
                     }
                 }).catch((error) => console.log(error));
-			window.location.reload();
+            window.location.reload();
         });
 
         function createSammlungsEintrag(number, sammlungsTitel, visibility) {
@@ -449,7 +436,47 @@
             document.getElementById("cc-friends-link").addEventListener('click', function (event) {
                 passUsername(username, 'friends');
             });
+
+            document.getElementById("sammlungBearbeiten").addEventListener('shown.bs.modal', function (event) {
+                let list = document.getElementById("cc-list-of-all-sammlungen");
+
+                let sammlungNummer = event.target.id.split("-").at(-1);
+
+                getUserData().then(data => {
+                    let collectionIDs = data["sammlungen"][parseInt(sammlungNummer - 1)];
+
+                    for (let i = 1; i <= collectionIDs.length; i++) {
+                        let listItem = document.createElement("li");
+                        listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+                        listItem.setAttribute("data-bs-toggle", "modal");
+                        listItem.setAttribute("data-bs-target", "#showEntryModal");
+
+                        let closeButton = document.createElement("button");
+                        closeButton.type = "button";
+                        closeButton.classList.add("btn", "btn-outline-danger", "btn-sm", "cc-delete-entry-in-collection-button");
+                        closeButton.textContent = "X";
+
+                        // closeButton.addEventListener("click", function () {
+                        // });
+
+                        listItem.appendChild(document.createTextNode(sammlungen[i]["name"]));
+                        listItem.appendChild(closeButton);
+                        list.appendChild(listItem);
+                    }
+                })
+            });
+
         });
+
+        // document.getElementById("cc-collection-entry").addEventListener('click', function () {
+
+        //     let developers = document.getElementById("developers");
+        //     developers.innerHTML = "Toooom";
+
+        //     let price = document.getElementById("price");
+        //     price.innerHTML = "44444";
+        // });
+
     </script>
 
 </body>
