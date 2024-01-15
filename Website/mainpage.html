@@ -36,10 +36,10 @@
         item.addEventListener('click', function () {
             document.getElementById('category-text').textContent = this.textContent;
             document.getElementById('category-text').value = this.textContent;
-			let search = window.location.search.replace("?", "");
-			search = search.replace("category=game", "");
-			search = search.replace("category=movie", "");
-			search = search.replace("category=series", "");
+            let search = window.location.search.replace("?", "");
+            search = search.replace("category=game", "");
+            search = search.replace("category=movie", "");
+            search = search.replace("category=series", "");
 
             if (this.textContent == 'Spiele') {
                 history.pushState({}, '', window.location.pathname + '?category=game&' + search);
@@ -144,51 +144,51 @@
                     firstOption.innerText = "Wähle eine Sammlung!";
                     sammlungsDropdown.appendChild(firstOption);
 
-					// Fetch all sammlungen of current user
-					let userURL = "http://localhost:8080/collection/users";
-					let urlParams = new URLSearchParams(window.location.search);
-					let username = urlParams.get('username');
-					userURL += "?username=" + username;
+                    // Fetch all sammlungen of current user
+                    let userURL = "http://localhost:8080/collection/users";
+                    let urlParams = new URLSearchParams(window.location.search);
+                    let username = urlParams.get('username');
+                    userURL += "?username=" + username;
 
-					fetch(userURL, { method: 'GET' })
-					.then(response => response.json())
-                    .then(userData => {
-						console.log("user data:");
-						console.log(userData);
-						let usersSammlungen = userData["sammlungen"];
+                    fetch(userURL, { method: 'GET' })
+                        .then(response => response.json())
+                        .then(userData => {
+                            console.log("user data:");
+                            console.log(userData);
+                            let usersSammlungen = userData["sammlungen"];
 
-						// Shwo all sammlungen not containing this collection/search result
-						let sammlungURL = "http://localhost:8080/collection/users/sammlung/collections";
-						sammlungURL += "?username=" + username;
-						usersSammlungen = usersSammlungen.filter(sammlung => !sammlung["collectionID"].includes(data["id"]));
+                            // Shwo all sammlungen not containing this collection/search result
+                            let sammlungURL = "http://localhost:8080/collection/users/sammlung/collections";
+                            sammlungURL += "?username=" + username;
+                            usersSammlungen = usersSammlungen.filter(sammlung => !sammlung["collectionID"].includes(data["id"]));
 
-						// Display all Sammlungen of current user not containing the search result/collection
-						usersSammlungen.forEach(sammlung => {
-							let sammlungElem = document.createElement('option');
-							sammlungElem.innerText = sammlung.name;
-							sammlungsDropdown.appendChild(sammlungElem);
-						});
+                            // Display all Sammlungen of current user not containing the search result/collection
+                            usersSammlungen.forEach(sammlung => {
+                                let sammlungElem = document.createElement('option');
+                                sammlungElem.innerText = sammlung.name;
+                                sammlungsDropdown.appendChild(sammlungElem);
+                            });
 
-						// Send "add request" to add search result/collection into DB
-						document.getElementById("cc-add-collection-button-two").addEventListener("click", event => {
-							event.preventDefault(); // Prevent popup from disappearing
+                            // Send "add request" to add search result/collection into DB
+                            document.getElementById("cc-add-collection-button-two").addEventListener("click", event => {
+                                event.preventDefault(); // Prevent popup from disappearing
 
-							let collecionURL = "http://localhost:8080/collection/users/sammlung/collections";
-							const sammlungNummer = document.getElementById("kategorie").selectedIndex;
-							console.log("sammlungNummer: " + sammlungNummer);
-							collecionURL += "?username=" + username + "&sammlungNummer=" + sammlungNummer + "&collectionID=" + data["id"];
-							console.log(collecionURL);
+                                let collecionURL = "http://localhost:8080/collection/users/sammlung/collections";
+                                const sammlungNummer = document.getElementById("kategorie").selectedIndex;
+                                console.log("sammlungNummer: " + sammlungNummer);
+                                collecionURL += "?username=" + username + "&sammlungNummer=" + sammlungNummer + "&collectionID=" + data["id"];
+                                console.log(collecionURL);
 
-							fetch(collecionURL, {
-								method: "POST",
-								headers: {
-									"Content-Type": "text/plain"
-								},
-								body: JSON.stringify({})
-							});
-						});
-					})
-                    .catch((error) => console.log(error));
+                                fetch(collecionURL, {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "text/plain"
+                                    },
+                                    body: JSON.stringify({})
+                                });
+                            });
+                        })
+                        .catch((error) => console.log(error));
                 }
 
                 /**
@@ -270,80 +270,80 @@
             passUsername(username, 'friends');
         });
 
-		document.getElementById("freundSuchenInput").addEventListener("keypress", event => {
-			if (event.key === "Enter")
-				event.preventDefault(); // Cancel the default action, if needed
-		});
+        document.getElementById("freundSuchenInput").addEventListener("keypress", event => {
+            if (event.key === "Enter")
+                event.preventDefault(); // Cancel the default action, if needed
+        });
 
-		document.getElementById("freundSuchenInput").addEventListener("keyup", event => {
-			if (event.key === "Enter")
-				event.preventDefault(); // Cancel the default action, if needed
+        document.getElementById("freundSuchenInput").addEventListener("keyup", event => {
+            if (event.key === "Enter")
+                event.preventDefault(); // Cancel the default action, if needed
 
-			document.getElementById("cc-search-friend-button").click(); // Trigger the button element with a click
-		});
+            document.getElementById("cc-search-friend-button").click(); // Trigger the button element with a click
+        });
 
         document.getElementById("cc-search-friend-button").addEventListener('click', function (event) {
-			event.preventDefault();
+            event.preventDefault();
             const freundList = document.getElementById('freundListe');
             freundList.innerHTML = "";
 
             const friendSearchTerm = document.getElementById("freundSuchenInput").value;
-			let urlParams = new URLSearchParams(window.location.search);
-			let username = urlParams.get('username');
+            let urlParams = new URLSearchParams(window.location.search);
+            let username = urlParams.get('username');
 
-			// Search for friends
-			searchForUsers(username, friendSearchTerm)
-			.then(friends => {
-				console.log("friends: " + friends);
-				// Display all found friends
-				friends.forEach(friend => {
-					const listelement = document.createElement("li");
-					listelement.className = "list-group-item d-flex justify-content-between align-items-center";
-					listelement.textContent = friend;
+            // Search for friends
+            searchForUsers(username, friendSearchTerm)
+                .then(friends => {
+                    console.log("friends: " + friends);
+                    // Display all found friends
+                    friends.forEach(friend => {
+                        const listelement = document.createElement("li");
+                        listelement.className = "list-group-item d-flex justify-content-between align-items-center";
+                        listelement.textContent = friend;
 
-					const addButton = document.createElement("button");
-					addButton.className = "btn btn-success btn-sm";
-					addButton.textContent = "Hinzufügen";
-					addButton.addEventListener("click", event => {
-						event.preventDefault();
-						alert("Freund '" + friend + "' wurde hinzugefügt!");
-						freundList.removeChild(listelement); // Remove potential friend from list after requesting him to be a friend
+                        const addButton = document.createElement("button");
+                        addButton.className = "btn btn-success btn-sm";
+                        addButton.textContent = "Hinzufügen";
+                        addButton.addEventListener("click", event => {
+                            event.preventDefault();
+                            alert("Freund '" + friend + "' wurde hinzugefügt!");
+                            freundList.removeChild(listelement); // Remove potential friend from list after requesting him to be a friend
 
-						// Fetch/Do POST-Request to add friend via API-Gateway
-						doFriendRequest(username, friend)
-						.catch((error) => console.log(error));
-					});
+                            // Fetch/Do POST-Request to add friend via API-Gateway
+                            doFriendRequest(username, friend)
+                                .catch((error) => console.log(error));
+                        });
 
-					listelement.appendChild(addButton);
-					freundList.appendChild(listelement);
-				});
-			})
-			.catch((error) => console.log(error));
+                        listelement.appendChild(addButton);
+                        freundList.appendChild(listelement);
+                    });
+                })
+                .catch((error) => console.log(error));
         });
 
-		async function searchForUsers(currentUser, friendSearchTerm) {
-			const possibleFriendsURL = new URL("http://localhost:8080/collection/all-users");
-			possibleFriendsURL.searchParams.append("currentUser", currentUser);
-			possibleFriendsURL.searchParams.append("friendSearchTerm", friendSearchTerm);
-			console.log("possibleFriendsURL: " + possibleFriendsURL);
+        async function searchForUsers(currentUser, friendSearchTerm) {
+            const possibleFriendsURL = new URL("http://localhost:8080/collection/all-users");
+            possibleFriendsURL.searchParams.append("currentUser", currentUser);
+            possibleFriendsURL.searchParams.append("friendSearchTerm", friendSearchTerm);
+            console.log("possibleFriendsURL: " + possibleFriendsURL);
 
-			return await fetch(possibleFriendsURL, { method: 'GET' })
-							.then(response => response.json());
-		}
+            return await fetch(possibleFriendsURL, { method: 'GET' })
+                .then(response => response.json());
+        }
 
-		async function doFriendRequest(currentUser, usernameFriend) {
-			const friendsURL = new URL("http://localhost:8080/collection/users/friend-requests");
-			friendsURL.searchParams.append("username", currentUser);
-			friendsURL.searchParams.append("usernameFriend", usernameFriend);
-			console.log("friendsURL: " + friendsURL);
+        async function doFriendRequest(currentUser, usernameFriend) {
+            const friendsURL = new URL("http://localhost:8080/collection/users/friend-requests");
+            friendsURL.searchParams.append("username", currentUser);
+            friendsURL.searchParams.append("usernameFriend", usernameFriend);
+            console.log("friendsURL: " + friendsURL);
 
-			return await fetch(friendsURL, {
-									method: 'POST',
-									headers: { 'Content-Type': 'text/plain' },
-									body: JSON.stringify({})
-								})
-							.then(response => response.text());
-		}
+            return await fetch(friendsURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify({})
+            })
+                .then(response => response.text());
+        }
     });
 </script>
 
@@ -418,8 +418,25 @@
                             Freunde
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="freundeDropdown">
+                            <!-- Freunde Hinzufuegen -->
                             <li><a class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#freundeSuchenModal">Freund Hinzufügen</a></li>
+                            <!-- Freundesanfragen -->
+                            <li class="dropdown-item d-flex justify-content-between align-items-center">
+                                <span class="flex-grow-1">Dominik</span>
+                                <div>
+                                    <button class="btn btn-success btn-sm">✔</button>
+                                    <button class="btn btn-danger btn-sm">✘</button>
+                                </div>
+                            </li>
+                            <li class="dropdown-item d-flex justify-content-between align-items-center">
+                                <span class="flex-grow-1">Patrick</span>
+                                <div>
+                                    <button class="btn btn-success btn-sm">✔</button>
+                                    <button class="btn btn-danger btn-sm">✘</button>
+                                </div>
+                            </li>
+                            <!-- Freunde anzeigen -->
                             <li><a class="dropdown-item" id="cc-friends-link">Freund 1</a></li>
                             <li><a class="dropdown-item">Freund 2</a></li>
                             <li><a class="dropdown-item">Freund 3</a></li>
