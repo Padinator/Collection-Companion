@@ -14,6 +14,10 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
     <script type="text/javascript" src="PassUsername.js" defer></script>
 
     <title>Collection Companion</title>
@@ -49,7 +53,8 @@
                 <form class="d-flex">
                     <div class="input-group">
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;" disabled>
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;"
+                            disabled>
                             Kategorien
                         </button>
                         <div class="dropdown-menu">
@@ -133,14 +138,15 @@
                         </div>
                         <!-- Hier wird die Liste der Titel angezeigt -->
                         <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li class="list-group-item d-flex justify-content-between align-items-center" data-bs-toggle="modal" data-bs-target="#showEntryModal">
                                 Titel 1
                                 <button type="button" class="btn btn-outline-danger btn-sm"
                                     id="cc-delete-entry-in-collection-button">X</button>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <li class="list-group-item d-flex justify-content-between align-items-center" data-bs-toggle="modal" data-bs-target="#showEntryModal">
                                 Titel 2
-                                <button type="button" class="btn btn-outline-danger btn-sm">X</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm"
+                                    id="cc-delete-entry-in-collection-button">X</button>
                             </li>
                         </ul>
                         <form>
@@ -232,6 +238,57 @@
         </div>
     </div>
 
+    <!-- Modal fuer Jeden Listen Eintrag, TODO: braucht noch eine update Funktion, die anhand von dem Eintrag die Daten updated -->
+    <div class="modal fade" tabindex="-1" id="showEntryModal" aria-labelledby="showEntryLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Passengers Of Execution</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div id="sammlungsinhalt">
+                            <p style="float: left; width: 50%">Developers:</p>
+                            <p style="float: left; width: 50%">Mustafa celik</p>
+                            <p style="float: left; width: 50%">Price:</p>
+                            <p style="float: left; width: 50%">3,99€</p>
+                            <p style="float: left; width: 50%">Available platforms:</p>
+                            <p style="float: left; width: 50%">Os *: microsoft® windows® 7 / 8 / 10 (32-bit/64-bit)</p>
+                            <p style="float: left; width: 50%">Category:</p>
+                            <p style="float: left; width: 50%">Game</p>
+                            <p style="float: left; width: 50%">Detailed description:</p>
+                            <p style="float: left; width: 50%">Passengers of execution is an independent game whose main
+                                theme is adventure/puzzle, although it contains many mechanics. it consists of maps that
+                                move along a linear line, designed in a way that you ...</p>
+                            <p style="float: left; width: 50%">Genres:</p>
+                            <p style="float: left; width: 50%">Adventure, casual</p>
+                            <p style="float: left; width: 50%">Languages:</p>
+                            <p style="float: left; width: 50%">English, turkish</p>
+                            <p style="float: left; width: 50%">Main img:</p><img
+                                src="https://cdn.akamai.steamstatic.com/steam/apps/1551830/header.jpg?t=1695025635"
+                                style="float: left; width: 50%" />
+                            <p style="float: left; width: 50%">Necessary desktop resolution:</p>
+                            <p style="float: left; width: 50%">Directx: version 9.0</p>
+                            <p style="float: left; width: 50%">Necessary memory:</p>
+                            <p style="float: left; width: 50%">Graphics: 1366 x 768 pixels or higher desktop resolution
+                            </p>
+                            <p style="float: left; width: 50%">Necessary processor:</p>
+                            <p style="float: left; width: 50%">Processor: 2.0 ghz or faster processor</p>
+                            <p style="float: left; width: 50%">Necessary ram:</p>
+                            <p style="float: left; width: 50%">Memory: 4 gb ram</p>
+                            <p style="float: left; width: 50%">Required age:</p>
+                            <p style="float: left; width: 50%">0</p>
+                            <p style="float: left; width: 50%">Short description:</p>
+                            <p style="float: left; width: 50%">Witness the journey of an officer in the homicide
+                                department from ordinary and invariably quiet life ...</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
 
         // Load each time reloading the page all Sammlungen
@@ -288,27 +345,27 @@
 
             fetch(collectionUrl.href, {
                 method: "POST",
-				mode: 'no-cors',
-				headers: {
+                mode: 'no-cors',
+                headers: {
                     'Content-Type': 'text/plain',
                 }
             })
-			.then(response => response)
-			.then(respone => {
-                console.log(respone.text());
-                console.log(respone);
+                .then(response => response)
+                .then(respone => {
+                    console.log(respone.text());
+                    console.log(respone);
 
-                if (respone.status == "200") {
-                    let sammlungContainer = document.getElementById('sammlungContainer');
-					sammlungContainer.appendChild(createSammlungsEintrag(sammlungContainer.children.length, name, visibility))
-                    console.log("Eintrag wurde erstellt!");
-                }
-            }).catch((error) => console.log(error));
+                    if (respone.status == "200") {
+                        let sammlungContainer = document.getElementById('sammlungContainer');
+                        sammlungContainer.appendChild(createSammlungsEintrag(sammlungContainer.children.length, name, visibility))
+                        console.log("Eintrag wurde erstellt!");
+                    }
+                }).catch((error) => console.log(error));
         });
 
-		function createSammlungsEintrag(number, sammlungsTitel, visibility) {
-			let sammlungEintrag = document.createElement('div');
-			sammlungEintrag.className = 'p-2 border mb-3 rounded position-relative';
+        function createSammlungsEintrag(number, sammlungsTitel, visibility) {
+            let sammlungEintrag = document.createElement('div');
+            sammlungEintrag.className = 'p-2 border mb-3 rounded position-relative';
 
             let titelElement = document.createElement('h5');
             titelElement.className = 'text-left';
@@ -334,9 +391,9 @@
             let sichtbarkeitElement = document.getElementById('sichtbarkeit-bearbeiten');
             let sammlungNummer = event.target.id.split("-").at(-1);
 
-			sichtbarkeitElement.value = visibility;
+            sichtbarkeitElement.value = visibility;
             console.log("Übergebene Visibility:", visibility);
-			console.log(sammlungNummer);
+            console.log(sammlungNummer);
 
             // Add event for editing a Sammlung
             document.getElementById('cc-submit-collection-button').addEventListener('click', function (event) {
@@ -355,16 +412,16 @@
                 fetch(sammlungUrl.href, {
                     method: 'PATCH',
                     headers: {
-						'Accept': 'application/json',
-						'Content-Type': 'text/plain',
-						//'Content-Type': 'application/json',
-						'Content-Length': '0'
-					},
-					body: JSON.stringify({})
+                        'Accept': 'application/json',
+                        'Content-Type': 'text/plain',
+                        //'Content-Type': 'application/json',
+                        'Content-Length': '0'
+                    },
+                    body: JSON.stringify({})
                 })
-				.then(response => response.text())
-				.then(response => console.log(response))
-				.catch((error) => console.log(error));
+                    .then(response => response.text())
+                    .then(response => console.log(response))
+                    .catch((error) => console.log(error));
             });
         }
 
@@ -390,7 +447,6 @@
                 passUsername(username, 'friends');
             });
         });
-
     </script>
 
 </body>

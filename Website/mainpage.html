@@ -344,7 +344,30 @@
             })
                 .then(response => response.text());
         }
+
+
+        document.getElementById("cc-add-friend-button").addEventListener('click', function () {
+            const friendNameElement = document.querySelector('.dropdown-item.d-flex.justify-content-between.align-items-center');
+            const friendName = friendNameElement.querySelector('.flex-grow-1').textContent;
+
+            const newFriendElement = document.createElement('li');
+            console.log("Name: ", friendName);
+            newFriendElement.innerHTML = '<a class="dropdown-item" id="cc-friends-link">' + friendName + '</a>';
+
+            const friendsList = document.getElementById("friendsListDropdown");
+            friendsList.appendChild(newFriendElement);
+
+            friendNameElement.remove();
+        });
+
+        document.getElementById("cc-decline-friend-button").addEventListener('click', function () {
+            const friendNameElement = document.querySelector('.dropdown-item.d-flex.justify-content-between.align-items-center');
+            friendNameElement.remove();
+        });
+
     });
+
+
 </script>
 
 <body>
@@ -417,7 +440,7 @@
                             </svg>
                             Freunde
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="freundeDropdown">
+                        <ul class="dropdown-menu" aria-labelledby="freundeDropdown" id="friendsListDropdown">
                             <!-- Freunde Hinzufuegen -->
                             <li><a class="dropdown-item" data-bs-toggle="modal"
                                     data-bs-target="#freundeSuchenModal">Freund Hinzufügen</a></li>
@@ -425,15 +448,15 @@
                             <li class="dropdown-item d-flex justify-content-between align-items-center">
                                 <span class="flex-grow-1">Dominik</span>
                                 <div>
-                                    <button class="btn btn-success btn-sm">✔</button>
-                                    <button class="btn btn-danger btn-sm">✘</button>
+                                    <button class="btn btn-success btn-sm" id="cc-add-friend-button">✔</button>
+                                    <button class="btn btn-danger btn-sm" id="cc-decline-friend-button">✘</button>
                                 </div>
                             </li>
                             <li class="dropdown-item d-flex justify-content-between align-items-center">
                                 <span class="flex-grow-1">Patrick</span>
                                 <div>
-                                    <button class="btn btn-success btn-sm">✔</button>
-                                    <button class="btn btn-danger btn-sm">✘</button>
+                                    <button class="btn btn-success btn-sm" id="cc-add-friend-button">✔</button>
+                                    <button class="btn btn-danger btn-sm" id="cc-decline-friend-button">✘</button>
                                 </div>
                             </li>
                             <!-- Freunde anzeigen -->
