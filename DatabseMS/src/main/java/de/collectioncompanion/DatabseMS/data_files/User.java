@@ -36,7 +36,7 @@ public class User {
             sb.append("\"sammlungen\": [], ");
         else
             sb.append("\"sammlungen\": [ ").append(String.join(", ",
-                    sammlungen.stream().map(sammlung -> sammlung.toJSON()).toList())).append(" ], ");
+                    sammlungen.stream().map(Sammlung::toJSON).toList())).append(" ], ");
 
         if (userFriendsId.isEmpty())
             sb.append("\"userFriendsID\": [], ");
