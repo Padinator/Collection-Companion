@@ -2,7 +2,6 @@ package de.collectioncompanion.DatabseMS.adapter.inbound;
 
 import data_files.CollectionImpl;
 import de.collectioncompanion.DatabseMS.adapter.outbound.DatabaseOut;
-import de.collectioncompanion.DatabseMS.data_files.Sammlung;
 import de.collectioncompanion.DatabseMS.data_files.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -139,8 +138,8 @@ public class RestServerIn {
     }
 
     @PostMapping("/users/copy-sammlung")
-    public ResponseEntity<String> copySammlungFromFriend(@RequestParam String username, @RequestBody Sammlung sammlung) {
-        if (databaseOut.copySammlungFromFriend(username, sammlung))
+    public ResponseEntity<String> copySammlungFromFriend(@RequestParam String username, @RequestParam String usernameFriend, @RequestParam int sammlungIdFriend) {
+        if (databaseOut.copySammlungFromFriend(username, usernameFriend, sammlungIdFriend))
             return ResponseEntity.status(200).body("Copied successfully Sammlung to User!");
         return ResponseEntity.status(200).body("Could not copy Sammlung to User!");
 

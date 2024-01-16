@@ -1,6 +1,5 @@
 package de.collectioncompanion.DatabseMS.ports.service;
 
-import de.collectioncompanion.DatabseMS.data_files.Sammlung;
 import de.collectioncompanion.DatabseMS.data_files.User;
 import ports.Collection;
 
@@ -110,11 +109,12 @@ public interface Database {
      * Adds passed Sammlung to User
      *
      * @param username of User to insert Sammlung of friend
-     * @param sammlung to copy data from
+     * @param usernameFriend of friend to copy data from
+     * @param sammlungIdFriend id of Sammlung to copy from friend
      * @param userRepo object for accessing DB
      * @return true, if Sammlung could be added, else false
      */
-    boolean copySammlungToUser(String username, Sammlung sammlung, UserRepo userRepo);
+    boolean copySammlungToUser(String username, String usernameFriend, int sammlungIdFriend, UserRepo userRepo);
 
     /*
      * "User friends"-requests

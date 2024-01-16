@@ -1,6 +1,5 @@
 package de.collectioncompanion.DatabseMS.adapter.outbound;
 
-import de.collectioncompanion.DatabseMS.data_files.Sammlung;
 import de.collectioncompanion.DatabseMS.data_files.User;
 import de.collectioncompanion.DatabseMS.ports.service.CollectionRepo;
 import de.collectioncompanion.DatabseMS.ports.service.Database;
@@ -68,8 +67,8 @@ public class DatabaseOut {
         return database.updateSammlungOfUser(username, sammlungNummer, newVisibility, userRepo);
     }
 
-    public boolean copySammlungFromFriend(String username, Sammlung sammlung) {
-        return database.copySammlungToUser(username, sammlung, userRepo);
+    public boolean copySammlungFromFriend(String username, String usernameFriend, int sammlungIdFriend) {
+        return database.copySammlungToUser(username, usernameFriend, sammlungIdFriend, userRepo);
     }
 
     /*

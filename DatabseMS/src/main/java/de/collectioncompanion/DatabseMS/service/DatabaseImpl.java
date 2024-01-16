@@ -142,14 +142,20 @@ public class DatabaseImpl implements Database {
     }
 
     @Override
-    public boolean copySammlungToUser(String username, Sammlung sammlung, UserRepo userRepo) {
+    public boolean copySammlungToUser(String username, String usernameFriend, int sammlungIdFriend, UserRepo userRepo) {
         Optional<User> optionalUser = userRepo.findById(username);
+        Optional<User> optionalFriendUser = userRepo.findById(usernameFriend);
 
-        if (optionalUser.isPresent()) {
+        if (optionalUser.isPresent() && optionalFriendUser.isPresent()) {
             User user = optionalUser.get();
-            user.getSammlungen().add(sammlung);
-            userRepo.save(user);
-            return true;
+            User friendUser = optionalFriendUser.get();
+            List<Sammlung> sammlungenFriend = friendUser.getSammlungen();
+
+            if (0 <= sammlungIdFriend && sammlungIdFriend < sammlungenFriend.size()) {
+                friendUser.getSammlungen().add(sammlungenFriend.get(sammlungIdFriend));
+                userRepo.save(user);
+                return true;
+            }
         }
 
         return false;
