@@ -27,7 +27,7 @@ jobs:
                     
   playwright:
     name: Playwright 🎭
-    timeout-minutes: 20
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
