@@ -14,8 +14,9 @@ function createEntry(data, number) {
 	titleElem.classname = 'text-left';
 	titleElem.innerText = data["title"];
 	descriptionElem.innerText = data["short_description"];
-	button.classname = 'btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2';
+	// button.classname = 'btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2';
 	button.id = 'cc-add-collection-button-' + number;
+    button.classList.add("btn", "btn-secondary", "btn-sm", "position-absolute", "bottom-0", "end-0" ,"m-2");
 	button.setAttribute('data-bs-toggle', 'modal');
 	button.setAttribute('data-bs-target', '#sammlungHinzufuegen');
 	button.addEventListener('click', event => setSammlungHinzufuegenContent(data));
