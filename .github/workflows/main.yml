@@ -10,10 +10,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Run check style
-      uses: nikitasavinov/checkstyle-action@master
-      with:
+      uses: github/super-linter@v4
+      env:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        reporter: 'github-pr-check'
+        VALIDATE_ALL_CODEBASE: true
+        VALIDATE_JAVASCRIPT_ES: false
+        VALIDATE_HTML: false
 
   build-and-test:
     runs-on: ubuntu-latest
@@ -25,7 +27,7 @@ jobs:
                     
   playwright:
     name: Playwright 🎭
-    timeout-minutes: 20
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
