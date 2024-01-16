@@ -18,4 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	document.getElementById("cc-collection-button").addEventListener('click', function (event) {
 		passUsername(username, 'collection');
 	});
+
+    document.getElementById("cc-friends-link").addEventListener('click', function (event) {
+		passUsername(username, 'friends');
+	});
 });
