@@ -14,6 +14,12 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
+	<!-- DOM elements -->
+	<script type="module" src="register_dom.js"></script>
+
+	<!-- JavaScript functions -->
+	<script type="text/javascript" src="register_functions.js" defer></script>
+
     <title>Collection Companion</title>
 </head>
 
@@ -110,49 +116,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-		document.getElementById("email").addEventListener("keypress", event => {
-			if (event.key === "Enter") {
-				event.preventDefault(); // Cancel the default action, if needed
-				document.getElementById("cc-registration").click(); // Trigger the button element with a click
-			}
-		});
-
-        function getRegisterValues() {
-            let username = document.getElementById("username").value;
-            let password = document.getElementById("password").value;
-            let email = document.getElementById("email").value;
-
-            console.log(username, password, email);
-
-            let urlWithParams = new URL("http://localhost:8080/collection/users");
-
-            urlWithParams.searchParams.append("username", username);
-            urlWithParams.searchParams.append("password", password);
-            urlWithParams.searchParams.append("email", email);
-
-            console.log(String(urlWithParams.href));
-
-            fetch(String(urlWithParams.href), {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'text/plain',
-                },
-                body: JSON.stringify({}),
-            }).then(respone => respone.text())
-                .then((res) => {
-                    console.log(res);
-                    if (res == "User already exists!") {
-                        alert("User already exists");
-                    } else {
-                        window.location.href = "http://localhost:8090/index.html";
-                    }
-                }).catch(error => console.log(error));
-        }
-
-    </script>
-
 </body>
 
 </html>
