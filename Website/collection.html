@@ -238,52 +238,41 @@
         </div>
     </div>
 
-    <!-- Modal fuer Jeden Listen Eintrag, TODO: braucht noch eine update Funktion, die anhand von dem Eintrag die Daten updated -->
-    <div class="modal fade" tabindex="-1" id="showEntryModal" aria-labelledby="showEntryLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Passengers Of Execution</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div id="sammlungsinhalt">
-                            <p style="float: left; width: 50%">Developers:</p>
-                            <p id="developers" style="float: left; width: 50%"></p>
-                            <p style="float: left; width: 50%">Price:</p>
-                            <p id="price" style="float: left; width: 50%"></p>
-                            <p style="float: left; width: 50%">Available platforms:</p>
-                            <p id="platforms" style="float: left; width: 50%"></p>
-                            <p style="float: left; width: 50%">Category:</p>
-                            <p id="category" style="float: left; width: 50%"></p>
-                            <p style="float: left; width: 50%">Detailed description:</p>
-                            <p id="detailedDescription" style="float: left; width: 50%"></p>
-                            <p style="float: left; width: 50%">Genres:</p>
-                            <p id="gernes" style="float: left; width: 50%"></p>
-                            <p style="float: left; width: 50%">Languages:</p>
-                            <p id="languages" style="float: left; width: 50%"></p>
-                            <p style="float: left; width: 50%">Main img:</p><img src="" id="image"
-                                style="float: left; width: 50%" />
-                            <p style="float: left; width: 50%">Necessary desktop resolution:</p>
-                            <p id="resolution" style="float: left; width: 50%"></p>
-                            <p style="float: left; width: 50%">Necessary memory:</p>
-                            <p id="memory" style="float: left; width: 50%">
-                            </p>
-                            <p style="float: left; width: 50%">Necessary processor:</p>
-                            <p id="processor" style="float: left; width: 50%"></p>
-                            <p style="float: left; width: 50%">Necessary ram:</p>
-                            <p id="ram" style="float: left; width: 50%"></p>
-                            <p style="float: left; width: 50%">Required age:</p>
-                            <p id="age" style="float: left; width: 50%"></p>
-                            <p style="float: left; width: 50%">Short description:</p>
-                            <p id="shortDescription" style="float: left; width: 50%"></p>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Pop-Up Fenster fuer Sammlung hinzufuegen -->
+	<div class="modal fade" id="showEntryModal" tabindex="-1" aria-labelledby="sammlungHinzufuegenLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="sammlungErstellenModalLabel">Sammlung hinzufügen</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<!-- Sammlungsinhalt anzeigen -->
+						<div id="sammlungsinhalt">Sammlungsinhalt</div>
+
+						<!-- Sammlung auswaehlen -->
+						<div class="mb-3 row">
+							<label for="kategorie" class="col-sm-3 col-form-label">Sammlung:</label>
+							<div class="col-sm-9">
+								<select class="form-select" id="kategorie" aria-label="Kategorie auswählen">
+									<option selected disabled>Bitte Sammlung auswählen</option>
+									<option value="spiele">Die Besten Horrospiele</option>
+									<option value="filme">Must have Videospiele</option>
+									<option value="serien">Kinderfilme</option>
+								</select>
+							</div>
+						</div>
+						<div class="d-flex justify-content-center">
+							<button type="submit" class="btn btn-primary"
+								id="cc-add-collection-button-two">Hinzufügen</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>

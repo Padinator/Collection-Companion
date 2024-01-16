@@ -53,13 +53,16 @@ document.getElementById("cc-search-friend-button").addEventListener('click', fun
 
 
 
-// Do something
+// Initialize some data elements
 const fetchData = {
 	method: 'GET'
 }
 
 let category = 'Kategorien';
 
+/*
+ * Add values to dropdown
+ */
 document.querySelectorAll('#category-select .dropdown-item').forEach(function (item) {
 	item.addEventListener('click', function () {
 		document.getElementById('category-text').textContent = this.textContent;
