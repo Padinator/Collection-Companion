@@ -1,0 +1,8 @@
+# Update the visability of a Sammlung (PATCH):
+http://localhost:8080/collection/users/sammlung?username=patrick&sammlungNummer=1&newVisibility=privat
+
+#  Update user data of a user (PATCH):
+http://localhost:8080/collection/users?oldUsername=admin&newUsername=patrick&newPassword=patrick&newEmail=email
+
+# Delete friend request of another user (DELETE):
+http://localhost:8080/collection/users/friend-requests?username=dominik&usernameFriend=tom
