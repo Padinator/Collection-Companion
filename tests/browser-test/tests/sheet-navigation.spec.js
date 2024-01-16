@@ -9,6 +9,18 @@ test('Opening Main Page', async ({ page }) => {
     // Click on login button
     await page.click('#cc-login');
 
+    // Click on register button
+    await page.click('#register');
+
+    // Fill in registration details
+    await page.type('#username', 'testuser');
+    await page.type('#password', 'testpassword');
+    await page.type('#email', 'test@test.de');
+
+    //Fill in login
+    await page.type('#username', 'testuser');
+    await page.type('#password', 'testpassword');
+
     // Check if on the I am on the next right page 
     expect(page.url(), 'Not the right page ').toBe('http://localhost:8090/mainpage.html');
 });
