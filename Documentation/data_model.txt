@@ -1,88 +1,140 @@
 
 Example data records
 
-users: [
-	{
-		username: "max",
-		password: "pwd123",
-		email: "max@mustermann.de",
-		userFriendsId: [ Finn_01.02.1998, Mila582 ]
-		sammlungen: [
-			{
-				name: "Meine PC-Spiele",
-				visibility: "Privat",
-				category: "game",
-				collectionIds: [ '659bf5607f5efb711a260e8c', '659acc5b41fd0535528cb8e4' ]
-			},
-			{
-				name: "Meine Serien",
-				visibility: "Freunde",
-				category: "Serien",
-				collectionIds: []
-			},
-			{
-				name: "Meine Filme",
-				visibility: "Öffentlich",
-				category: "Filme",
-				collectionIds: []
-			}
-		]
-	},
-	{
-		username: "Finn_01.02.1998",
-		password: "pwd456",
-		email: "finn@mustermann.de",
-		userFriendsId: [ 'max' ]
-		sammlungen: []
-	},
-	{
-		username: "Mila582",
-		password: "pwd789",
-		email: "mila@mustermann.de",
-		userFriendsId: [ 'max' ]
-		sammlungen: []
-	}
-]
-
-collections: [
-	{
-		_id: ObjectId('659bf5607f5efb711a260e8c'),
-		data: {
-			DEVELOPERS: '[Team Cherry]',
-			available_platforms: 'OS *: Windows 7',
-			category: 'game',
-			detailed_description: 'Become the Princess KnightPlay as Hornet, princess-protector of Hallownest, and adventure through a whole new kingdom ruled by silk and song! Captured and brought to this unfamiliar world, Hornet must battle foes and solve mysteries as she ascends on a deadly pilgrimage to the kingdom’s peak.Hollow Knight: Silksong is the epic sequel to Hollow Knight, the award winning action-adventure. As the lethal hunter Hornet, journey to all-new lands, discover new powers, battle vast hordes of bugs and beasts and uncover ancient secrets tied to your nature and your past.Game FeaturesDiscover a whole new kingdom! Explore coral forests, mossy grottos, gilded cities and misted moors as you ascend to the shining citadel at the top of the world.Engage in lethal acrobatic action! Wield a whole new suite of deadly moves as you dance between foes in deadly, beautiful combat.Craft powerful tools! Master an ever-expanding arsenal of weapons, traps, and mechanisms to confound your enemies and explore new heights.Solve shocking quests! Hunt down rare beasts, solve ancient mysteries and search for lost treasures to fulfil the wishes of the downtrodden and restore the kingdom’s hope. Prepare for the unexpected!Face over 150 all-new foes! Beasts and hunters, assassins and kings, monsters and knights, defeat them all with bravery and skill!Challenge Silk Soul mode! Once you conquer the kingdom, test your skills in an all-new mode that spins the game into a unique, challenging experience.Experience a stunning orchestral score! Hollow Knight’s award-winning composer, Christopher Larkin, returns to bring melancholy melodies, symphonic strings and heart-thumping, soul strumming boss themes to the adventure.',
-			genres: '[Action, Adventure, Indie]',
-			languages: '[English, French, Italian, German, Spanish - Spain, Japanese, Korean, Portuguese - Brazil, Russian, Simplified Chinese]',
-			main_img: 'https://cdn.akamai.steamstatic.com/steam/apps/1030300/header.jpg?t=1695443850',
-			necessary_desktop_resolution: 'DirectX: Version 10',
-			necessary_memory: 'Graphics: GeForce 9800GTX+ (1GB)',
-			necessary_processor: 'Processor: Intel Core 2 Duo E5200',
-			necessary_ram: 'Memory: 4 GB RAM',
-			required_age: '0',
-			short_description: 'Discover a vast, haunted kingdom in Hollow Knight: Silksong! The sequel to the award winning action-adventure. Explore, fight and survive as you ascend to the peak of a land ruled by silk and song.',
-			time_stamp: '1704719712201',
-			title: 'Hollow Knight: Silksong'
-		}
-	},
-	{
-		_id: ObjectId('659acc5b41fd0535528cb8e4'),
-		data: {
-			DEVELOPERS: '[Mustafa CELIK]',
-			available_platforms: 'OS *: Microsoft® Windows® 7 / 8 / 10 (32-bit/64-bit)',
-			category: 'game',
-			detailed_description: "Passengers of Execution is an independent game whose main theme is adventure/puzzle, although it contains many mechanics. It consists of maps that move along a linear line, designed in a way that you players' sense of discovery and curiosity of seeing new worlds. Sometimes you have to find the cause of death of a corpse, the shoe of a beggar, the exit of a giant maze and sometimes you have to make your hands talk.Dozens of section designs with different themes and tones.Dynamic game mechanics that are constantly changing.Exciting character designs.A curious story, far from cliché and cheap tricks.Musics that changes depending on the feeling you want to be given.Level designs designed using all angles mechanically 2d / 3d/2.5 d/isometric / perspective.Witness the journey of an officer in the homicide department from ordinary and invariably quiet life to an unknown world. Abush's soul is trapped in the software of a computer genius, he must find an exit before his body decays.Meet artificial intelligences and characters trapped in a purgatory like themselves in this adventure.Pass through the strange and exceptional level designs successfullySometimes things go wrong! Who knows, maybe one day you'll be stuck between life and death because of the stupidity of a cyber hacker. Do you think I'm kidding?",
-			genres: '[Adventure, Casual]',
-			languages: '[English, Turkish]',
-			main_img: 'https://cdn.akamai.steamstatic.com/steam/apps/1551830/header.jpg?t=1695025635',
-			necessary_desktop_resolution: 'DirectX: Version 9.0',
-			necessary_memory: 'Graphics: 1366 x 768 pixels or higher desktop resolution',
-			necessary_processor: 'Processor: 2.0 GHz or faster processor',
-			necessary_ram: 'Memory: 4 GB RAM',
-			price: '0,67€',
-			required_age: '0',
-			short_description: 'Witness the journey of an officer in the homicide department from ordinary and invariably quiet life to an unknown world. Passengers of Execution is an independent game whose main theme is adventure/puzzle, although it contains many mechanics.',
-			time_stamp: '1704643675562',
-			title: 'Passengers Of Execution'
-	}
-]
+{
+  "users": [
+    {
+      "username": "Finn_01.02.1998",
+      "password": "pwd456",
+      "email": "finn@mustermann.de",
+      "userFriendsId": [
+        "max"
+      ],
+      "sammlungen": [],
+      "userFriendRequestsId": [
+        "Mila582"
+      ],
+      "evaluations": []
+    },
+    {
+      "username": "Mila582",
+      "password": "pwd789",
+      "email": "mila@mustermann.de",
+      "userFriendsId": [
+        "max"
+      ],
+      "sammlungen": [],
+      "userFriendRequestsId": []
+    },
+    {
+      "username": "max",
+      "password": "pwd123",
+      "email": "max@mustermann.de",
+      "userFriendsId": [
+        "Finn_01.02.1998",
+        "Mila582"
+      ],
+      "userFriendRequestsId": [],
+      "sammlungen": [
+        {
+          "name": "Meine PC-Spiele",
+          "visibility": "Privat",
+          "category": "game",
+          "collectionIds": [
+            "659bf5607f5efb711a260e8c",
+            "659acc5b41fd0535528cb8e4"
+          ],
+          "evaluations": []
+        },
+        {
+          "name": "Meine Serien",
+          "visibility": "Freunde",
+          "category": "Serien",
+          "collectionIds": [],
+          "evaluations": [
+            {
+            "left": "patrick",
+            "right": true,
+            "_class": "org.apache.commons.lang3.tuple.MutablePair"
+            }
+          ]
+        },
+        {
+          "name": "Meine Filme",
+          "visibility": "Öffentlich",
+          "category": "Filme",
+          "collectionIds": [],
+          "evaluations": []
+        },
+        {
+          "collections": [
+            {
+              "_id": "ObjectId('659bf5607f5efb711a260e8c')",
+              "data": {
+                "DEVELOPERS": [
+                  "Team Cherry"
+                ],
+                "available_platforms": "OS *: Windows 7",
+                "category": "game",
+                "detailed_description": "Become the Princess KnightPlay as Hornet, princess-protector of Hallownest, and adventure through a whole new kingdom ruled by silk and song! Captured and brought to this unfamiliar world, Hornet must battle foes and solve mysteries as she ascends on a deadly pilgrimage to the kingdom’s peak.Hollow Knight: Silksong is the epic sequel to Hollow Knight, the award winning action-adventure. As the lethal hunter Hornet, journey to all-new lands, discover new powers, battle vast hordes of bugs and beasts and uncover ancient secrets tied to your nature and your past.Game FeaturesDiscover a whole new kingdom! Explore coral forests, mossy grottos, gilded cities and misted moors as you ascend to the shining citadel at the top of the world.Engage in lethal acrobatic action! Wield a whole new suite of deadly moves as you dance between foes in deadly, beautiful combat.Craft powerful tools! Master an ever-expanding arsenal of weapons, traps, and mechanisms to confound your enemies and explore new heights.Solve shocking quests! Hunt down rare beasts, solve ancient mysteries and search for lost treasures to fulfil the wishes of the downtrodden and restore the kingdom’s hope. Prepare for the unexpected!Face over 150 all-new foes! Beasts and hunters, assassins and kings, monsters and knights, defeat them all with bravery and skill!Challenge Silk Soul mode! Once you conquer the kingdom, test your skills in an all-new mode that spins the game into a unique, challenging experience.Experience a stunning orchestral score! Hollow Knight’s award-winning composer, Christopher Larkin, returns to bring melancholy melodies, symphonic strings and heart-thumping, soul strumming boss themes to the adventure.",
+                "genres": [
+                  "Action",
+                  "Adventure",
+                  "Indie"
+                ],
+                "languages": [
+                  "English",
+                  "French",
+                  "Italian",
+                  "German",
+                  "Spanish - Spain",
+                  "Japanese",
+                  "Korean",
+                  "Portuguese - Brazil",
+                  "Russian",
+                  "Simplified Chinese"
+                ],
+                "main_img": "https: //cdn.akamai.steamstatic.com/steam/apps/1030300/header.jpg?t=1695443850",
+                "necessary_desktop_resolution": "DirectX: Version 10",
+                "necessary_memory": "Graphics: GeForce 9800GTX+ (1GB)",
+                "necessary_processor": "Processor: Intel Core 2 Duo E5200",
+                "necessary_ram": "Memory: 4 GB RAM",
+                "required_age": "0",
+                "short_description": "Discover a vast, haunted kingdom in Hollow Knight: Silksong! The sequel to the award winning action-adventure. Explore, fight and survive as you ascend to the peak of a land ruled by silk and song."
+              }
+            },
+            {
+              "_id": "ObjectId('659acc5b41fd0535528cb8e4')",
+              "data": {
+                "DEVELOPERS": [
+                  "Mustafa CELIK"
+                ],
+                "available_platforms": "OS *: Microsoft® Windows® 7 / 8 / 10 (32-bit/64-bit)",
+                "category": "game",
+                "detailed_description": "Passengers of Execution is an independent game whose main theme is adventure/puzzle, although it contains many mechanics. It consists of maps that move along a linear line, designed in a way that you players",
+                "genres": [
+                  "Adventure",
+                  "Casual"
+                ],
+                "languages": [
+                  "English",
+                  "Turkish"
+                ],
+                "main_img": "https: //cdn.akamai.steamstatic.com/steam/apps/1551830/header.jpg?t=1695025635",
+                "necessary_desktop_resolution": "DirectX: Version 9.0",
+                "necessary_memory": "Graphics: 1366 x 768 pixels or higher desktop resolution",
+                "necessary_processor": "Processor: 2.0 GHz or faster processor",
+                "necessary_ram": "Memory: 4 GB RAM",
+                "price": "0,67€",
+                "required_age": "0",
+                "short_description": "Witness the journey of an officer in the homicide department from ordinary and invariably quiet life to an unknown world. Passengers of Execution is an independent game whose main theme is adventure/puzzle, although it contains many mechanics.",
+                "time_stamp": "1704643675562",
+                "title": "Passengers Of Execution"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
