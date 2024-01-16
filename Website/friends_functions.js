@@ -28,6 +28,13 @@ function generateFriendSammlungen(user, id) {
     showLink.innerHTML = "Ansehen";
     divElement.appendChild(showLink);
 
+    let importCollection = document.createElement("a");
+    importCollection.href = "#";
+    importCollection.classList.add("btn", "btn-primary");
+    importCollection.id = "cc-import-friend-collection-button";
+    importCollection.innerHTML = "Importieren";
+    divElement.appendChild(importCollection);
+
     showLink.addEventListener('click', function (event) {
         let usersSammlungenTitel = user["sammlungen"][id]["name"];
         let list = document.getElementById("cc-friends-collection");
