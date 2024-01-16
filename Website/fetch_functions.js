@@ -102,15 +102,16 @@ async function declineFriendRequest(currentUser, usernameFriend) {
 /*
  * Import Sammlung to Friends Collection (POST-COPY-SAMMLUNG)
  */
-async function importSammlungFromFriend(currentUser, sammlung) {
+async function importSammlungFromFriend(currentUser, userFriend, sammlungID) {
     const importSammlungUrl = new URL("http://localhost:8080/collection/users/copy-sammlung");
 
     importSammlungUrl.searchParams.append("username", currentUser);
+    importSammlungUrl.searchParams.append("usernameFriend", userFriend);
+    importSammlungUrl.searchParams.append("sammlungIdFriend", sammlungID);
 
     return await fetch(importSammlungUrl,
         {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify(sammlung)
         }).then(response => response.text());
 }

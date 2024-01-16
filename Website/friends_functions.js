@@ -72,7 +72,7 @@ function generateFriendSammlungen(user, id) {
         let sammlungsIndex = event.target.id.split("-").at(-1);
         console.log(user["sammlungen"][sammlungsIndex]);
 
-        importSammlungFromFriend(username, user["sammlungen"][sammlungsIndex])
+        importSammlungFromFriend(username, user["username"], sammlungsIndex)
             .catch(error => console.log(error));
     });
 
