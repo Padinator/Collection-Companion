@@ -377,9 +377,51 @@
 
             bearbeitenButton.addEventListener('click', function (event) {
                 bearbeitenButtonClickHandler(event, visibility);
+                showAllEntrys(event);
             });
 
             return sammlungEintrag;
+        }
+
+        function showAllEntrys(event) {
+            let list = document.getElementById("cc-list-of-all-sammlungen");
+
+            let sammlungNummer = event.target.id.split("-").at(-1);
+            console.log(event.target.id);
+            console.log(sammlungNummer);
+
+            getUserData().then(data => {
+                let collectionIDs = data["sammlungen"][parseInt(sammlungNummer - 1)]["collectionID"];
+                console.log(data);
+                console.log(collectionIDs);
+                for (let i = 0; i <= collectionIDs.length; i++) {
+                    let listItem = document.createElement("li");
+                    listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+                    listItem.setAttribute("data-bs-toggle", "modal");
+                    listItem.setAttribute("data-bs-target", "#showEntryModal");
+
+                    let closeButton = document.createElement("button");
+                    closeButton.type = "button";
+                    closeButton.classList.add("btn", "btn-outline-danger", "btn-sm", "cc-delete-entry-in-collection-button");
+                    closeButton.textContent = "X";
+
+                    // closeButton.addEventListener("click", function () {
+                    // });
+
+                    getCollection(collectionIDs[i]).then(collection => {
+                        listItem.appendChild(document.createTextNode(collection["title"]));
+                        listItem.appendChild(closeButton);
+                        list.appendChild(listItem);
+                    });
+                }
+            })
+        }
+
+        async function getCollection(collectionID) {
+            let url = new URL("http://localhost:8080/collection/" + collectionID);
+            return await fetch(url, {
+                method: 'GET'
+            }).then((respone) => respone.json());
         }
 
         function bearbeitenButtonClickHandler(event, visibility) {
@@ -442,34 +484,7 @@
                 passUsername(username, 'friends');
             });
 
-            document.getElementById("sammlungBearbeiten").addEventListener('shown.bs.modal', function (event) {
-                let list = document.getElementById("cc-list-of-all-sammlungen");
 
-                let sammlungNummer = event.target.id.split("-").at(-1);
-
-                getUserData().then(data => {
-                    let collectionIDs = data["sammlungen"][parseInt(sammlungNummer - 1)];
-
-                    for (let i = 1; i <= collectionIDs.length; i++) {
-                        let listItem = document.createElement("li");
-                        listItem.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
-                        listItem.setAttribute("data-bs-toggle", "modal");
-                        listItem.setAttribute("data-bs-target", "#showEntryModal");
-
-                        let closeButton = document.createElement("button");
-                        closeButton.type = "button";
-                        closeButton.classList.add("btn", "btn-outline-danger", "btn-sm", "cc-delete-entry-in-collection-button");
-                        closeButton.textContent = "X";
-
-                        // closeButton.addEventListener("click", function () {
-                        // });
-
-                        listItem.appendChild(document.createTextNode(sammlungen[i]["name"]));
-                        listItem.appendChild(closeButton);
-                        list.appendChild(listItem);
-                    }
-                })
-            });
 
         });
 
