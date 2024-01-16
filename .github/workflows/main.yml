@@ -3,24 +3,24 @@ on:
     branches: ["main"]
 name: Inspections    
 jobs:
-  # java-tests:
-  #   runs-on: ubuntu-latest
-  #   name: Checkstyle job 🥊
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v3
-  #   - name: Run check style
-  #     uses: nikitasavinov/checkstyle-action@master
-  #     with:
-  #       github_token: ${{ secrets.GITHUB_TOKEN }}
-  #       reporter: 'github-pr-check'
-  # build-and-test:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout code 🏗️
-  #     uses: actions/checkout@v3
-  #   - name: Start Docker Compose Services
-  #     run:  docker-compose -f dev-env_docker-compose.yml up -d --build --force-recreate
+  java-tests:
+    runs-on: ubuntu-latest
+    name: Checkstyle job 🥊
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Run check style
+      uses: nikitasavinov/checkstyle-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        reporter: 'github-pr-check'
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code 🏗️
+      uses: actions/checkout@v3
+    - name: Start Docker Compose Services
+      run:  docker-compose -f dev-env_docker-compose.yml up -d --build --force-recreate
                     
   playwright:
     name: Playwright 🎭
