@@ -115,3 +115,21 @@ async function importSammlungFromFriend(currentUser, userFriend, sammlungID) {
             headers: { 'Content-Type': 'text/plain' },
         }).then(response => response.text());
 }
+
+/*
+ * Eveluate Sammlung from Friends Collection (POST-EVALUATION-SAMMLUNG)
+ */
+async function evaluateSammlungFromFriend(currentUser, userFriend, sammlungID, evalute) {
+    const evaluateUrl = new URL("http://localhost:8080/collection/users/sammlung/evaluation");
+
+    evaluateUrl.searchParams.append("username", currentUser);
+    evaluateUrl.searchParams.append("usernameFriend", userFriend);
+    evaluateUrl.searchParams.append("sammlungIdFriend", sammlungID);
+    evaluateUrl.searchParams.append("evaluation", evalute);
+
+    return await fetch(evaluateUrl,
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+        }).then(response => response.text());
+}

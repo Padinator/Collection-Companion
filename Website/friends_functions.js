@@ -12,6 +12,10 @@ function generateFriendSammlungen(user, id) {
     thumbsUpButton.id = "cc-thumbs-up-button";
     thumbsUpButton.innerHTML = "👍";
     divElement.appendChild(thumbsUpButton);
+    thumbsUpButton.addEventListener('click', function(event) {
+        evaluateSammlungFromFriend(username, user["username"], id, true)
+        .catch(error => console.log(error));
+    });
 
     let thumbsDownButton = document.createElement("button");
     thumbsDownButton.type = "button";
@@ -19,6 +23,10 @@ function generateFriendSammlungen(user, id) {
     thumbsDownButton.id = "cc-thumbs-down-button";
     thumbsDownButton.innerHTML = "👎";
     divElement.appendChild(thumbsDownButton);
+    thumbsDownButton.addEventListener('click', function(event) {
+        evaluateSammlungFromFriend(username, user["username"], id, false)
+        .catch(error => console.log(error));
+    });
 
     let showLink = document.createElement("a");
     showLink.href = "#";
