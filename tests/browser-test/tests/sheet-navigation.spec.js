@@ -6,8 +6,7 @@ test('Opening Main Page', async ({ page }) => {
     // Navigate to Main page
     await page.goto('http://localhost:8090');
 
-    // Click on login button
-    await page.click('#cc-login');
+
 
     // Click on register button
     await page.click('#register');
@@ -20,6 +19,9 @@ test('Opening Main Page', async ({ page }) => {
     //Fill in login
     await page.type('#username', 'testuser');
     await page.type('#password', 'testpassword');
+
+    // Click on login button
+    await page.click('#cc-login');
 
     // Check if on the I am on the next right page 
     expect(page.url(), 'Not the right page ').toBe('http://localhost:8090/mainpage.html');
