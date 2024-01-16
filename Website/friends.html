@@ -16,11 +16,14 @@
 
     	<!-- DOM elements -->
 	<script type="module" src="friends_dom.js"></script>
+	<script type="module" src="all_dom.js"></script>
+	<!-- <script type="module" src="frineds_friend-requests_dom.js"></script> -->
 
 	<!-- JavaScript functions -->
 	<script type="text/javascript" src="friends_functions.js" defer></script>
 	<script type="text/javascript" src="PassUsername.js" defer></script>
 	<script type="text/javascript" src="fetch_functions.js" defer></script>
+	<!-- <script type="text/javascript" src="frineds_friend-requests_functions.js" defer></script> -->
 
     <title>Collection Companion</title>
 </head>
@@ -52,18 +55,20 @@
             <div class="col-md-8">
                 <form class="d-flex">
                     <div class="input-group">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;" disabled>
+                        <button id="category-text" value="Kategorien" class="btn btn-outline-secondary dropdown-toggle"
+                            type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            style="height: 40px;">
                             Kategorien
                         </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Spiele</a>
-                            <a class="dropdown-item" href="#">Filme</a>
-                            <a class="dropdown-item" href="#">Serien</a>
+                        <div id="category-select" class="dropdown-menu">
+                            <a class="dropdown-item">Spiele</a>
+                            <a class="dropdown-item">Filme</a>
+                            <a class="dropdown-item">Serien</a>
                         </div>
-                        <input class="form-control" type="search" placeholder="Suche" aria-label="Search"
-                            style="height: 40px;" disabled>
-                        <button class="btn btn-primary ms-auto" type="submit" style="height: 40px;" disabled>
+                        <input id="search" class="form-control" type="search" placeholder="Suche" aria-label="Search"
+                            style="height: 40px;">
+                        <button id="cc-search-button" class="btn btn-primary ms-auto" type="button"
+                            style="height: 40px;">
                             Suche
                         </button>
                     </div>
@@ -73,12 +78,14 @@
             <!-- Spalte 3: Collection und Freunde Button -->
             <div class="col-md-2">
                 <div class="d-flex justify-content-center">
-                    <a class="btn btn-outline-dark mx-auto" id="cc-collection-button" style="height: 40px;"><svg
-                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    <a class="btn btn-outline-dark mx-auto" id="cc-collection-button" style="height: 40px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-bookmark" viewBox="0 0 16 16">
                             <path
                                 d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
-                        </svg></a>
+                        </svg>
+                    </a>
+
                     <!-- Freunde Dropdown -->
                     <div class="dropdown mx-auto">
                         <button class="btn btn-outline-dark dropdown-toggle" style="height: 40px;" type="button"
@@ -90,7 +97,26 @@
                             </svg>
                             Freunde
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="freundeDropdown">
+                        <ul class="dropdown-menu" aria-labelledby="freundeDropdown" id="cc-freundeDropdown">
+                            <!-- Freunde Hinzufuegen -->
+                            <li><a class="dropdown-item" data-bs-toggle="modal"
+                                    data-bs-target="#freundeSuchenModal">Freund Hinzufügen</a></li>
+                            <!-- Freundesanfragen -->
+                            <li class="dropdown-item d-flex justify-content-between align-items-center">
+                                <span class="flex-grow-1">Dominik</span>
+                                <div>
+                                    <button class="btn btn-success btn-sm">✔</button>
+                                    <button class="btn btn-danger btn-sm">✘</button>
+                                </div>
+                            </li>
+                            <li class="dropdown-item d-flex justify-content-between align-items-center">
+                                <span class="flex-grow-1">Patrick</span>
+                                <div>
+                                    <button class="btn btn-success btn-sm">✔</button>
+                                    <button class="btn btn-danger btn-sm">✘</button>
+                                </div>
+                            </li>
+                            <!-- Freunde anzeigen -->
                             <li><a class="dropdown-item" id="cc-friends-link">Freund 1</a></li>
                             <li><a class="dropdown-item">Freund 2</a></li>
                             <li><a class="dropdown-item">Freund 3</a></li>
@@ -98,6 +124,7 @@
                     </div>
                 </div>
             </div>
+        </div>
 
         </div>
 
@@ -140,6 +167,36 @@
                 </ul>
             </div>
         </div>
+
+        <!-- Pop Up Fenster um nach Freunden zu suchen und diese Hinzuzufügen -->
+        <!--<div w3-include-html="friendPopup.html"></div>--> <!-- Does not work!!! -->
+		<div class="modal fade" id="freundeSuchenModal" tabindex="-1" aria-labelledby="freundeSuchenLabel"
+			aria-hidden="false">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="freuneSuchenLabel">Freunde Suchen</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="mb-3">
+								<label for="freundSuchenInput" class="form-label">Freund suchen:</label>
+								<input type="text" class="form-control" id="freundSuchenInput"
+									placeholder="Gib den Freund ein">
+							</div>
+							<ul class="list-group" id="freundListe">
+
+							</ul>
+							<div class="d-flex justify-content-center mt-2">
+								<button type="button" class="btn btn-primary"
+									id="cc-search-friend-button">Suchen</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
         <!-- Pop-Up Fenster fuer Sammlung Ansehen -->
         <div class="modal fade" id="sammlungAnsehen" tabindex="-1" aria-labelledby="sammlungAnsehenLabel"

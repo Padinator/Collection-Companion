@@ -16,11 +16,14 @@
 
 	<!-- DOM elements -->
 	<script type="module" src="mainpage_dom.js"></script>
+	<script type="module" src="all_dom.js"></script>
+	<script type="module" src="frineds_friend-requests_dom.js"></script>
 
 	<!-- JavaScript functions -->
 	<script type="text/javascript" src="mainpage_functions.js" defer></script>
 	<script type="text/javascript" src="PassUsername.js" defer></script>
 	<script type="text/javascript" src="fetch_functions.js" defer></script>
+	<script type="text/javascript" src="frineds_friend-requests_functions.js" defer></script>
 
     <title>Collection Companion</title>
 </head>
@@ -142,34 +145,34 @@
         </div>
 
         <!-- Pop Up Fenster um nach Freunden zu suchen und diese Hinzuzufügen -->
-        <div class="modal fade" id="freundeSuchenModal" tabindex="-1" aria-labelledby="freundeSuchenLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="freuneSuchenLabel">Freunde Suchen</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="freundSuchenInput" class="form-label">Freund suchen:</label>
-                                <input type="text" class="form-control" id="freundSuchenInput"
-                                    placeholder="Gib den Freund ein">
-                            </div>
-                            <ul class="list-group" id="freundListe">
+        <!--<div w3-include-html="friendPopup.html"></div>--> <!-- Does not work!!! -->
+		<div class="modal fade" id="freundeSuchenModal" tabindex="-1" aria-labelledby="freundeSuchenLabel"
+			aria-hidden="false">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="freuneSuchenLabel">Freunde Suchen</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="mb-3">
+								<label for="freundSuchenInput" class="form-label">Freund suchen:</label>
+								<input type="text" class="form-control" id="freundSuchenInput"
+									placeholder="Gib den Freund ein">
+							</div>
+							<ul class="list-group" id="freundListe">
 
-                            </ul>
-                            <div class="d-flex justify-content-center mt-2">
-                                <button type="button" class="btn btn-primary"
-                                    id="cc-search-friend-button">Suchen</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+							</ul>
+							<div class="d-flex justify-content-center mt-2">
+								<button type="button" class="btn btn-primary"
+									id="cc-search-friend-button">Suchen</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
         <!-- Pop-Up Fenster fuer Sammlung hinzufuegen -->
         <div class="modal fade" id="sammlungHinzufuegen" tabindex="-1" aria-labelledby="sammlungHinzufuegenLabel"

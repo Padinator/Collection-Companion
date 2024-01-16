@@ -42,48 +42,10 @@ function setSammlungHinzufuegenContent(data) {
 	let headerTitle = document.getElementById('sammlungErstellenModalLabel');
 	let displayingData = {};
 
-	sammlungsDiv.innerHTML = ''; // Reset content
-
 	// Unpack all data of a collection/search result
-	for (const [key, value] of Object.entries(data)) {
-		let resultStr = "";
-
-		if (key === 'id' || key === 'time_stamp') // Value is ID => ignore
-			continue;
-		if (key === 'title') {
-			headerTitle.innerText = value;
-			continue;
-		} else if (key === 'detailed_description') // Value is a detailed description => limit chars
-			resultStr = value.substring(0, 200) + " ...";
-		else if (key === 'short_description') // Value is a short description => limit chars
-			resultStr = value.substring(0, 100) + " ...";
-		else if (Array.isArray(value)) { // Value is an array -> bring in one line separated string
-			resultStr = value.join(', ');
-		} else // Value is a single value
-			resultStr = value;
-
-		// Set attributes
-		let title = document.createElement('p');
-		let content = key === 'main_img' ? document.createElement('img') : document.createElement('p'); // p => text; img => main image
-		let resultKey = key.toLowerCase().replaceAll('_', ' ');
-		resultStr = resultStr.toLowerCase().replaceAll('_', ' ');
-
-		resultKey = resultKey.charAt(0).toUpperCase() + resultKey.slice(1);
-		resultStr = resultStr.charAt(0).toUpperCase() + resultStr.slice(1);
-
-		title.innerText = resultKey + ":";
-		title.setAttribute('style', 'float: left; width: 50%');
-
-		if (key === "main_img")
-			content.setAttribute('src', value);
-		else
-			content.innerText = resultStr;
-		content.setAttribute('style', 'float: left; width: 50%');
-
-		// Add to parent
-		sammlungsDiv.appendChild(title);
-		sammlungsDiv.appendChild(content);
-	}
+	const result = addDataForPopup(data);
+	sammlungsDiv.innerHTML = result["sammlungsDiv"].innerHTML;
+	headerTitle.innerHTML = result["headerTitle"].innerHTML;
 
 	// Set Dropdown for "Sammlung hinzufuegen"
 	let sammlungsDropdown = document.getElementById('kategorie');
@@ -144,82 +106,51 @@ function setSammlungHinzufuegenContent(data) {
 }
 
 /*
- * Create a button as first element of a dropdown
+ * Add passed data to div and title for creating a popup and return title and div
  */
-function createAddFriendsDropdownElement() {
-	let addFriendElem = document.createElement("li");
-	let a = document.createElement("a");
+function addDataForPopup(data) {
+	let sammlungsDiv = document.createElement('div');
+	let headerTitle = document.createElement('h5');
 
-	// Set porperties/attributes
-	a.setAttribute("class", "dropdown-item");
-	a.setAttribute("data-bs-toggle", "modal");
-	a.setAttribute("data-bs-target", "#freundeSuchenModal");
-	a.innerText = "Freund Hinzufügen";
+	for (const [key, value] of Object.entries(data)) {
+		let resultStr = "";
 
-	// Add elements to their parent
-	addFriendElem.appendChild(a);
+		if (key === 'id' || key === 'time_stamp') // Value is ID => ignore
+			continue;
+		if (key === 'title') {
+			headerTitle.innerText = value;
+			continue;
+		} else if (key === 'detailed_description') // Value is a detailed description => limit chars
+			resultStr = value.substring(0, 200) + " ...";
+		else if (key === 'short_description') // Value is a short description => limit chars
+			resultStr = value.substring(0, 100) + " ...";
+		else if (Array.isArray(value)) { // Value is an array -> bring in one line separated string
+			resultStr = value.join(', ');
+		} else // Value is a single value
+			resultStr = value;
 
-	return addFriendElem;
-}
+		// Set attributes
+		let title = document.createElement('p');
+		let content = key === 'main_img' ? document.createElement('img') : document.createElement('p'); // p => text; img => main image
+		let resultKey = key.toLowerCase().replaceAll('_', ' ');
+		resultStr = resultStr.toLowerCase().replaceAll('_', ' ');
 
-/*
- * Create dropdown element for a friend
- */
-function createDropdownElementFriendRequest(usernameFriend) {
-	let friendRequestElem = document.createElement("li");
-	let span = document.createElement("span");
-	let buttonDiv = document.createElement("div");
-	let buttonAccept = document.createElement("button");
-	let buttonDecline = document.createElement("button");
+		resultKey = resultKey.charAt(0).toUpperCase() + resultKey.slice(1);
+		resultStr = resultStr.charAt(0).toUpperCase() + resultStr.slice(1);
 
-	// Set properties/attributes
-	friendRequestElem.setAttribute("class", "dropdown-item d-flex justify-content-between align-items-center");
-	span.setAttribute("class", "flex-grow-1");
-	span.innerText = usernameFriend;
-	buttonAccept.setAttribute("class", "btn btn-success btn-sm");
-	buttonAccept.innerText = "✔";
-	buttonDecline.setAttribute("class", "btn btn-danger btn-sm");
-	buttonDecline.innerText = "✘";
-	buttonAccept.addEventListener("click", (event) => {
-		acceptFriendRequest(username, usernameFriend)
-		.then(response => {
-			window.location.reload();
-		})
-		.catch((error) => console.log(error));
-	});
-	buttonDecline.addEventListener("click", (event) => {
-		declineFriendRequest(username, usernameFriend)
-		.then(response => {
-			window.location.reload();
-		})
-		.catch((error) => console.log(error));
-	});
+		title.innerText = resultKey + ":";
+		title.setAttribute('style', 'float: left; width: 50%');
 
-	// Add elements to their parent
-	buttonDiv.appendChild(buttonAccept);
-	buttonDiv.appendChild(buttonDecline);
-	friendRequestElem.appendChild(span);
-	friendRequestElem.appendChild(buttonDiv);
+		if (key === "main_img")
+			content.setAttribute('src', value);
+		else
+			content.innerText = resultStr;
+		content.setAttribute('style', 'float: left; width: 50%');
 
-	return friendRequestElem;
-}
+		// Add to parent
+		sammlungsDiv.appendChild(title);
+		sammlungsDiv.appendChild(content);
+	}
 
- /*
- * Create dropdown element for a friend request
- */
-function createDropdownElementFriend(usernameFriend) {
-	let friendElem = document.createElement("li");
-	let a = document.createElement("a");
-
-	// Set porperties/attributes
-	a.setAttribute("class", "dropdown-item");
-	a.addEventListener('click', function (event) {
-		passUsername(username, 'friends');
-	});
-	a.innerText = usernameFriend;
-
-	// Add elements to their parent
-	friendElem.appendChild(a);
-
-	return friendElem;
+	return { "sammlungsDiv": sammlungsDiv, "headerTitle": headerTitle }
 }

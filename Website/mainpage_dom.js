@@ -1,103 +1,57 @@
 
-/*
- * Load first all DOM Elements
- */
-document.addEventListener("DOMContentLoaded", function () {
-	let urlParams = new URLSearchParams(window.location.search);
-	let username = urlParams.get('username');
-
-	document.getElementById("cc-mainpage-button").addEventListener('click', function (event) {
-		console.log(username);
-		passUsername(username, 'mainpage');
-	});
-
-	document.getElementById("cc-account-button").addEventListener('click', function (event) {
-		passUsername(username, 'account');
-	});
-
-	document.getElementById("cc-collection-button").addEventListener('click', function (event) {
-		passUsername(username, 'collection');
-	});
-
-	document.getElementById("freundSuchenInput").addEventListener("keypress", event => {
-		if (event.key === "Enter")
-			event.preventDefault(); // Cancel the default action, if needed
-	});
-
-	document.getElementById("freundSuchenInput").addEventListener("keyup", event => {
-		if (event.key === "Enter")
-			event.preventDefault(); // Cancel the default action, if needed
-
-		document.getElementById("cc-search-friend-button").click(); // Trigger the button element with a click
-	});
-
-	document.getElementById("cc-search-friend-button").addEventListener('click', function (event) {
-		event.preventDefault();
-		const freundList = document.getElementById('freundListe');
-		freundList.innerHTML = "";
-
-		const friendSearchTerm = document.getElementById("freundSuchenInput").value;
-		let urlParams = new URLSearchParams(window.location.search);
-		//let username = urlParams.get('username');
-
-		// Search for friends
-		searchForUsers(username, friendSearchTerm)
-			.then(friends => {
-				console.log("friends: " + friends);
-				// Display all found friends
-				friends.forEach(friend => {
-					const listelement = document.createElement("li");
-					listelement.className = "list-group-item d-flex justify-content-between align-items-center";
-					listelement.textContent = friend;
-
-					const addButton = document.createElement("button");
-					addButton.className = "btn btn-success btn-sm";
-					addButton.textContent = "Hinzufügen";
-					addButton.addEventListener("click", event => {
-						event.preventDefault();
-						alert("Freund '" + friend + "' wurde hinzugefügt!");
-						freundList.removeChild(listelement); // Remove potential friend from list after requesting him to be a friend
-
-						// Fetch/Do POST-Request to add friend via API-Gateway
-						doFriendRequest(username, friend)
-							.catch((error) => console.log(error));
-					});
-
-					listelement.appendChild(addButton);
-					freundList.appendChild(listelement);
-				});
-			})
-			.catch((error) => console.log(error));
-	});
+// Extract later to another file
+document.getElementById("freundSuchenInput").addEventListener("keypress", event => {
+	if (event.key === "Enter")
+		event.preventDefault(); // Cancel the default action, if needed
 });
 
-/*
- * Update list of friends and friend requests during window reload
- */
-window.onload = (event) => {
-	let friendsDropdown = document.getElementById("cc-freundeDropdown");
-	friendsDropdown.innerHTML = ""; // Delete all friends and friend requests
-	friendsDropdown.appendChild(createAddFriendsDropdownElement());
+document.getElementById("freundSuchenInput").addEventListener("keyup", event => {
+	if (event.key === "Enter")
+		event.preventDefault(); // Cancel the default action, if needed
 
-	getUserData(username)
-	.then(userData => {
-		let friendRequests = userData["userFriendRequestsId"];
-		let friends = userData["userFriendsID"];
+	document.getElementById("cc-search-friend-button").click(); // Trigger the button element with a click
+});
 
-		console.log("Friend-Requests: " + friendRequests);
-		console.log("Friends: " + friends);
+document.getElementById("cc-search-friend-button").addEventListener('click', function (event) {
+	event.preventDefault();
+	const freundList = document.getElementById('freundListe');
+	freundList.innerHTML = "";
 
-		// Append all friend requests to dropdown
-		friendRequests.forEach(friendRequest => {
-			friendsDropdown.appendChild(createDropdownElementFriendRequest(friendRequest));
-		});
+	const friendSearchTerm = document.getElementById("freundSuchenInput").value;
+	let urlParams = new URLSearchParams(window.location.search);
+	//let username = urlParams.get('username');
 
-		// Append all friends to dropdown
-		friends.forEach(friend => {
-			friendsDropdown.appendChild(createDropdownElementFriend(friend));
-		});
-	});
-}
+	// Search for friends
+	searchForUsers(username, friendSearchTerm)
+		.then(friends => {
+			console.log("friends: " + friends);
+			// Display all found friends
+			friends.forEach(friend => {
+				const listelement = document.createElement("li");
+				listelement.className = "list-group-item d-flex justify-content-between align-items-center";
+				listelement.textContent = friend;
+
+				const addButton = document.createElement("button");
+				addButton.className = "btn btn-success btn-sm";
+				addButton.textContent = "Hinzufügen";
+				addButton.addEventListener("click", event => {
+					event.preventDefault();
+					alert("Freund '" + friend + "' wurde hinzugefügt!");
+					freundList.removeChild(listelement); // Remove potential friend from list after requesting him to be a friend
+
+					// Fetch/Do POST-Request to add friend via API-Gateway
+					doFriendRequest(username, friend)
+						.catch((error) => console.log(error));
+				});
+
+				listelement.appendChild(addButton);
+				freundList.appendChild(listelement);
+			});
+		})
+		.catch((error) => console.log(error));
+});
+
+
 
 // Do something
 const fetchData = {
