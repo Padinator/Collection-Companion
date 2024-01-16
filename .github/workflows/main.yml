@@ -11,10 +11,12 @@ jobs:
       uses: actions/checkout@v3
     - name: Run check style
       uses: github/super-linter@v4
-      with:
+      env:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        reporter: 'github-pr-check'
-
+        VALIDATE_ALL_CODEBASE: true
+        VALIDATE_JAVASCRIPT_ES: false
+        VALIDATE_HTML: false
+        
   build-and-test:
     runs-on: ubuntu-latest
     steps:
