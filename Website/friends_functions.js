@@ -28,12 +28,89 @@ function generateFriendSammlungen(user, id) {
     showLink.innerHTML = "Ansehen";
     divElement.appendChild(showLink);
 
-    showLink.addEventListener('click', function(event) {
-        console.log("Hier!");
+    showLink.addEventListener('click', function (event) {
+        let usersSammlungenTitel = user["sammlungen"][id]["name"];
+        let list = document.getElementById("cc-friends-collection");
+
+        let collectionIDs = user["sammlungen"].find(item => item.name === usersSammlungenTitel)["collectionID"];
+        console.log(collectionIDs);
+
+        for (let i = 0; i < collectionIDs.length; i++) {
+            let listItem = document.createElement("li");
+            listItem.classList.add("list-group-item");
+            listItem.setAttribute("data-bs-toggle", "modal");
+            listItem.setAttribute("data-bs-target", "#showCollectionEntry");
+            listItem.setAttribute("id", "cc-collection-friend-entry-" + i);
+
+            getCollection(collectionIDs[i])
+                .then(collection => {
+                    listItem.appendChild(document.createTextNode(collection["title"]));
+                    listItem.addEventListener('click', event => {
+                        const result = addDataForPopup(collection);
+                        let sammlungsDiv = result["sammlungsDiv"];
+                        let headerTitle = result["headerTitle"];
+                        document.getElementById("sammlungErstellenModalLabel").innerHTML = headerTitle.innerHTML;
+                        document.getElementById("sammlungsinhalt").innerHTML = sammlungsDiv.innerHTML;
+                    });
+                    list.appendChild(listItem);
+                });
+        }
     });
 
     listEntry.appendChild(divElement);
 
     let friendList = document.getElementById("cc-saved-users-sammlungen");
     friendList.appendChild(listEntry);
+}
+
+// Hier war was
+
+/*
+ * Add passed data to div and title for creating a popup and return title and div
+ */
+function addDataForPopup(data) {
+    let sammlungsDiv = document.createElement('div');
+    let headerTitle = document.createElement('h5');
+
+    for (const [key, value] of Object.entries(data)) {
+        let resultStr = "";
+
+        if (key === 'id' || key === 'time_stamp') // Value is ID => ignore
+            continue;
+        if (key === 'title') {
+            headerTitle.innerText = value;
+            continue;
+        } else if (key === 'detailed_description') // Value is a detailed description => limit chars
+            resultStr = value.substring(0, 200) + " ...";
+        else if (key === 'short_description') // Value is a short description => limit chars
+            resultStr = value.substring(0, 100) + " ...";
+        else if (Array.isArray(value)) { // Value is an array -> bring in one line separated string
+            resultStr = value.join(', ');
+        } else // Value is a single value
+            resultStr = value;
+
+        // Set attributes
+        let title = document.createElement('p');
+        let content = key === 'main_img' ? document.createElement('img') : document.createElement('p'); // p => text; img => main image
+        let resultKey = key.toLowerCase().replaceAll('_', ' ');
+        resultStr = resultStr.toLowerCase().replaceAll('_', ' ');
+
+        resultKey = resultKey.charAt(0).toUpperCase() + resultKey.slice(1);
+        resultStr = resultStr.charAt(0).toUpperCase() + resultStr.slice(1);
+
+        title.innerText = resultKey + ":";
+        title.setAttribute('style', 'float: left; width: 50%');
+
+        if (key === "main_img")
+            content.setAttribute('src', value);
+        else
+            content.innerText = resultStr;
+        content.setAttribute('style', 'float: left; width: 50%');
+
+        // Add to parent
+        sammlungsDiv.appendChild(title);
+        sammlungsDiv.appendChild(content);
+    }
+
+    return { "sammlungsDiv": sammlungsDiv, "headerTitle": headerTitle }
 }

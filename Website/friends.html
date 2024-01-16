@@ -14,19 +14,20 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
-    	<!-- DOM elements -->
-	<script type="module" src="friends_dom.js"></script>
-	<script type="module" src="all_dom.js"></script>
-	<!-- <script type="module" src="frineds_friend-requests_dom.js"></script> -->
+    <!-- DOM elements -->
+    <script type="module" src="friends_dom.js"></script>
+    <script type="module" src="all_dom.js"></script>
+    <!-- <script type="module" src="frineds_friend-requests_dom.js"></script> -->
 
-	<!-- JavaScript functions -->
-	<script type="text/javascript" src="friends_functions.js" defer></script>
-	<script type="text/javascript" src="PassUsername.js" defer></script>
-	<script type="text/javascript" src="fetch_functions.js" defer></script>
-	<!-- <script type="text/javascript" src="frineds_friend-requests_functions.js" defer></script> -->
+    <!-- JavaScript functions -->
+    <script type="text/javascript" src="friends_functions.js" defer></script>
+    <script type="text/javascript" src="PassUsername.js" defer></script>
+    <script type="text/javascript" src="fetch_functions.js" defer></script>
+    <!-- <script type="text/javascript" src="frineds_friend-requests_functions.js" defer></script> -->
 
     <title>Collection Companion</title>
 </head>
+
 <body>
     <h1 class="display-6 text-center m-2">Collection Companion</h1>
 
@@ -126,94 +127,110 @@
             </div>
         </div>
 
+    </div>
+
+    <!-- Webseiten Inhalt -->
+    <div class="row mt-5">
+        <div class="col-md-8 d-flex flex-column mx-auto border rounded" style="height: 50vh;">
+            <h3 class="text-center my-2" id="cc-friend-name">Profil: Freund 1
+                <hr class="my-2">
+            </h3>
+
+            <h5 class="text-left my-2">Auflistung aller Öffentlichen Sammlungen</h5>
+
+            <!-- Liste der oeffentlichen Sammlungen des Freundes -->
+            <ul class="list-group" id="cc-saved-users-sammlungen">
+
+            </ul>
         </div>
+    </div>
 
-        <!-- Webseiten Inhalt -->
-        <div class="row mt-5">
-            <div class="col-md-8 d-flex flex-column mx-auto border rounded" style="height: 50vh;">
-                <h3 class="text-center my-2" id="cc-friend-name">Profil: Freund 1
-                    <hr class="my-2">
-                </h3>
+    <!-- Pop Up Fenster um nach Freunden zu suchen und diese Hinzuzufügen -->
+    <!--<div w3-include-html="friendPopup.html"></div>--> <!-- Does not work!!! -->
+    <div class="modal fade" id="freundeSuchenModal" tabindex="-1" aria-labelledby="freundeSuchenLabel"
+        aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="freuneSuchenLabel">Freunde Suchen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="freundSuchenInput" class="form-label">Freund suchen:</label>
+                            <input type="text" class="form-control" id="freundSuchenInput"
+                                placeholder="Gib den Freund ein">
+                        </div>
+                        <ul class="list-group" id="freundListe">
 
-                <h5 class="text-left my-2">Auflistung aller Öffentlichen Sammlungen</h5>
-
-                <!-- Liste der oeffentlichen Sammlungen des Freundes -->
-                <ul class="list-group" id="cc-saved-users-sammlungen">
-                    
-                </ul>
-            </div>
-        </div>
-
-        <!-- Pop Up Fenster um nach Freunden zu suchen und diese Hinzuzufügen -->
-        <!--<div w3-include-html="friendPopup.html"></div>--> <!-- Does not work!!! -->
-		<div class="modal fade" id="freundeSuchenModal" tabindex="-1" aria-labelledby="freundeSuchenLabel"
-			aria-hidden="false">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="freuneSuchenLabel">Freunde Suchen</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<form>
-							<div class="mb-3">
-								<label for="freundSuchenInput" class="form-label">Freund suchen:</label>
-								<input type="text" class="form-control" id="freundSuchenInput"
-									placeholder="Gib den Freund ein">
-							</div>
-							<ul class="list-group" id="freundListe">
-
-							</ul>
-							<div class="d-flex justify-content-center mt-2">
-								<button type="button" class="btn btn-primary"
-									id="cc-search-friend-button">Suchen</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-
-        <!-- Pop-Up Fenster fuer Sammlung Ansehen -->
-        <div class="modal fade" id="sammlungAnsehen" tabindex="-1" aria-labelledby="sammlungAnsehenLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="sammlungAnsehenLabel">Sammlung Ansehen</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h4>Einträge in dieser Sammlung:</h4>
-                        <ul class="list-group">
-                            <!-- Beispiel-Einträge, ersetze dies durch deine dynamischen Daten -->
-                            <li class="list-group-item">Eintrag 1</li>
-                            <li class="list-group-item">Eintrag 2</li>
-                            <li class="list-group-item">Eintrag 3</li>
-                            <!-- Weitere Einträge hier ... -->
                         </ul>
-                    </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <button type="button" class="btn btn-primary" id="cc-search-friend-button">Suchen</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 
-
-        <!-- Vorschlag Box -->
-        <div class="row mt-5">
-            <div class="col-md-8 border rounded p-4 mx-auto">
-                <div class="row text-center">
-                    <div class="col-md-4">
-                        <img src="bild1.jpg" alt="Bild 1">
-                    </div>
-                    <div class="col-md-4">
-                        <img src="bild2.jpg" alt="Bild 2">
-                    </div>
-                    <div class="col-md-4">
-                        <img src="bild3.jpg" alt="Bild 3">
-                    </div>
+    <!-- Pop-Up Fenster fuer Sammlung Ansehen -->
+    <div class="modal fade" id="sammlungAnsehen" tabindex="-1" aria-labelledby="sammlungAnsehenLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sammlungAnsehenLabel">Sammlung Ansehen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h4>Einträge in dieser Sammlung:</h4>
+                    <ul class="list-group" id="cc-friends-collection">
+                        <!-- Beispiel-Einträge, ersetze dies durch deine dynamischen Daten -->
+                        <!-- <li class="list-group-item">Eintrag 1</li> -->
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Pop-Up Fenster fuer Sammlungseintrag ansehen -->
+    <div class="modal fade" id="showCollectionEntry" tabindex="-1" aria-labelledby="sammlungHinzufuegenLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sammlungErstellenModalLabel">Sammlung hinzufügen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <!-- Sammlungsinhalt anzeigen -->
+                        <div id="sammlungsinhalt">Sammlungsinhalt</div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Vorschlag Box -->
+    <div class="row mt-5">
+        <div class="col-md-8 border rounded p-4 mx-auto">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <img src="bild1.jpg" alt="Bild 1">
+                </div>
+                <div class="col-md-4">
+                    <img src="bild2.jpg" alt="Bild 2">
+                </div>
+                <div class="col-md-4">
+                    <img src="bild3.jpg" alt="Bild 3">
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 </body>
 

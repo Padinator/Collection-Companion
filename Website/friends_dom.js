@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 window.onload = (event) => {
     let friend = urlParams.get('friend');
 	getUserData(friend).then(user => {
-        document.getElementById("cc-friend-name").innerHTML = "Profil von: " + user["username"];
+        document.getElementById("cc-friend-name").innerHTML = "Profil von " + user["username"];
         console.log(user["userFriendsID"]);
         console.log(user);
         let userSammlungen = user["sammlungen"];
