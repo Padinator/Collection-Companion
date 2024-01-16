@@ -27,8 +27,8 @@ window.onload = (event) => {
     let friend = urlParams.get('friend');
     getUserData(friend).then(user => {
         document.getElementById("cc-friend-name").innerHTML = "Profil von " + user["username"];
-        console.log(user["userFriendsID"]);
-        console.log(user);
+        // console.log(user["userFriendsID"]);
+        // console.log(user);
         let userSammlungen = user["sammlungen"];
 
         for (let i = 0; i < userSammlungen.length; i++)

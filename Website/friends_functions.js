@@ -1,6 +1,7 @@
 function generateFriendSammlungen(user, id) {
     let listEntry = document.createElement("li");
     listEntry.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+    listEntry.setAttribute("id", "cc-collection-friend-entry-" + id);
     let textNode = document.createTextNode(user["sammlungen"][id]["name"]);
     listEntry.appendChild(textNode);
     let divElement = document.createElement("div");
@@ -31,7 +32,7 @@ function generateFriendSammlungen(user, id) {
     let importCollection = document.createElement("a");
     importCollection.href = "#";
     importCollection.classList.add("btn", "btn-primary");
-    importCollection.id = "cc-import-friend-collection-button";
+    importCollection.id = "cc-import-friend-collection-button-" + id;
     importCollection.innerHTML = "Importieren";
     divElement.appendChild(importCollection);
 
@@ -47,11 +48,11 @@ function generateFriendSammlungen(user, id) {
             listItem.classList.add("list-group-item");
             listItem.setAttribute("data-bs-toggle", "modal");
             listItem.setAttribute("data-bs-target", "#showCollectionEntry");
-            listItem.setAttribute("id", "cc-collection-friend-entry-" + i);
 
             getCollection(collectionIDs[i])
                 .then(collection => {
-                    listItem.appendChild(document.createTextNode(collection["title"]));
+                    // listItem.appendChild(document.createTextNode(collection["title"]));
+                    listItem.innerHTML = collection["title"];
                     listItem.addEventListener('click', event => {
                         const result = addDataForPopup(collection);
                         let sammlungsDiv = result["sammlungsDiv"];
@@ -62,6 +63,16 @@ function generateFriendSammlungen(user, id) {
                     list.appendChild(listItem);
                 });
         }
+    });
+
+    importCollection.addEventListener('click', function (event) {
+        console.log(user["sammlungen"]);
+
+        let sammlungsIndex = event.target.id.split("-").at(-1);
+        console.log(user["sammlungen"][sammlungsIndex]);
+
+        
+
     });
 
     listEntry.appendChild(divElement);
