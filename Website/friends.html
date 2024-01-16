@@ -20,42 +20,10 @@
 	<!-- JavaScript functions -->
 	<script type="text/javascript" src="friends_functions.js" defer></script>
 	<script type="text/javascript" src="PassUsername.js" defer></script>
+	<script type="text/javascript" src="fetch_functions.js" defer></script>
 
     <title>Collection Companion</title>
 </head>
-
-<script>
-
-    // Load first all DOM Elements
-    document.addEventListener("DOMContentLoaded", function () {
-        let urlParams = new URLSearchParams(window.location.search);
-        let username = urlParams.get('username');
-
-        document.getElementById("cc-mainpage-button").addEventListener('click', function (event) {
-            console.log(username);
-            passUsername(username, 'mainpage');
-        });
-
-        document.getElementById("cc-account-button").addEventListener('click', function (event) {
-            passUsername(username, 'account');
-        });
-
-        document.getElementById("cc-collection-button").addEventListener('click', function (event) {
-            passUsername(username, 'collection');
-        });
-
-        document.getElementById("cc-friends-link").addEventListener('click', function (event) {
-            passUsername(username, 'friends');
-        });
-    });
-
-	// cc-saved-users-sammlungen
-	window.onload = (event) => {
-		
-	};
-
-</script>
-
 <body>
     <h1 class="display-6 text-center m-2">Collection Companion</h1>
 
