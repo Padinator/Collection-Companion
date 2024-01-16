@@ -10,7 +10,8 @@
       "sammlungen": [],
       "userFriendRequestsId": [
         "Mila582"
-      ]
+      ],
+      "evaluations": []
     },
     {
       "username": "Mila582",
@@ -39,19 +40,28 @@
           "collectionIds": [
             "659bf5607f5efb711a260e8c",
             "659acc5b41fd0535528cb8e4"
-          ]
+          ],
+          "evaluations": []
         },
         {
           "name": "Meine Serien",
           "visibility": "Freunde",
           "category": "Serien",
-          "collectionIds": []
+          "collectionIds": [],
+          "evaluations": [
+            {
+            "left": "patrick",
+            "right": true,
+            "_class": "org.apache.commons.lang3.tuple.MutablePair"
+            }
+          ]
         },
         {
           "name": "Meine Filme",
           "visibility": "Öffentlich",
           "category": "Filme",
-          "collectionIds": []
+          "collectionIds": [],
+          "evaluations": []
         },
         {
           "collections": [
