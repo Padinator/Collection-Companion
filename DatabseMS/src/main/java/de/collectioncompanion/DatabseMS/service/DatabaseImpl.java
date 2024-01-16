@@ -147,8 +147,7 @@ public class DatabaseImpl implements Database {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.getSammlungen().add(new Sammlung(sammlung.getName(), sammlung.getVisibility(), sammlung.getCategory(),
-                    sammlung.getCollectionIds(), sammlung.getEvaluations()));
+            user.getSammlungen().add(sammlung);
             userRepo.save(user);
             return true;
         }
