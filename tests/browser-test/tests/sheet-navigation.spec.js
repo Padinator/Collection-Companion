@@ -23,6 +23,7 @@ test('Opening Main Page', async ({ page }) => {
     // Click on login button
     await page.click('#cc-login');
 
+
     // Check if on the I am on the next right page 
     expect(page.url(), 'Not the right page ').toBe('http://localhost:8090/mainpage.html');
 });
