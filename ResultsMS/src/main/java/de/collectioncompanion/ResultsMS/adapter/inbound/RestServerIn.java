@@ -13,10 +13,10 @@ import ports.Collection;
 public class RestServerIn {
 
     /**
-     * Anfragen können immer noch nicht gleichzeitig beantwortet werden!!!!!!
+     * Takes a collection request id and returns the corresponding collection as string
      *
-     * @param id
-     * @return
+     * @param id of the collection request
+     * @return the Collection as String
      */
     @GetMapping
     public ResponseEntity<String> getCollection(@RequestParam long id) {
