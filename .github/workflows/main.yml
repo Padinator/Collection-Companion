@@ -10,12 +10,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Run check style
-      uses: github/super-linter@v4
-      env:
+      uses: nikitasavinov/checkstyle-action@master
+      with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        VALIDATE_ALL_CODEBASE: true
-        VALIDATE_JAVASCRIPT_ES: false
-        VALIDATE_HTML: false
+        reporter: 'github-pr-check'
 
   build-and-test:
     runs-on: ubuntu-latest
