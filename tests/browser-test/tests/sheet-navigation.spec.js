@@ -6,6 +6,20 @@ test('Opening Main Page', async ({ page }) => {
     // Navigate to Main page
     await page.goto('http://localhost:8090');
 
+
+
+    // Click on register button
+    await page.click('#register');
+
+    // Fill in registration details
+    await page.type('#username', 'testuser');
+    await page.type('#password', 'testpassword');
+    await page.type('#email', 'test@test.de');
+
+    //Fill in login
+    await page.type('#username', 'testuser');
+    await page.type('#password', 'testpassword');
+
     // Click on login button
     await page.click('#cc-login');
 
