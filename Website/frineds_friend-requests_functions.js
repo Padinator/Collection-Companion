@@ -70,7 +70,7 @@ function createDropdownElementFriend(usernameFriend) {
 	// Set porperties/attributes
 	a.setAttribute("class", "dropdown-item");
 	a.addEventListener('click', function (event) {
-		passUsername(username, 'friends');
+		passUsernameAndFriend(username, usernameFriend, 'friends');
 	});
 	a.innerText = usernameFriend;
 
