@@ -145,6 +145,13 @@ public class RestServerIn {
 
     }
 
+    @PostMapping
+    public ResponseEntity<String> evaluateSammlungOfFriend(@RequestParam String username, @RequestParam String usernameFriend, @RequestParam int sammlungIdFriend, @RequestParam boolean evaluation) {
+        if (databaseOut.evaluateSammlungOfFriend(username, usernameFriend, sammlungIdFriend, evaluation))
+            return ResponseEntity.status(200).body("Added evaluation of Sammlung successfully Sammlung to friend!");
+        return ResponseEntity.status(200).body("Could not add evaluation of Sammlung to friend!");
+    }
+
     /*
      * "User friends"-requests
      */

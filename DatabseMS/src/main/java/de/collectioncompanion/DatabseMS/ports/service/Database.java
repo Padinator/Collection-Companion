@@ -116,6 +116,18 @@ public interface Database {
      */
     boolean copySammlungToUser(String username, String usernameFriend, int sammlungIdFriend, UserRepo userRepo);
 
+    /**
+     * Add evaluation of Sammlungen to a friend User
+     *
+     * @param username of user, which evaluates
+     * @param usernameFriend of friend user, which receives evaluation
+     * @param sammlungIdFriend index of Sammlung of friend User
+     * @param evaluation true, if "Daumen hoch", else false ("Daumen runter")
+     * @param userRepo object for accessing DB
+     * @return true, if evaluation could be added, else false
+     */
+    boolean addSammlungEvaluationToFriend(String username, String usernameFriend, int sammlungIdFriend, boolean evaluation, UserRepo userRepo);
+
     /*
      * "User friends"-requests
      */

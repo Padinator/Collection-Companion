@@ -5,6 +5,8 @@ import de.collectioncompanion.DatabseMS.data_files.User;
 import de.collectioncompanion.DatabseMS.ports.service.CollectionRepo;
 import de.collectioncompanion.DatabseMS.ports.service.Database;
 import de.collectioncompanion.DatabseMS.ports.service.UserRepo;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import ports.Collection;
 
@@ -146,14 +148,41 @@ public class DatabaseImpl implements Database {
         Optional<User> optionalUser = userRepo.findById(username);
         Optional<User> optionalFriendUser = userRepo.findById(usernameFriend);
 
-        if (optionalUser.isPresent() && optionalFriendUser.isPresent()) {
+        if (optionalUser.isPresent() && optionalFriendUser.isPresent()) { // User and friend user exist
             User user = optionalUser.get();
             User friendUser = optionalFriendUser.get();
             List<Sammlung> sammlungenFriend = friendUser.getSammlungen();
 
-            if (0 <= sammlungIdFriend && sammlungIdFriend < sammlungenFriend.size()) {
-                friendUser.getSammlungen().add(sammlungenFriend.get(sammlungIdFriend));
+            if (0 <= sammlungIdFriend && sammlungIdFriend < sammlungenFriend.size()) { // Sammlung of friend exists
+                user.getSammlungen().add(sammlungenFriend.get(sammlungIdFriend));
                 userRepo.save(user);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean addSammlungEvaluationToFriend(String username, String usernameFriend, int sammlungIdFriend, boolean evaluation, UserRepo userRepo) {
+        Optional<User> optionalUser = userRepo.findById(username);
+        Optional<User> optionalFriendUser = userRepo.findById(usernameFriend);
+
+        if (optionalUser.isPresent() && optionalFriendUser.isPresent()) { // User and friend user exist
+            User user = optionalUser.get();
+            User friendUser = optionalFriendUser.get();
+            List<Sammlung> sammlungenFriend = friendUser.getSammlungen();
+
+            if (0 <= sammlungIdFriend && sammlungIdFriend < sammlungenFriend.size()) { // Sammlung of friend exists
+                List<Pair<String, Boolean>> evaluations = friendUser.getSammlungen().get(sammlungIdFriend).getEvaluations();
+
+                if (evaluations.stream().map(Pair::getKey).toList().contains(username)) // Remove old evaluation of user
+                    evaluations.removeIf(eval -> eval.getKey().equals(username));
+
+                // Add new evaluation of user
+                evaluations.add(new MutablePair<>(username, evaluation));
+                userRepo.save(friendUser);
+
                 return true;
             }
         }

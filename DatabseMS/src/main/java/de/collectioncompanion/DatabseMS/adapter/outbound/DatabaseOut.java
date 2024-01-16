@@ -71,6 +71,10 @@ public class DatabaseOut {
         return database.copySammlungToUser(username, usernameFriend, sammlungIdFriend, userRepo);
     }
 
+    public boolean evaluateSammlungOfFriend(String username, String usernameFriend, int sammlungIdFriend, boolean evaluation) {
+        return database.addSammlungEvaluationToFriend(username, usernameFriend, sammlungIdFriend, evaluation, userRepo);
+    }
+
     /*
      * "User friends"-requests
      */
