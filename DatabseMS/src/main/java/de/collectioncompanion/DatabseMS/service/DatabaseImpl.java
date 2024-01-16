@@ -141,6 +141,20 @@ public class DatabaseImpl implements Database {
         return false;
     }
 
+    @Override
+    public boolean copySammlungToUser(String username, Sammlung sammlung, UserRepo userRepo) {
+        Optional<User> optionalUser = userRepo.findById(username);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.getSammlungen().add(sammlung);
+            userRepo.save(user);
+            return true;
+        }
+
+        return false;
+    }
+
     /*
      * "User friends"-requests
      */

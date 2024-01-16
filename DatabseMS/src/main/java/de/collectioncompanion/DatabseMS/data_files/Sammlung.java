@@ -19,9 +19,9 @@ public class Sammlung {
     public String toJSON() {
         StringBuilder sb = new StringBuilder("{ ");
 
-        sb.append("\"name\": ").append("\"" + name + "\", ");
-        sb.append("\"visibility\": ").append("\"" + visibility + "\", ");
-        sb.append("\"category\": ").append("\"" + category + "\", ");
+        sb.append("\"name\": ").append("\"").append(name).append("\", ");
+        sb.append("\"visibility\": ").append("\"").append(visibility).append("\", ");
+        sb.append("\"category\": ").append("\"").append(category).append("\", ");
 
         if (collectionIds.isEmpty())
             sb.append("\"collectionID\": [], ");
