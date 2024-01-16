@@ -21,19 +21,21 @@ public class DatabaseServerOut {
     /**
      * Port, on which each microservice can be used (basic addressing)
      */
-    //public static final int ROUTING_PORT = 8080;
+    // public static final int ROUTING_PORT = 8080;
 
     /**
      * Starting of path of URI
      */
     public static final String STARTING = "/collection";
 
-    public ResponseEntity<String> addResultingCollectionToDB(List<Collection> collections) {
+    public ResponseEntity<String> addResultingCollectionsToDB(List<Collection> collections) {
         final String DATABASE_MS = "http://" + environment.getProperty("DATABASE_MS") + STARTING;
-        //final String DATABASE_MS = "http://localhost:8081/collection";
+        // final String DATABASE_MS = "http://localhost:8081/collection";
 
-        for (Collection collection : collections)
-            restOut.doPostCollection(DATABASE_MS, collection);
+        for (Collection collection : collections) {
+            String dbCollectionID = restOut.doPostCollection(DATABASE_MS, collection).getBody();
+            collection.setId(dbCollectionID);
+        }
 
         return ResponseEntity.status(200).body("Inserted " + collections.size() + " search results into DB!");
     }

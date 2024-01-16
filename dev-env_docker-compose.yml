@@ -1,4 +1,4 @@
-# Do no use "" in hostnames. That is forbidden and does not work!!!!!
+# Do no use "_" in hostnames. That is forbidden and does not work!!!!!
 
 services:
   rabbitmqbroker:

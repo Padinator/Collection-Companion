@@ -6,6 +6,7 @@ import ports.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,12 +45,13 @@ public abstract class GameOutImpl implements GameOut {
      *
      * @param searchTerm The term to search for a collection -> it can only be correct, because of caller
      *                   "findInformationToCollection"
-     * @param appID The ID of game in the API
+     * @param appID      The ID of game in the API
      * @return Return the collection matching the search term
      */
     protected abstract Collection requestGameSpecificAPI(String searchTerm, int appID);
 
     // Helper methods
+
     /**
      * Requests steam API with passed URL and returns the body of the HTTP-request
      *
@@ -82,11 +84,32 @@ public abstract class GameOutImpl implements GameOut {
      * @param input Input to remove HTML tags from
      * @return Return the passed input without HTML tags
      */
-    protected String removeHTMLTags(String input) {
+    public static String removeHTMLTags(String input) {
         String regex = "<.*?>";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         return matcher.replaceAll("");
+    }
+
+    /**
+     * Removes all HTML tags and " from each entry of passed TreeMap
+     *
+     * @param data with all property value pairs
+     * @return the formatted collection data
+     */
+    public static Map<String, String> formatCollectionData(Map<String, String> data) {
+        TreeMap<String, String> newData = new TreeMap<>();
+
+        for (Map.Entry<String, String> entry : data.entrySet()) {
+            String property = entry.getKey(), value = entry.getValue();
+
+            if (value != null)
+                value = removeHTMLTags(value).replaceAll("\"|'", "").replaceAll("\n", " ");
+
+            newData.put(property, value);
+        }
+
+        return newData;
     }
 
 }

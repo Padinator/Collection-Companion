@@ -14,6 +14,13 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
+	<!-- DOM elements -->
+	<script type="module" src="index_dom.js"></script>
+
+	<!-- JavaScript functions -->
+	<script type="text/javascript" src="index_functions.js" defer></script>
+	<script type="text/javascript" src="fetch_functions.js" defer></script>
+
     <title>Collection Companion</title>
 </head>
 
@@ -22,11 +29,11 @@
 
     <div class="container mt-4">
         <div class="row justify-content-center">
-            <div class="col-md-6"> 
+            <div class="col-md-6">
                 <form class="d-flex">
                     <div class="input-group">
                         <button class="btn btn-outline-secondary dropdown-toggle order-0" type="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;">
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;" disabled>
                             Kategorien
                         </button>
                         <div class="dropdown-menu">
@@ -35,8 +42,8 @@
                             <a class="dropdown-item" href="#">Serien</a>
                         </div>
                         <input class="form-control me-2 order-1" type="search" placeholder="Suche" aria-label="Search"
-                            style="height: 40px;"> 
-                        <button class="btn btn-primary order-2" type="submit" style="height: 40px;">
+                            style="height: 40px;" disabled>
+                        <button class="btn btn-primary order-2" type="submit" style="height: 40px;" disabled>
                             Suche
                         </button>
                     </div>
@@ -86,7 +93,8 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <a href="mainpage.html" class="btn btn-primary" id="cc-login" type="submit">Anmelden</a>
+                                        <a class="btn btn-primary" id="cc-login" type="submit"
+                                            onclick="getValuesFromLogin()">Anmelden</a>
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +103,8 @@
                             <div class="col-12">
                                 <hr class="mt-5 mb-4 border-secondary-subtle">
                                 <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-center">
-                                    <a href="register.html" class="link-secondary text-decoration-none">Erstelle neuen Account</a>
+                                    <a id="register" href="register.html" class="link-secondary text-decoration-none">Erstelle neuen
+                                        Account</a>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +113,7 @@
             </div>
         </div>
     </div>
-
 </body>
+
 
 </html>

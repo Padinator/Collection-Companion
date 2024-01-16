@@ -36,26 +36,14 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
     public List<Collection> findCollections(String searchTerm) {
         String urlWithSearchTerm = BASE_URL_GET_ALL_GAMES + "?search=" + searchTerm + "&key=" + API_KEY;
         String foundGames = requestAnAPI(urlWithSearchTerm);
-        String urlToGame, /* foundGames = "" , */ body = "";
+        String urlToGame, body = "";
         List<Integer> appIDs = new LinkedList<>();
-
-        /*
-        // Get all games from file (remove later)
-        try {
-            File games = new File(new File("").getAbsolutePath() + "/rawgio_game1.txt");
-            BufferedReader reader = new BufferedReader(new FileReader(games));
-            foundGames = reader.lines().collect(Collectors.joining());
-            reader.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-         */
 
         // Filter returned games for first matching game
         try {
             ArrayList results = (ArrayList) new ObjectMapper().readValue(foundGames, LinkedHashMap.class).get("results");
 
-            for (int i = 0; i < MAX_RESULTING_ENTRIES; ++i)
+            for (int i = 0; i < results.size() && i < MAX_RESULTING_ENTRIES; ++i)
                 if (compareGameNames(String.valueOf(((LinkedHashMap) results.get(i)).get("name")), searchTerm))
                     appIDs.add(Integer.parseInt(String.valueOf(((LinkedHashMap) results.get(i)).get("id")))); // Find ID of the game
         } catch (JsonProcessingException e) {
@@ -117,9 +105,6 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
             // Required age
             collectionData.put(formatter.getPropertyName("required_age"), null);
 
-            // Price
-            collectionData.put(formatter.getPropertyName("price"), null);
-
             // Supported languages
             collectionData.put(formatter.getPropertyName("languages"), null);
 
@@ -151,7 +136,7 @@ public class RAWGioOutImpl extends GameOutImpl implements RAWGioOut {
             // Developers
             String developers = ((ArrayList) gameData.get("developers")).stream()
                     .map(entry -> (String) ((LinkedHashMap) entry).get("name")).toList().toString();
-            collectionData.put(GameCollectionFormatter.AdditionlAttributes.DEVELOPERS.toString(), developers);
+            collectionData.put(formatter.getOptionalPropertyName("developers"), developers);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

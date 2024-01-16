@@ -14,6 +14,17 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
+	<!-- DOM elements -->
+	<script type="module" src="account_dom.js"></script>
+	<script type="module" src="all_dom.js"></script>
+	<!-- <script type="module" src="frineds_friend-requests_dom.js"></script> -->
+
+	<!-- JavaScript functions -->
+	<script type="text/javascript" src="account_functions.js" defer></script>
+	<script type="text/javascript" src="PassUsername.js" defer></script>
+	<script type="text/javascript" src="fetch_functions.js" defer></script>
+	<!-- <script type="text/javascript" src="frineds_friend-requests_functions.js" defer></script> -->
+
     <title>Collection Companion</title>
 </head>
 
@@ -25,13 +36,13 @@
             <!-- Spalte 1: Home und Profil Button -->
             <div class="col-md-2">
                 <div class="d-flex justify-content-center">
-                    <a href="mainpage.html" class="btn btn-outline-dark mx-auto" style="height: 40px;"><svg
+                    <a class="btn btn-outline-dark mx-auto" id="cc-mainpage-button" style="height: 40px;"><svg
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-house" viewBox="0 0 16 16">
                             <path
                                 d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z" />
                         </svg></a>
-                    <a href="account.html" class="btn btn-outline-dark mx-auto" style="height: 40px;"><svg
+                    <a class="btn btn-outline-dark mx-auto" id="cc-account-button" style="height: 40px;"><svg
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-person-circle" viewBox="0 0 16 16">
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
@@ -46,7 +57,7 @@
                 <form class="d-flex">
                     <div class="input-group">
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;">
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;" disabled>
                             Kategorien
                         </button>
                         <div class="dropdown-menu">
@@ -55,8 +66,8 @@
                             <a class="dropdown-item" href="#">Serien</a>
                         </div>
                         <input class="form-control" type="search" placeholder="Suche" aria-label="Search"
-                            style="height: 40px;">
-                        <button class="btn btn-primary ms-auto" type="submit" style="height: 40px;">
+                            style="height: 40px;" disabled>
+                        <button class="btn btn-primary ms-auto" type="submit" style="height: 40px;" disabled>
                             Suche
                         </button>
                     </div>
@@ -66,7 +77,7 @@
             <!-- Spalte 3: Collection und Freunde Button -->
             <div class="col-md-2">
                 <div class="d-flex justify-content-center">
-                    <a href="collection.html" class="btn btn-outline-dark mx-auto" style="height: 40px;"><svg
+                    <a class="btn btn-outline-dark mx-auto" id="cc-collection-button" style="height: 40px;"><svg
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-bookmark" viewBox="0 0 16 16">
                             <path
@@ -84,9 +95,9 @@
                             Freunde
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="freundeDropdown">
-                            <li><a class="dropdown-item" href="#">Freund 1</a></li>
-                            <li><a class="dropdown-item" href="#">Freund 2</a></li>
-                            <li><a class="dropdown-item" href="#">Freund 3</a></li>
+                            <li><a class="dropdown-item" id="cc-friends-link">Freund 1</a></li>
+                            <li><a class="dropdown-item">Freund 2</a></li>
+                            <li><a class="dropdown-item">Freund 3</a></li>
                         </ul>
                     </div>
                 </div>
@@ -145,7 +156,8 @@
                         </div>
                         <div class="col-12">
                             <div class="d-grid mx-auto" style="width:10vh;">
-                                <a href="#" class="btn btn-primary" id="cc-submit-account-data-button" type="submit">Speichern</a>
+                                <a href="#" class="btn btn-primary" id="cc-submit-account-data-button"
+                                    type="submit">Speichern</a>
                             </div>
                         </div>
                     </div>

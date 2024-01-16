@@ -1,5 +1,6 @@
 package de.collectioncompanion.WebCrawler.data_files;
 
+import data_files.CollectionImpl;
 import data_files.GameCollectionFormatter;
 import de.collectioncompanion.WebCrawler.adapter.outbound.RestServerOut;
 import de.collectioncompanion.WebCrawler.ports.inbound.RestOut;
@@ -8,6 +9,8 @@ import ports.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+
+import static de.collectioncompanion.WebCrawler.ports.outbound.GameOutImpl.formatCollectionData;
 
 public class WebcrawlerThread extends Thread {
 
@@ -107,7 +110,7 @@ public class WebcrawlerThread extends Thread {
 
                 // Check, if a collection has the correct format
                 if (new GameCollectionFormatter().checkCollectionFormat(result))
-                    resultsToSend.add(result);
+                    resultsToSend.add(new CollectionImpl(formatCollectionData(result.getData())));
             }
 
             // Response composer microservice

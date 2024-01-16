@@ -14,6 +14,21 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+	<!-- DOM elements -->
+	<script type="module" src="collection_dom.js"></script>
+	<script type="module" src="all_dom.js"></script>
+	<!-- <script type="module" src="frineds_friend-requests_dom.js"></script> -->
+
+	<!-- JavaScript functions -->
+	<script type="text/javascript" src="collection_functions.js" defer></script>
+	<script type="text/javascript" src="PassUsername.js" defer></script>
+	<script type="text/javascript" src="fetch_functions.js" defer></script>
+	<!-- <script type="text/javascript" src="frineds_friend-requests_functions.js" defer></script> -->
+
     <title>Collection Companion</title>
 </head>
 
@@ -26,13 +41,13 @@
             <!-- Spalte 1: Home und Profil Button -->
             <div class="col-md-2">
                 <div class="d-flex justify-content-center">
-                    <a href="mainpage.html" class="btn btn-outline-dark mx-auto" style="height: 40px;"><svg
+                    <a class="btn btn-outline-dark mx-auto" id="cc-mainpage-button" style="height: 40px;"><svg
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-house" viewBox="0 0 16 16">
                             <path
                                 d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z" />
                         </svg></a>
-                    <a href="account.html" class="btn btn-outline-dark mx-auto" style="height: 40px;"><svg
+                    <a class="btn btn-outline-dark mx-auto" id="cc-account-button" style="height: 40px;"><svg
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-person-circle" viewBox="0 0 16 16">
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
@@ -47,7 +62,8 @@
                 <form class="d-flex">
                     <div class="input-group">
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;">
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 40px;"
+                            disabled>
                             Kategorien
                         </button>
                         <div class="dropdown-menu">
@@ -56,8 +72,8 @@
                             <a class="dropdown-item" href="#">Serien</a>
                         </div>
                         <input class="form-control" type="search" placeholder="Suche" aria-label="Search"
-                            style="height: 40px;">
-                        <button class="btn btn-primary ms-auto" type="submit" style="height: 40px;">
+                            style="height: 40px;" disabled>
+                        <button class="btn btn-primary ms-auto" type="submit" style="height: 40px;" disabled>
                             Suche
                         </button>
                     </div>
@@ -67,7 +83,7 @@
             <!-- Spalte 3: Collection und Freunde Button -->
             <div class="col-md-2">
                 <div class="d-flex justify-content-center">
-                    <a href="collection.html" class="btn btn-outline-dark mx-auto" style="height: 40px;"><svg
+                    <a class="btn btn-outline-dark mx-auto" id="cc-collection-button" style="height: 40px;"><svg
                             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-bookmark" viewBox="0 0 16 16">
                             <path
@@ -85,9 +101,9 @@
                             Freunde
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="freundeDropdown">
-                            <li><a class="dropdown-item" href="#">Freund 1</a></li>
-                            <li><a class="dropdown-item" href="#">Freund 2</a></li>
-                            <li><a class="dropdown-item" href="#">Freund 3</a></li>
+                            <li><a class="dropdown-item" id="cc-friends-link">Freund 1</a></li>
+                            <li><a class="dropdown-item">Freund 2</a></li>
+                            <li><a class="dropdown-item">Freund 3</a></li>
                         </ul>
                     </div>
                 </div>
@@ -102,36 +118,9 @@
                     <hr class="my-2">
                 </h3>
 
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel: </h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2" id="cc-edit-collection-button" data-bs-toggle="modal"
-                        data-bs-target="#sammlungBearbeiten">Bearbeiten</button>
-                </div>
+                <!-- Das ist ein Sammlungs Eintrag -->
+                <div id="sammlungContainer" class="mt-3"></div>
 
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Bearbeiten</button>
-                </div>
-
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Bearbeiten</button>
-                </div>
-
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Bearbeiten</button>
-                </div>
-
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Bearbeiten</button>
-                </div>
-
-                <div class="p-2 border mb-3 rounded position-relative">
-                    <h5 class="text-left">Titel:</h5>
-                    <button class="btn btn-secondary btn-sm position-absolute bottom-0 end-0 m-2">Bearbeiten</button>
-                </div>
             </div>
         </div>
 
@@ -142,34 +131,29 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="sammlungBearbeitenLabel">Sammlung Bearbeiten</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            id="cc-show-collection-button"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3 row">
-                            <label for="kategorie" class="col-sm-3 col-form-label">Sichtbarkeit:</label>
+                            <label for="sichtbarkeit" class="col-sm-3 col-form-label">Sichtbarkeit:</label>
                             <div class="col-sm-9">
-                                <select class="form-select" id="sichtbarkeit">
+                                <select class="form-select" id="sichtbarkeit-bearbeiten">
                                     <option selected disabled>Bitte Sichtbarkeit auswählen</option>
-                                    <option value="spiele">Privat</option>
-                                    <option value="filme">Freunde</option>
-                                    <option value="serien">Öffentlich</option>
+                                    <option value="privat">Privat</option>
+                                    <option value="friends">Freunde</option>
+                                    <option value="public">Öffentlich</option>
                                 </select>
                             </div>
                         </div>
                         <!-- Hier wird die Liste der Titel angezeigt -->
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Titel 1
-                                <button type="button" class="btn btn-outline-danger btn-sm" id="cc-delete-entry-in-collection-button">X</button>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Titel 2
-                                <button type="button" class="btn btn-outline-danger btn-sm">X</button>
-                            </li>
+                        <ul class="list-group" id="cc-list-of-all-sammlungen">
+
                         </ul>
                         <form>
                             <div class="d-flex justify-content-center mt-2">
-                                <button type="submit" class="btn btn-primary" id="cc-submit-collection-button">Speichern</button>
+                                <button type="submit" class="btn btn-primary"
+                                    id="cc-submit-collection-button">Speichern</button>
                             </div>
                         </form>
                     </div>
@@ -177,11 +161,10 @@
             </div>
         </div>
 
-
         <!-- Button fuer Sammlung erstellen -->
         <div class="col-md-2 mt-4 mx-auto">
-            <button class="btn btn-primary mx-auto d-inline-block" id="cc-create-collection-button" data-bs-toggle="modal"
-                data-bs-target="#sammlungErstellenModal">
+            <button class="btn btn-primary mx-auto d-inline-block" id="cc-create-collection-button"
+                data-bs-toggle="modal" data-bs-target="#sammlungErstellenModal">
                 Sammlung Erstellen
             </button>
         </div>
@@ -205,13 +188,13 @@
                             </div>
 
                             <div class="mb-3 row">
-                                <label for="kategorie" class="col-sm-3 col-form-label">Sichtbarkeit:</label>
+                                <label for="sichtbarkeit" class="col-sm-3 col-form-label">Sichtbarkeit:</label>
                                 <div class="col-sm-9">
                                     <select class="form-select" id="sichtbarkeit">
                                         <option selected disabled>Bitte Sichtbarkeit auswählen</option>
-                                        <option value="spiele">Privat</option>
-                                        <option value="filme">Freunde</option>
-                                        <option value="serien">Öffentlich</option>
+                                        <option value="privat">Private</option>
+                                        <option value="friends">Freunde</option>
+                                        <option value="public">Öffentlich</option>
                                     </select>
                                 </div>
                             </div>
@@ -221,14 +204,15 @@
                                 <div class="col-sm-9">
                                     <select class="form-select" id="kategorie">
                                         <option selected disabled>Bitte Kategorie auswählen</option>
-                                        <option value="spiele">Spiele</option>
-                                        <option value="filme">Filme</option>
-                                        <option value="serien">Serien</option>
+                                        <option value="game">Spiele</option>
+                                        <option value="movie">Filme</option>
+                                        <option value="serie">Serien</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary" id="cc-create-collection-submit-button">Speichern</button>
+                                <button type="submit" class="btn btn-primary"
+                                    id="cc-create-collection-submit-button">Speichern</button>
                             </div>
                         </form>
                     </div>
@@ -253,6 +237,26 @@
             </div>
         </div>
     </div>
+
+	<!-- Pop-Up Fenster fuer Sammlungseintrag anzeigen  -->
+	<div class="modal fade" id="showEntryModal" tabindex="-1" aria-labelledby="sammlungHinzufuegenLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="sammlungErstellenModalLabel">Sammlung hinzufügen</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<!-- Sammlungsinhalt anzeigen -->
+						<div id="sammlungsinhalt">Sammlungsinhalt</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>
