@@ -1,4 +1,4 @@
-service:
+services:
   prodenvms:
     image: prodenvms
     build:
