@@ -13,6 +13,7 @@ RUN apt install git -y
 
 #Add file to microservice
 ADD ./checkoutGitRepo.sh .
+RUN sed -i 's/\r$//' checkoutGitRepo.sh
 
 # Run script for checking git repository
 ENTRYPOINT bash checkoutGitRepo.sh
