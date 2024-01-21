@@ -19,7 +19,7 @@ public class ControlDockerContainers {
      * Represents the maximum value for the relationship between the number of pending requests and the number of web
      * crawlers
      */
-    private static final int MAX_WORK_LOAD_PER_MICROSERVICE = 10;
+    private static final int MAX_WORK_LOAD_PER_MICROSERVICE = 2;
 
     /**
      * Save all active/running web crawlers. Start with one web crawler, initialized by "docker-compose ..."
@@ -29,7 +29,7 @@ public class ControlDockerContainers {
             //new WebCrawlerImpl("webcrawler-2", "webcrawler-2")
     ));
 
-    private static int nextFreeNumber = 1;
+    private static int nextFreeNumber = 2;
 
     private static final Environment environment = new StandardEnvironment();
 
